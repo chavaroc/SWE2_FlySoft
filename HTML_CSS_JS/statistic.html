@@ -1,0 +1,88 @@
+<!--
+#author: Markus Huber
+#version: 05-18
+-->
+<!Doctype html>
+<html>
+	<head>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+		<title>FlyAmerica | Statistics</title>
+		<link type="text/css" rel="stylesheet" href="styles/flyAmerica.css">
+		<style type="text/css">
+			${demo.css}
+		</style>
+		<script type="text/javascript" src="scripts/graph.js"></script>
+	</head>
+	<body>
+		<script src="https://code.highcharts.com/highcharts.js"></script>
+		<!--<script src="https://code.highcharts.com/modules/exporting.js"></script> ggf. fuer pdf export-->
+		<div id="content">
+			<div id="header">
+				<img src="imgs/flyAmerica_logo.png" alt="FlyAmerica-Logo" id="logo">
+				<div id="username">Max Mustermann</div>
+			</div>
+			<div class="left">
+				
+				<div class="dropdown-area" id="y_area">Set y-axis
+					<br>
+					<select id="y_qualifier" style="margin-top: 5px">
+						<option value="frequencies">Frequencies</option>
+						<option value="count_of_passengers">Count of passengers</option>
+						<option value="delay_frequencies">Delay frequencies</option>
+						<option value="cancellations">Cancellations</option>
+					</select> 
+				</div>
+			</div>
+			<div class="right">
+				<button name="save_setting_button" onclick="myFunction()" type="submit" style="margin-top: 200px">Save setting</button>
+				<button name="load_setting_button" type="submit">Load setting</button>
+				<button name="export_button" type="submit">Export to PDF</button>
+			</div>
+			<div class="center">
+				<div id="graph">
+					<br><br>
+					<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+				</div>
+				<div id="filters">
+					<div class="dropdown-area" id="x_area">
+						<table>
+							<tr>
+								<td>Set x-axis
+								</td>
+								<td>
+									<select id="x_qualifier">
+										<option value="time">Time</option>
+										<option value="weekday">Weekday</option>
+										<option value="destination">Destination</option>
+										<option value="origin">Origin</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td>Set airlines
+								</td>
+								<td>
+									<select>
+										<option value="volvo">AmericanAirlines</option>
+										<option value="saab">FlySafe</option>
+										<option value="mercedes">SunExpress</option>
+										<option value="audi">Germanwings</option>
+									</select>
+								</td>
+							</tr>
+						</table>
+						<table id="popular_airlines">
+							<tr>
+								<td style="color: blue"><input type="checkbox" name="lufthansa" value="Lufthansa">Lufthansa</td>
+								<td style="color: black"><input type="checkbox" name="flyamerica" value="FlyAmerica">FlyAmerica</td>
+								<td style="color: red"><input type="checkbox" name="emirates" value="Emirates">Emirates</td>
+								<td style="color: #ff9900"><input type="checkbox" name="airberlin" value="AirBerlin">AirBerlin</td>
+								<td style="color: green"><input type="checkbox" name="ana" value="ANA">ANA</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>	
+	</body>
+</html>
