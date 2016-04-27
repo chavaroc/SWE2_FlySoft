@@ -55,7 +55,7 @@ public class ParserConfig implements ICsvFieldMapping {
         mapping.put("ORIGIN_CITY_NAME", new MethodDescriptor("setOriginCityName", String.class));
         mapping.put("ORIGIN_STATE_NM", new MethodDescriptor("setOriginStateName", String.class));
         mapping.put("ORIGIN_STATE_ABR", new MethodDescriptor("setOriginStateShortName", String.class));
-        mapping.put("DEP_DELAY_NEW", new MethodDescriptor("setDepatureDelay", int.class));
+        mapping.put("DEP_DELAY_NEW", new MethodDescriptor("setDepatureDelay", double.class));
         
         mapping.put("DEST_AIRPORT_ID", new MethodDescriptor("setDestAirportId", int.class));
         mapping.put("DEST", new MethodDescriptor("setDestAirportShortName", String.class));
@@ -63,7 +63,7 @@ public class ParserConfig implements ICsvFieldMapping {
         mapping.put("DEST_CITY_NAME", new MethodDescriptor("setOriginCityName", String.class));
         mapping.put("DEST_STATE_NM", new MethodDescriptor("setDestStateName", String.class));
         mapping.put("DEST_STATE_ABR", new MethodDescriptor("setDestStateShortName", String.class));
-        mapping.put("ARR_DELAY_NEW", new MethodDescriptor("setArrivalDelay", int.class));
+        mapping.put("ARR_DELAY_NEW", new MethodDescriptor("setArrivalDelay", double.class));
         
         mapping.put("CANCELLED", new MethodDescriptor("setCancelled", boolean.class));        
     }

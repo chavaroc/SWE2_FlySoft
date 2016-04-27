@@ -6,16 +6,14 @@
 
 package hm.edu.swe2.flysoft.parser;
 
-import hm.edu.swe2.flysoft.parser.model.Flight;
+import com.opencsv.CSVReader;
 import hm.edu.swe2.flysoft.parser.model.MethodDescriptor;
 import hm.edu.swe2.flysoft.parser.model.interfaces.ICsvFieldMapping;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -37,53 +35,39 @@ public class CsvParser<T> {
     private String csvFileName;
     private ICsvFieldMapping mapper;
     private List<String> headerColumnNames;
-    private String csvSeperator;
+    private char csvSeperator;
     private Class<T> genType;
 
     public CsvParser(String csvFileName, ICsvFieldMapping mapping,
-        String csvSeperator, Class<T> genType) {
+        char csvSeperator, Class<T> genType) {
         this.csvFileName = csvFileName;
         this.mapper = mapping;
         this.csvSeperator = csvSeperator;
-        headerColumnNames = new ArrayList<String>();
+        headerColumnNames = new ArrayList<>();
         //this.genType = (Class<T>)(((ParameterizedType)CsvParser.class.getGenericSuperclass()).getActualTypeArguments()[0]);
         this.genType = genType;
     }
     
-    public List<T> parse() {
+    public List<T> parse() throws Exception {
         List<T> resultList = new ArrayList<T>();
         
         try(FileReader fileReader = new FileReader(csvFileName);
-        BufferedReader br = new BufferedReader(fileReader))
+            CSVReader csvReader = new CSVReader(fileReader, csvSeperator))
         {
-            String line;
+            String[] line;
             int lineIndex = 0;
-            while ((line = br.readLine()) != null) {
-                // use comma as separator
-                String[] columnEntries = line.split(csvSeperator);
-                
+            // Read out csv file
+            while ((line = csvReader.readNext()) != null) {                
                 if(lineIndex == 0){
-                    processHeaderLine(columnEntries);
+                    processHeaderLine(line);
                 }
                 else{
-                    try {
-                        resultList.add(parseToObject(columnEntries));
-                        /*try{
-                        resultList.add(parseToObject(columnEntries));
-                        }
-                        catch(Exception ex){
-                        System.out.println(ex);
-                        } */
-                    } catch (InstantiationException ex) {
-                        Logger.getLogger(CsvParser.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (IllegalAccessException ex) {
-                        Logger.getLogger(CsvParser.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (NoSuchMethodException ex) {
-                        Logger.getLogger(CsvParser.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (IllegalArgumentException ex) {
-                        Logger.getLogger(CsvParser.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (InvocationTargetException ex) {
-                        Logger.getLogger(CsvParser.class.getName()).log(Level.SEVERE, null, ex);
+                    try{
+                        resultList.add(parseToObject(line));
+                    }
+                    catch(Exception ex){
+                        throw ex;
+                        //System.out.println(ex);
                     }
                 }
                 lineIndex++;
@@ -99,7 +83,7 @@ public class CsvParser<T> {
     private void processHeaderLine(String[] headerTokens){
         // its the first line -> header
         for(int index = 0; index < headerTokens.length; index++){
-            headerTokens[index] = trimQuotes(headerTokens[index]);
+            headerTokens[index] = headerTokens[index];
         }
         headerColumnNames = Arrays.asList(headerTokens);
     }
@@ -122,7 +106,7 @@ public class CsvParser<T> {
         // Attentsion: order (via position) of the header and the given
         // token list must be equals
         for(int position = 0; position < csvTokens.length; position++){
-            String token = trimQuotes(csvTokens[position]);
+            String token = csvTokens[position];
             MethodDescriptor target = mapper.getMapping()
                 .get(headerColumnNames.get(position));
             if(target != null){
@@ -154,6 +138,9 @@ public class CsvParser<T> {
             if(targetType.equals(int.class)){
                 parsedValue = Integer.parseInt(arg);
             }
+            if(targetType.equals(double.class)){
+                parsedValue = Double.parseDouble(arg);
+            }
             else if (targetType.equals(boolean.class)){
                 if("1".equals(arg) || "1.00".equals(arg)){
                     arg = "true";
@@ -181,10 +168,5 @@ public class CsvParser<T> {
             parsedValue = null;
         }
         return parsedValue;
-    }
-    
-    private String trimQuotes(String str){
-        str = str.replace("\"", "");
-        return str;
     }
 }
