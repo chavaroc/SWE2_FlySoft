@@ -1,5 +1,6 @@
 package hm.edu.swe2.flysoft.parser.model;
 
+import hm.edu.swe2.flysoft.Entity.Airline;
 import java.util.Date;
 
 /**
@@ -11,9 +12,7 @@ public class Flight {
     
     private int flightNumber;
     private Date flightDate;
-    private int airlineId;
-    private String airlineName;
-    private String uniqueCarrierName;
+    private Airline airline;
     
     private int passengerCount;
     
@@ -40,6 +39,10 @@ public class Flight {
     private Date arrivalDateTime;
     
     private boolean cancelled;
+    
+    public Flight(){
+        airline = new Airline();
+    }
 
     public int getFlightNumber() {
         return flightNumber;
@@ -58,19 +61,27 @@ public class Flight {
     }
 
     public int getAirlineId() {
-        return airlineId;
+        return airline.getAirlineId();
     }
 
     public void setAirlineId(int airlineId) {
-        this.airlineId = airlineId;
+        airline.setAirlineId(airlineId);
     }
 
     public String getUniqueCarrierName() {
-        return uniqueCarrierName;
+        return airline.getShortname();
     }
 
     public void setUniqueCarrierName(String uniqueCarrierName) {
-        this.uniqueCarrierName = uniqueCarrierName;
+        airline.setShortname(uniqueCarrierName);
+    }
+    
+    public String getAirlineName() {
+        return airline.getName();
+    }
+
+    public void setAirlineName(String airlineName) {
+        airline.setName(airlineName);;
     }
 
     public int getOriginAirportId() {
@@ -232,22 +243,14 @@ public class Flight {
     public void setArrivalDateTime(Date arrivalDateTime) {
         this.arrivalDateTime = arrivalDateTime;
     }
-
-    public String getAirlineName() {
-        return airlineName;
-    }
-
-    public void setAirlineName(String airlineName) {
-        this.airlineName = airlineName;
-    }
     
 
     @Override
     public String toString() {
         return "Flight{" + "flightNumber=" + flightNumber 
             + ", flightDate=" + flightDate 
-            + ", airlineId=" + airlineId 
-            + ", uniqueCarrierName=" + uniqueCarrierName 
+            + ", airlineId=" + airline.getAirlineId()
+            + ", uniqueCarrierName=" + airline.getShortname()
             + ", passengerCount=" + passengerCount 
             + ", originAirportId=" + originAirportId 
             + ", originAirportShortName=" + originAirportShortName 

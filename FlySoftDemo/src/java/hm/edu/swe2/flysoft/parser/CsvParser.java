@@ -148,7 +148,7 @@ public class CsvParser<T> {
      */
     private Object parseArgument(String arg, Class<?> targetType) throws IllegalArgumentException, ParseException{
         Object parsedValue = null;
-        if(targetType.equals(int.class)){
+        if(targetType.equals(int.class) || targetType.equals(Integer.class)){
             parsedValue = Integer.parseInt(arg);
         }
         else if(targetType.equals(double.class)){

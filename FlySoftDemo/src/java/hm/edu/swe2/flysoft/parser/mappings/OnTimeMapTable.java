@@ -1,43 +1,32 @@
-package hm.edu.swe2.flysoft.parser;
+package hm.edu.swe2.flysoft.parser.mappings;
 import hm.edu.swe2.flysoft.parser.model.MethodDescriptor;
-import hm.edu.swe2.flysoft.parser.model.interfaces.ICsvFieldMapping;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
- * Defines a mappintg configuration between CSV columns and Java setter methods.
+ * Maping for On Time table.
  * @author Philipp Chavaroche
  * @version 29.04.2016
  */
-public class MapTable implements ICsvFieldMapping {
+public final class OnTimeMapTable extends AbstractMapTable {
     
-    private static MapTable singletonConfig;
-    
-    private Map<String,MethodDescriptor> mapping;
-    
-    private MapTable(){
-        initMap();
+    private OnTimeMapTable(){
+        super();
     }
     
-    public static MapTable getInstance(){
-        if(singletonConfig == null){
-            singletonConfig = new MapTable();
+    public static AbstractMapTable getInstance(){
+        if(singletonMapTable== null){
+            singletonMapTable = new OnTimeMapTable();
         }
-        return singletonConfig;
-    }
-    
-    @Override
-    public Map<String,MethodDescriptor> getMapping(){
-        return Collections.unmodifiableMap(mapping);
+        return singletonMapTable;
     }
     
     /**
      * Initialize the map table.
      */
-    private void initMap(){
-        mapping = new HashMap<String,MethodDescriptor>();
+    @Override
+    protected void initMap(){
+        mapping = new HashMap<>();
         //          <CSV-Header>,<Method setter name>, <Parameter data type>
         mapping.put("FL_DATE", new MethodDescriptor("setFlightDate", Date.class));
         mapping.put("FL_NUM", new MethodDescriptor("setFlightNumber", int.class));
