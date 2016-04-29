@@ -12,6 +12,7 @@ public class Flight {
     private int flightNumber;
     private Date flightDate;
     private int airlineId;
+    private String airlineName;
     private String uniqueCarrierName;
     
     private int passengerCount;
@@ -24,7 +25,8 @@ public class Flight {
     private String originStateName;
     
     private double departureDelay;
-    private int departureTime;
+    private int departureTime;      // Only the time
+    private Date departureDateTime;
     
     private int destAirportId;
     private String destAirportShortName;
@@ -33,7 +35,9 @@ public class Flight {
     private String destStateShortName;
     private String destStateName;
     private double arrivalDelay;
-    private int arrivalTime;
+    
+    private int arrivalTime;        // Only the time
+    private Date arrivalDateTime;
     
     private boolean cancelled;
 
@@ -212,11 +216,30 @@ public class Flight {
     public void setArrivalTime(int arrivalTime) {
         this.arrivalTime = arrivalTime;
     }
-    
-    
 
+    public Date getDepartureDateTime() {
+        return departureDateTime;
+    }
 
-    
+    public void setDepartureDateTime(Date departureDateTime) {
+        this.departureDateTime = departureDateTime;
+    }
+
+    public Date getArrivalDateTime() {
+        return arrivalDateTime;
+    }
+
+    public void setArrivalDateTime(Date arrivalDateTime) {
+        this.arrivalDateTime = arrivalDateTime;
+    }
+
+    public String getAirlineName() {
+        return airlineName;
+    }
+
+    public void setAirlineName(String airlineName) {
+        this.airlineName = airlineName;
+    }
     
 
     @Override

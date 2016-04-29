@@ -21,13 +21,11 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
- *
+ * Parse a csv file to java objects via a mapping.
  * @author Philipp Chavaroche
- * @version 
+ * @version 29.04.2016.
  */
 public class CsvParser<T> {
     
@@ -37,6 +35,13 @@ public class CsvParser<T> {
     private char csvSeperator;
     private Class<T> genType;
 
+    /**
+     * Construct a new csv parser.
+     * @param csvFileName The file name of the csv file, that should be parsed.
+     * @param mapping The mappting between csv columns and object setter.
+     * @param csvSeperator The seperator, that is used in the csv file.
+     * @param genType The type of the object.
+     */
     public CsvParser(String csvFileName, ICsvFieldMapping mapping,
         char csvSeperator, Class<T> genType) {
         this.csvFileName = csvFileName;
@@ -46,6 +51,11 @@ public class CsvParser<T> {
         this.genType = genType;
     }
     
+    /**
+     * Parse all lines from the csv file to a list of objects.
+     * @return
+     * @throws Exception 
+     */
     public List<T> parse() throws Exception {
         List<T> resultList = new ArrayList<>();
         
@@ -57,7 +67,7 @@ public class CsvParser<T> {
             // Read out csv file
             while ((line = csvReader.readNext()) != null) {                
                 if(lineIndex == 0){
-                    processHeaderLine(line);
+                    headerColumnNames = Arrays.asList(line);
                 }
                 else{
                     try{
@@ -65,7 +75,6 @@ public class CsvParser<T> {
                     }
                     catch(Exception ex){
                         throw ex;
-                        //System.out.println(ex);
                     }
                 }
                 lineIndex++;
@@ -74,17 +83,9 @@ public class CsvParser<T> {
         catch(IOException ex){
             System.out.println(ex.getMessage());
         }
-        
 		return resultList;
     }
-    
-    private void processHeaderLine(String[] headerTokens){
-        // its the first line -> header
-        for(int index = 0; index < headerTokens.length; index++){
-            headerTokens[index] = headerTokens[index];
-        }
-        headerColumnNames = Arrays.asList(headerTokens);
-    }
+   
     
     /**
      * Parse a csv token set to a object
