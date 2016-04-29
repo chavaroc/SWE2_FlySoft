@@ -9,7 +9,6 @@ package hm.edu.swe2.flysoft.parser;
 import com.opencsv.CSVReader;
 import hm.edu.swe2.flysoft.parser.model.MethodDescriptor;
 import hm.edu.swe2.flysoft.parser.model.interfaces.ICsvFieldMapping;
-import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -44,12 +43,11 @@ public class CsvParser<T> {
         this.mapper = mapping;
         this.csvSeperator = csvSeperator;
         headerColumnNames = new ArrayList<>();
-        //this.genType = (Class<T>)(((ParameterizedType)CsvParser.class.getGenericSuperclass()).getActualTypeArguments()[0]);
         this.genType = genType;
     }
     
     public List<T> parse() throws Exception {
-        List<T> resultList = new ArrayList<T>();
+        List<T> resultList = new ArrayList<>();
         
         try(FileReader fileReader = new FileReader(csvFileName);
             CSVReader csvReader = new CSVReader(fileReader, csvSeperator))
@@ -103,24 +101,39 @@ public class CsvParser<T> {
         IllegalAccessException, NoSuchMethodException, IllegalArgumentException,
         InvocationTargetException{
         T newObject = genType.newInstance();
+        // Iterate over all input columns.
+        // If we have a mapping for one of them -> parse, otherwise skip
         // Attentsion: order (via position) of the header and the given
         // token list must be equals
         for(int position = 0; position < csvTokens.length; position++){
             String token = csvTokens[position];
+            // Try to find mapping
             MethodDescriptor target = mapper.getMapping()
                 .get(headerColumnNames.get(position));
             if(target != null){
-                // A mapping is defined for that column -> set to object
+                // A mapping is defined for that column
+                // Load setter method via mapping 
                 Method setMethod = genType.getMethod(
                     target.getMethodName(),
                     target.getArgumentType());
-                setMethod.invoke(newObject,
-                    parseArgument(token, target.getArgumentType()));
+                Object argument = null;
+                // Try to parse value to the same type as the argument 
+                // of the setter have.
+                try {
+                    argument = parseArgument(token, target.getArgumentType());
+                    // Set value into object
+                    setMethod.invoke(newObject, argument);
+                } catch (NumberFormatException | ParseException ex) {
+                    System.out.println("Error while try to parse '"+token
+                        +"' to type '"+target.getArgumentType().getName()
+                        +"'. Target method: "+setMethod.getName()+".");
+                }
             }
             else{
                 // No mapping defined for that column -> skip and continue
             }
         }
+        System.out.println(newObject.toString());
         return newObject;
     }
     
@@ -132,40 +145,39 @@ public class CsvParser<T> {
      * @return The value in the given type or null, if it couldnt be parsed.
      * @throws IllegalArgumentException if 
      */
-    private Object parseArgument(String arg, Class<?> targetType) throws IllegalArgumentException{
-        Object parsedValue;
-        try{
-            if(targetType.equals(int.class)){
-                parsedValue = Integer.parseInt(arg);
-            }
-            if(targetType.equals(double.class)){
-                parsedValue = Double.parseDouble(arg);
-            }
-            else if (targetType.equals(boolean.class)){
-                if("1".equals(arg) || "1.00".equals(arg)){
-                    arg = "true";
-                }
-                else if ("0".equals(arg) || "0.00".equals(arg)){
-                    arg = "false";
-                }
-                parsedValue = Boolean.parseBoolean(arg);
-            }
-            else if (targetType.equals(String.class)){
-                parsedValue = arg;
-            }
-            else if (targetType.equals(Date.class)){
-                DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-                parsedValue = format.parse(arg);
+    private Object parseArgument(String arg, Class<?> targetType) throws IllegalArgumentException, ParseException{
+        Object parsedValue = null;
+        if(targetType.equals(int.class)){
+            parsedValue = Integer.parseInt(arg);
+        }
+        else if(targetType.equals(double.class)){
+            if("".equals(arg)){
+                parsedValue = 0.0;
             }
             else{
-                throw new IllegalArgumentException("Error: Could not parse '"
-                    + arg + "' to " +targetType.getName()
-                    + ". Type not supported.");
+                parsedValue = Double.parseDouble(arg);
             }
         }
-        catch(ParseException ex){
-            System.out.println(ex);
-            parsedValue = null;
+        else if (targetType.equals(boolean.class)){
+            if("1".equals(arg) || "1.00".equals(arg)){
+                arg = "true";
+            }
+            else if ("0".equals(arg) || "0.00".equals(arg)){
+                arg = "false";
+            }
+            parsedValue = Boolean.parseBoolean(arg);
+        }
+        else if (targetType.equals(String.class)){
+            parsedValue = arg;
+        }
+        else if (targetType.equals(Date.class)){
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+            parsedValue = format.parse(arg);
+        }
+        else{
+            throw new IllegalArgumentException("Error: Could not parse '"
+                + arg + "' to " +targetType.getName()
+                + ". Type not supported.");
         }
         return parsedValue;
     }

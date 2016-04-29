@@ -19,20 +19,21 @@ public class Flight {
     private int originAirportId;
     private String originAirportShortName;
     private int originCityId;
-    private String originCityShortName;
     private String originCityName;
     private String originStateShortName;
     private String originStateName;
-    private int depatureDelay;
+    
+    private double departureDelay;
+    private int departureTime;
     
     private int destAirportId;
     private String destAirportShortName;
     private int destCityId;
-    private String destCityShortName;
     private String destCityName;
     private String destStateShortName;
     private String destStateName;
-    private int arrivalDelay;
+    private double arrivalDelay;
+    private int arrivalTime;
     
     private boolean cancelled;
 
@@ -84,14 +85,6 @@ public class Flight {
         this.originCityId = originCityId;
     }
 
-    public String getOriginCityShortName() {
-        return originCityShortName;
-    }
-
-    public void setOriginCityShortName(String originCityShortName) {
-        this.originCityShortName = originCityShortName;
-    }
-
     public String getOriginCityName() {
         return originCityName;
     }
@@ -116,12 +109,12 @@ public class Flight {
         this.originStateName = originStateName;
     }
 
-    public int getDepatureDelay() {
-        return depatureDelay;
+    public double getDepartureDelay() {
+        return departureDelay;
     }
 
-    public void setDepatureDelay(int depatureDelay) {
-        this.depatureDelay = depatureDelay;
+    public void setDepartureDelay(double departureDelay) {
+        this.departureDelay = departureDelay;
     }
 
     public int getDestAirportId() {
@@ -138,14 +131,6 @@ public class Flight {
 
     public void setDestCityId(int destCityId) {
         this.destCityId = destCityId;
-    }
-
-    public String getDestCityShortName() {
-        return destCityShortName;
-    }
-
-    public void setDestCityShortName(String destCityShortName) {
-        this.destCityShortName = destCityShortName;
     }
 
     public String getDestCityName() {
@@ -172,11 +157,11 @@ public class Flight {
         this.destStateName = destStateName;
     }
 
-    public int getArrivalDelay() {
+    public double getArrivalDelay() {
         return arrivalDelay;
     }
 
-    public void setArrivalDelay(int arrivalDelay) {
+    public void setArrivalDelay(double arrivalDelay) {
         this.arrivalDelay = arrivalDelay;
     }
 
@@ -211,5 +196,54 @@ public class Flight {
     public void setPassengerCount(int passengerCount) {
         this.passengerCount = passengerCount;
     }
+
+    public int getDepartureTime() {
+        return departureTime;
+    }
+
+    public void setDepartureTime(int departureTime) {
+        this.departureTime = departureTime;
+    }
+
+    public int getArrivalTime() {
+        return arrivalTime;
+    }
+
+    public void setArrivalTime(int arrivalTime) {
+        this.arrivalTime = arrivalTime;
+    }
+    
+    
+
+
+    
+    
+
+    @Override
+    public String toString() {
+        return "Flight{" + "flightNumber=" + flightNumber 
+            + ", flightDate=" + flightDate 
+            + ", airlineId=" + airlineId 
+            + ", uniqueCarrierName=" + uniqueCarrierName 
+            + ", passengerCount=" + passengerCount 
+            + ", originAirportId=" + originAirportId 
+            + ", originAirportShortName=" + originAirportShortName 
+            + ", originCityId=" + originCityId 
+            + ", originCityName=" + originCityName 
+            + ", originStateShortName=" + originStateShortName 
+            + ", originStateName=" + originStateName 
+            + ", departureDelay=" + departureDelay 
+            + ", destAirportId=" + destAirportId 
+            + ", destAirportShortName=" + destAirportShortName 
+            + ", destCityId=" + destCityId 
+            + ", destCityName=" + destCityName 
+            + ", destStateShortName=" + destStateShortName 
+            + ", destStateName=" + destStateName 
+            + ", arrivalDelay=" + arrivalDelay 
+            + ", cancelled=" + cancelled + '}';
+    }
+
+    
+    
     
 }
