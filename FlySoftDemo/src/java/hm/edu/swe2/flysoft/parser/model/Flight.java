@@ -10,9 +10,11 @@ import java.util.Date;
  */
 public class Flight {
     
+    //TODO refacture to entity objects or use Flight save (and remove Flightendpoint?)
+    
     private int flightNumber;
     private Date flightDate;
-    private Airline airline;
+    private Airline airline;  
     
     private int passengerCount;
     
