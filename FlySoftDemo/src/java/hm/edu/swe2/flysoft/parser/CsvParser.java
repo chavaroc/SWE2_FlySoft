@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package hm.edu.swe2.flysoft.parser;
 
 import com.opencsv.CSVReader;
@@ -23,7 +17,7 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * Parse a csv file to java objects via a mapping.
+ * Parse a csv file to java objects (T) via a mapping.
  * @author Philipp Chavaroche
  * @version 29.04.2016.
  */
@@ -101,23 +95,26 @@ public class CsvParser<T> {
     private T parseToObject(String[] csvTokens) throws InstantiationException,
         IllegalAccessException, NoSuchMethodException, IllegalArgumentException,
         InvocationTargetException{
+        Object argument;
+        String token;
+        MethodDescriptor target;
+        Method setMethod;
         T newObject = genType.newInstance();
         // Iterate over all input columns.
         // If we have a mapping for one of them -> parse, otherwise skip
         // Attentsion: order (via position) of the header and the given
-        // token list must be equals
+        // token list must be equal.
         for(int position = 0; position < csvTokens.length; position++){
-            String token = csvTokens[position];
-            // Try to find mapping
-            MethodDescriptor target = mapper.getMapping()
+            token = csvTokens[position];
+            // Try to find mapping (match via column / header name)
+            target = mapper.getMapping()
                 .get(headerColumnNames.get(position));
             if(target != null){
-                // A mapping is defined for that column
-                // Load setter method via mapping 
-                Method setMethod = genType.getMethod(
+                // A mapping is defined for that column.
+                // Find setter method of the target type via reflection.
+                setMethod = genType.getMethod(
                     target.getMethodName(),
                     target.getArgumentType());
-                Object argument = null;
                 // Try to parse value to the same type as the argument 
                 // of the setter have.
                 try {
@@ -134,7 +131,6 @@ public class CsvParser<T> {
                 // No mapping defined for that column -> skip and continue
             }
         }
-        System.out.println(newObject.toString());
         return newObject;
     }
     

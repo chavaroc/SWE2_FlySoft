@@ -9,7 +9,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import org.springframework.util.Assert;
 
 /**
  * This class preparing flight objects
@@ -46,7 +45,7 @@ public class FlightPreparator {
      * @return The name of the airline of the flight.
      */
     private String solveAirlineName(final Flight flight){
-        String airlineName ="" ;
+        String airlineName ="";
         // check if the lookup table is loaded
         if(lookupAirlines == null){
             // Load loopup table
