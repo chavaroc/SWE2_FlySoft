@@ -60,15 +60,15 @@ public class TestCsvParser {
         assertEquals("Origin airport short name is not correctly parsed.", "AMA", parsedFlight.getOriginAirportShortName());
         assertEquals("Origin city id is not correctly parsed.", 30279, parsedFlight.getOriginCityId() );
         assertEquals("Origin city name is not correctly parsed.", "Amarillo, TX", parsedFlight.getOriginCityName());
-        assertEquals("Origin state short name is not correctly parsed.", "TX", parsedFlight.getOriginStateShortName());
-        assertEquals("Origin state name is not correctly parsed.", "Texas", parsedFlight.getOriginStateName());
+        //assertEquals("Origin state short name is not correctly parsed.", "TX", parsedFlight.getOriginStateShortName());
+        //assertEquals("Origin state name is not correctly parsed.", "Texas", parsedFlight.getOriginStateName());
         
         assertEquals("Destination airport id is not correctly parsed.", 11259, parsedFlight.getDestAirportId());
         assertEquals("Destination airport short name is not correctly parsed.", "DAL", parsedFlight.getDestAirportShortName());
         assertEquals("Destination city id is not correctly parsed.", 30194, parsedFlight.getDestCityId());
         assertEquals("Destination city name is not correctly parsed.", "Dallas, TX", parsedFlight.getDestCityName());
-        assertEquals("Destination state short name is not correctly parsed.", "TX", parsedFlight.getDestStateShortName());
-        assertEquals("Destination state name is not correctly parsed.", "Texas", parsedFlight.getDestStateName());
+        //assertEquals("Destination state short name is not correctly parsed.", "TX", parsedFlight.getDestStateShortName());
+        //assertEquals("Destination state name is not correctly parsed.", "Texas", parsedFlight.getDestStateName());
         
         assertEquals("Depature time is not correctly parsed.", 1112, parsedFlight.getDepartureTime());
         assertEquals("Arrival time is not correctly parsed.", 1214, parsedFlight.getArrivalTime() );

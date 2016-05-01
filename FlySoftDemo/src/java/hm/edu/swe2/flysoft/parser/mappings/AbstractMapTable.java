@@ -1,7 +1,7 @@
 package hm.edu.swe2.flysoft.parser.mappings;
 
 import hm.edu.swe2.flysoft.parser.model.MethodDescriptor;
-import hm.edu.swe2.flysoft.parser.model.interfaces.ICsvFieldMapping;
+import hm.edu.swe2.flysoft.interfaces.ICsvFieldMapping;
 import java.util.Collections;
 import java.util.Map;
 

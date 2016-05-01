@@ -2,7 +2,7 @@ package hm.edu.swe2.flysoft.parser;
 
 import com.opencsv.CSVReader;
 import hm.edu.swe2.flysoft.parser.model.MethodDescriptor;
-import hm.edu.swe2.flysoft.parser.model.interfaces.ICsvFieldMapping;
+import hm.edu.swe2.flysoft.interfaces.ICsvFieldMapping;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;

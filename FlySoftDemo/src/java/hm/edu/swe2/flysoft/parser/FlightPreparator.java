@@ -13,7 +13,6 @@ import java.util.Optional;
 /**
  * This class preparing flight objects
  * and evaulate advanced data of the flight like 
- * - passenger count 
  * - name of the airline
  * - convert / combined arrival time and departure time to date time
  * @author Philipp Chavaroche
@@ -30,14 +29,9 @@ public class FlightPreparator {
      */
     public Flight prepare(Flight flight){
         flight = solveArrivalDepature(flight);
-        flight.setPassengerCount(evaluatePassengerCount(flight));
         flight.setAirlineName(solveAirlineName(flight));
         return flight;
-    }
-    
-    private int evaluatePassengerCount(final Flight flight){
-        return -1; // TODO
-    }
+    }    
     
     /**
      * Solve the airline name of the flight via airline id.

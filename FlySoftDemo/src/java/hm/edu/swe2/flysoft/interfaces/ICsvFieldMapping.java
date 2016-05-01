@@ -1,4 +1,4 @@
-package hm.edu.swe2.flysoft.parser.model.interfaces;
+package hm.edu.swe2.flysoft.interfaces;
 
 import hm.edu.swe2.flysoft.parser.model.MethodDescriptor;
 import java.util.Map;
