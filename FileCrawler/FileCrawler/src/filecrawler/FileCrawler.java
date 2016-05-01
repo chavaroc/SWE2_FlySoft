@@ -3,6 +3,7 @@ package filecrawler;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -11,37 +12,43 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 /**
  * Downloads required Data (as zip) from transtats.bts.gov
  *
  * @author Markus Huber
- * @version 25-04-16 modified_last: Markus Huber
+ * @version 30-04-16 modified_last: Markus Huber
  */
 public class FileCrawler {
 
-    public static void main(String[] args) {
-        String postRequest;
+    private static String projectDirectory;
+    private static char separator;
 
-        // 0 and 43 for Table --> Market
-        // postRequest = readConfig(45, 97);
-        postRequest = readConfig(0, 43);
+    public static void main(String[] args) throws URISyntaxException {
 
-        // try to connect to the server and send post-request
-        doRequestAndDownload(postRequest);
-        
-        
-        postRequest = readConfig(45, 144);
-        doRequestAndDownload(postRequest);
-        
-        
-        postRequest = readConfig(147, 196);
-        doRequestAndDownload(postRequest);
+        getProjectDirectory();
+        System.out.println("Info: Project-Directory: " + projectDirectory);
+
+        separator = File.separatorChar;
+        System.out.println("Info: System-path-separator: " + separator);
+
+        String marketDataRequest = readConfig(0, 43);
+        doRequestAndDownload(marketDataRequest);
+
+        String onTimeDataRequest = readConfig(45, 144);
+        doRequestAndDownload(onTimeDataRequest);
+
+        String segmentDataRequest = readConfig(147, 196);
+        doRequestAndDownload(segmentDataRequest);
     }
 
     /**
@@ -57,7 +64,8 @@ public class FileCrawler {
             conn.setDoInput(true);
             conn.setRequestProperty("content-type", "binary/data");
             InputStream in = conn.getInputStream();
-            FileOutputStream out = new FileOutputStream("C:\\Users\\xYrs\\Documents\\Hm\\6_Semester\\SWE2\\FlySoft_Git\\FileCrawler\\FileCrawler\\downloaded\\" + zipName);
+            String absoluteFileName = projectDirectory + separator + "downloaded" + separator + zipName;
+            FileOutputStream out = new FileOutputStream(absoluteFileName);
 
             byte[] b = new byte[1024];
             int count;
@@ -70,15 +78,14 @@ public class FileCrawler {
             System.out.println("");
         } catch (IOException e) {
         }
-
     }
 
     private static String readConfig(int startIndex, int endIndex) {
         ArrayList<String> result = new ArrayList<>();
         String resultPart = "";
-        
+
         // file, which contains the needed data, parameters, ... for sending a correct request
-        File config = new File("C:\\Users\\xYrs\\Documents\\Hm\\6_Semester\\SWE2\\FlySoft_Git\\FileCrawler\\FileCrawler\\src\\filecrawler\\crawler_config.txt");
+        File config = new File(projectDirectory + separator + "src" + separator + "filecrawler" + separator + "crawler_config.txt");
 
         try {
             FileReader reader = new FileReader(config);
@@ -93,8 +100,8 @@ public class FileCrawler {
         } catch (IOException ex) {
             Logger.getLogger(FileCrawler.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        for(int i = startIndex; i <= endIndex; i++){
+
+        for (int i = startIndex; i <= endIndex; i++) {
             resultPart += result.get(i);
         }
         return resultPart;
@@ -105,7 +112,7 @@ public class FileCrawler {
 
         // name of required zip-file
         String fileName;
-        
+
         try (Socket socket = new Socket("transtats.bts.gov", 80);
                 BufferedWriter toServer = new BufferedWriter(
                         new OutputStreamWriter(socket.getOutputStream()));
@@ -133,9 +140,38 @@ public class FileCrawler {
             System.out.println("Info: Requested file's name: " + fileName);
 
             downloadZipFile(fileName);
+            unzipFile(fileName);
 
         } catch (IOException ex) {
             Logger.getLogger(FileCrawler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private static void getProjectDirectory() throws URISyntaxException {
+        URI uri = FileCrawler.class.getResource("crawler_config.txt").toURI();
+        projectDirectory = uri.toString();
+        projectDirectory = projectDirectory.substring(6);
+        int endIndex = projectDirectory.indexOf("build");
+        projectDirectory = projectDirectory.substring(0, endIndex);
+    }
+
+    private static void unzipFile(String fileName) throws FileNotFoundException, IOException {
+        String downloadPath = projectDirectory + separator + "downloaded" + separator;
+        
+        ZipInputStream zis = new ZipInputStream(new FileInputStream(downloadPath + fileName));
+        ZipEntry entry = zis.getNextEntry();
+        
+        byte[] buffer = new byte[1024];
+        
+        String unzippedfileName = entry.getName();
+        File newFile = new File(downloadPath + unzippedfileName);
+        new File(newFile.getParent()).mkdirs();
+        
+        try (FileOutputStream fos = new FileOutputStream(newFile)) {
+            int length;
+            while((length = zis.read(buffer)) > 0){
+                fos.write(buffer, 0, length);
+            }
         }
     }
 }
