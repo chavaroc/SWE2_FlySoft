@@ -34,6 +34,5 @@ public final class SegmentDomesticMapTable extends AbstractMapTable {
         mapping.put("DEST", new MethodDescriptor("setDestAirportShortName", String.class));
         mapping.put("YEAR", new MethodDescriptor("setYear", int.class));      
         mapping.put("MONTH", new MethodDescriptor("setMonth", int.class));
-        
     }
 }
