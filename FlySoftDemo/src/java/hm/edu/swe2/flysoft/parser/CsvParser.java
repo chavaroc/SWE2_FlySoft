@@ -2,7 +2,7 @@ package hm.edu.swe2.flysoft.parser;
 
 import com.opencsv.CSVReader;
 import hm.edu.swe2.flysoft.parser.model.MethodDescriptor;
-import hm.edu.swe2.flysoft.parser.model.interfaces.ICsvFieldMapping;
+import hm.edu.swe2.flysoft.interfaces.ICsvFieldMapping;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -145,7 +145,16 @@ public class CsvParser<T> {
     private Object parseArgument(String arg, Class<?> targetType) throws IllegalArgumentException, ParseException{
         Object parsedValue = null;
         if(targetType.equals(int.class) || targetType.equals(Integer.class)){
-            parsedValue = Integer.parseInt(arg);
+            // if the string contains a point, it can parsed directly to int
+            // So we parse first into double, and than to int.
+            if(arg.contains("."))
+            {
+                double tempDblValue = Double.parseDouble(arg);
+                parsedValue = (int)tempDblValue;
+            }
+            else{
+                parsedValue = Integer.parseInt(arg);
+            }
         }
         else if(targetType.equals(double.class)){
             if("".equals(arg)){
