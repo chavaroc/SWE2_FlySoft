@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package hm.edu.swe2.flysoft.Entity;
+package hm.edu.swe2.flysoft.entity;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -120,7 +120,7 @@ public class Storedsettings implements Serializable {
 
     @Override
     public String toString() {
-        return "hm.edu.swe2.flysoft.Entities.Storedsettings[ storedsettingsId=" + storedsettingsId + " ]";
+        return "hm.edu.swe2.flysoft.entity.Storedsettings[ storedsettingsId=" + storedsettingsId + " ]";
     }
     
 }

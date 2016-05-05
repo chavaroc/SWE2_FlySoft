@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package hm.edu.swe2.flysoft.Entity;
+package hm.edu.swe2.flysoft.entity;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "City.findAll", query = "SELECT c FROM City c"),
     @NamedQuery(name = "City.findByCityId", query = "SELECT c FROM City c WHERE c.cityId = :cityId"),
     @NamedQuery(name = "City.findByName", query = "SELECT c FROM City c WHERE c.name = :name"),
-    @NamedQuery(name = "City.findByCountryId", query = "SELECT c FROM City c WHERE c.countryId = :countryId")})
+    @NamedQuery(name = "City.findByShortnamestate", query = "SELECT c FROM City c WHERE c.shortnamestate = :shortnamestate")})
 public class City implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -40,8 +40,8 @@ public class City implements Serializable {
     @Basic(optional = false)
     @Column(name = "name")
     private String name;
-    @Column(name = "country_id")
-    private Integer countryId;
+    @Column(name = "shortnamestate")
+    private String shortnamestate;
 
     public City() {
     }
@@ -71,12 +71,12 @@ public class City implements Serializable {
         this.name = name;
     }
 
-    public Integer getCountryId() {
-        return countryId;
+    public String getShortnamestate() {
+        return shortnamestate;
     }
 
-    public void setCountryId(Integer countryId) {
-        this.countryId = countryId;
+    public void setShortnamestate(String shortnamestate) {
+        this.shortnamestate = shortnamestate;
     }
 
     @Override
@@ -101,7 +101,7 @@ public class City implements Serializable {
 
     @Override
     public String toString() {
-        return "hm.edu.swe2.flysoft.Entities.City[ cityId=" + cityId + " ]";
+        return "hm.edu.swe2.flysoft.entity.City[ cityId=" + cityId + " ]";
     }
     
 }

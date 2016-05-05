@@ -1,10 +1,9 @@
 package hm.edu.swe2.flysoft.parser.model;
 
-import hm.edu.swe2.flysoft.Entity.Airline;
-import hm.edu.swe2.flysoft.Entity.City;
-import hm.edu.swe2.flysoft.Entity.Country;
-import hm.edu.swe2.flysoft.Entity.Flight;
-import hm.edu.swe2.flysoft.Entity.Flightendpoint;
+import hm.edu.swe2.flysoft.entity.Airline;
+import hm.edu.swe2.flysoft.entity.City;
+import hm.edu.swe2.flysoft.entity.Flight;
+import hm.edu.swe2.flysoft.entity.Flightendpoint;
 
 /**
  * Repesents a flight (parsed from CSV).
@@ -16,7 +15,6 @@ public class FlightSave {
     private Flight flight = new Flight();
     private Airline airline = new Airline();
     private Flightendpoint endPoint = new Flightendpoint();
-    private Country state = new Country();
     private City city = new City();
     
     //private int flightNumber;
@@ -78,13 +76,7 @@ public class FlightSave {
         airline.setName(uniqueCarrierName);
     }
 
-    public int getAirportId() {
-        return endPoint.getCityId();
-    }
 
-    public void setAirportId(int AirportId) {
-        endPoint.setCityId(AirportId);
-    }
 
     public int getOriginCityId() {
         return city.getCityId();
@@ -102,29 +94,9 @@ public class FlightSave {
         city.setName(cityName);
     }
 
-    public String getStateShortName() {
-        return state.getShortname();
-    }
 
-    public void setStateShortName(String stateShortName) {
-       state.setShortname(stateShortName);
-    }
 
-    public String getStateName() {
-        return state.getName();
-    }
-
-    public void setStateName(String stateName) {
-        state.setName(stateName);
-    }
-
-    public String getDelay() {
-        return endPoint.getDelay();
-    }
-
-    public void setDelay(String delay) {
-        endPoint.setDelay(delay);
-    }
+  
 
     public boolean isCancelled() {
         return flight.getCancelled(); 
@@ -134,12 +106,6 @@ public class FlightSave {
         flight.setCancelled(cancelled);
     }
 
-    public int getPassengerCount() {
-        return flight.getPassengercount();
-    }
-
-    public void setPassengerCount(int passengerCount) {
-        flight.setPassengercount(passengerCount);
-    }
+    
     
 }

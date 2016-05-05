@@ -1,6 +1,6 @@
 package hm.edu.swe2.flysoft.parser;
 
-import hm.edu.swe2.flysoft.Entity.Airline;
+import hm.edu.swe2.flysoft.entity.Airline;
 import hm.edu.swe2.flysoft.parser.mappings.AbstractMapTable;
 import hm.edu.swe2.flysoft.parser.mappings.AirlineLookUpMapTable;
 import hm.edu.swe2.flysoft.parser.model.Flight;

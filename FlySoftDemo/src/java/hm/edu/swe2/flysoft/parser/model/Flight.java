@@ -1,6 +1,6 @@
 package hm.edu.swe2.flysoft.parser.model;
 
-import hm.edu.swe2.flysoft.Entity.Airline;
+import hm.edu.swe2.flysoft.entity.Airline;
 import hm.edu.swe2.flysoft.interfaces.IFlightEndPoints;
 import java.util.Date;
 

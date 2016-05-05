@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package hm.edu.swe2.flysoft.Entity;
+package hm.edu.swe2.flysoft.entity;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
@@ -90,7 +90,7 @@ public class Datasourcetype implements Serializable {
 
     @Override
     public String toString() {
-        return "hm.edu.swe2.flysoft.Entities.Datasourcetype[ datasourcetypeId=" + datasourcetypeId + " ]";
+        return "hm.edu.swe2.flysoft.entity.Datasourcetype[ datasourcetypeId=" + datasourcetypeId + " ]";
     }
     
 }

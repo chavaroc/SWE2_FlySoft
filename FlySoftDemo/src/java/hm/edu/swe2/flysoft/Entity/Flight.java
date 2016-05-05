@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package hm.edu.swe2.flysoft.Entity;
+package hm.edu.swe2.flysoft.entity;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
@@ -27,11 +27,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Flight.findAll", query = "SELECT f FROM Flight f"),
     @NamedQuery(name = "Flight.findByFlightId", query = "SELECT f FROM Flight f WHERE f.flightId = :flightId"),
-    @NamedQuery(name = "Flight.findByPassengercount", query = "SELECT f FROM Flight f WHERE f.passengercount = :passengercount"),
     @NamedQuery(name = "Flight.findByCancelled", query = "SELECT f FROM Flight f WHERE f.cancelled = :cancelled"),
-    @NamedQuery(name = "Flight.findByAirlineId", query = "SELECT f FROM Flight f WHERE f.airlineId = :airlineId"),
     @NamedQuery(name = "Flight.findByFlightendpointId", query = "SELECT f FROM Flight f WHERE f.flightendpointId = :flightendpointId"),
-    @NamedQuery(name = "Flight.findByFlightendpointarrivalId", query = "SELECT f FROM Flight f WHERE f.flightendpointarrivalId = :flightendpointarrivalId")})
+    @NamedQuery(name = "Flight.findByAirlineId", query = "SELECT f FROM Flight f WHERE f.airlineId = :airlineId")})
 public class Flight implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -40,23 +38,13 @@ public class Flight implements Serializable {
     @Basic(optional = false)
     @Column(name = "flight_id")
     private Integer flightId;
-    
-    @Basic(optional = false)
-    @Column(name = "passengercount")
-    private int passengercount;
-    
     @Basic(optional = false)
     @Column(name = "cancelled")
-    private Boolean cancelled;
-    
-    @Column(name = "airline_id")
-    private Integer airlineId;
-    
+    private boolean cancelled;
     @Column(name = "flightendpoint_id")
     private Integer flightendpointId;
-    
-    @Column(name = "flightendpointarrival_id")
-    private Integer flightendpointarrivalId;
+    @Column(name = "airline_id")
+    private Integer airlineId;
 
     public Flight() {
     }
@@ -65,9 +53,8 @@ public class Flight implements Serializable {
         this.flightId = flightId;
     }
 
-    public Flight(Integer flightId, int passengercount, Boolean cancelled) {
+    public Flight(Integer flightId, boolean cancelled) {
         this.flightId = flightId;
-        this.passengercount = passengercount;
         this.cancelled = cancelled;
     }
 
@@ -79,28 +66,12 @@ public class Flight implements Serializable {
         this.flightId = flightId;
     }
 
-    public int getPassengercount() {
-        return passengercount;
-    }
-
-    public void setPassengercount(int passengercount) {
-        this.passengercount = passengercount;
-    }
-
-    public Boolean getCancelled() {
+    public boolean getCancelled() {
         return cancelled;
     }
 
-    public void setCancelled(Boolean cancelled) {
+    public void setCancelled(boolean cancelled) {
         this.cancelled = cancelled;
-    }
-
-    public Integer getAirlineId() {
-        return airlineId;
-    }
-
-    public void setAirlineId(Integer airlineId) {
-        this.airlineId = airlineId;
     }
 
     public Integer getFlightendpointId() {
@@ -111,12 +82,12 @@ public class Flight implements Serializable {
         this.flightendpointId = flightendpointId;
     }
 
-    public Integer getFlightendpointarrivalId() {
-        return flightendpointarrivalId;
+    public Integer getAirlineId() {
+        return airlineId;
     }
 
-    public void setFlightendpointarrivalId(Integer flightendpointarrivalId) {
-        this.flightendpointarrivalId = flightendpointarrivalId;
+    public void setAirlineId(Integer airlineId) {
+        this.airlineId = airlineId;
     }
 
     @Override
@@ -141,7 +112,7 @@ public class Flight implements Serializable {
 
     @Override
     public String toString() {
-        return "hm.edu.swe2.flysoft.Entities.Flight[ flightId=" + flightId + " ]";
+        return "hm.edu.swe2.flysoft.entity.Flight[ flightId=" + flightId + " ]";
     }
     
 }
