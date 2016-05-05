@@ -1,6 +1,6 @@
 package hm.edu.swe2.flysoft.parser;
 
-import hm.edu.swe2.flysoft.parser.model.Flight;
+import hm.edu.swe2.flysoft.parser.model.ParsedFlight;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -23,7 +23,7 @@ public class TestFlightPreparator {
     public void TestCombineTimeCase1() throws ParseException{
         FlightPreparator prep = new FlightPreparator();
         // Create a dummy flight
-        Flight testFlight = new Flight();
+        ParsedFlight testFlight = new ParsedFlight();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         DateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.ENGLISH);
         testFlight.setFlightDate(dateFormat.parse("2015-06-15"));
@@ -52,7 +52,7 @@ public class TestFlightPreparator {
     public void TestCombineTimeNextDay() throws ParseException{
         FlightPreparator prep = new FlightPreparator();
         // Create a dummy flight
-        Flight testFlight = new Flight();
+        ParsedFlight testFlight = new ParsedFlight();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         DateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.ENGLISH);
         testFlight.setFlightDate(dateFormat.parse("2015-06-15"));
@@ -87,7 +87,7 @@ public class TestFlightPreparator {
     public void TestSolveAirlineName() throws ParseException{
         FlightPreparator prep = new FlightPreparator();
         // Create a dummy flight
-        Flight testFlight = new Flight();
+        ParsedFlight testFlight = new ParsedFlight();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         DateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.ENGLISH);
         testFlight.setFlightDate(dateFormat.parse("2015-06-15"));

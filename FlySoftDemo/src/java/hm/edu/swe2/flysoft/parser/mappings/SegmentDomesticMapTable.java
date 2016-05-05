@@ -10,6 +10,8 @@ import java.util.HashMap;
  */
 public final class SegmentDomesticMapTable extends AbstractMapTable {
     
+    private static AbstractMapTable singletonMapTable;
+    
     private SegmentDomesticMapTable(){
         super();
     }

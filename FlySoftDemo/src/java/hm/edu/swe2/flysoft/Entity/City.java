@@ -5,6 +5,7 @@
  */
 package hm.edu.swe2.flysoft.entity;
 
+import hm.edu.swe2.flysoft.interfaces.ICity;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -29,7 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "City.findByCityId", query = "SELECT c FROM City c WHERE c.cityId = :cityId"),
     @NamedQuery(name = "City.findByName", query = "SELECT c FROM City c WHERE c.name = :name"),
     @NamedQuery(name = "City.findByShortnamestate", query = "SELECT c FROM City c WHERE c.shortnamestate = :shortnamestate")})
-public class City implements Serializable {
+public class City implements Serializable, ICity {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -55,27 +56,33 @@ public class City implements Serializable {
         this.name = name;
     }
 
+    @Override
     public Integer getCityId() {
         return cityId;
     }
 
+    @Override
     public void setCityId(Integer cityId) {
         this.cityId = cityId;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public void setName(String name) {
         this.name = name;
     }
 
-    public String getShortnamestate() {
+    @Override
+    public String getShortNameState() {
         return shortnamestate;
     }
 
-    public void setShortnamestate(String shortnamestate) {
+    @Override
+    public void setShortNameState(String shortnamestate) {
         this.shortnamestate = shortnamestate;
     }
 

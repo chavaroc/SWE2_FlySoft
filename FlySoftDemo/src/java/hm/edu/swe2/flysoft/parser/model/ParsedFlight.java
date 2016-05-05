@@ -1,6 +1,13 @@
 package hm.edu.swe2.flysoft.parser.model;
 
 import hm.edu.swe2.flysoft.entity.Airline;
+import hm.edu.swe2.flysoft.entity.Airport;
+import hm.edu.swe2.flysoft.entity.City;
+import hm.edu.swe2.flysoft.entity.Flight;
+import hm.edu.swe2.flysoft.entity.Flightendpoint;
+import hm.edu.swe2.flysoft.interfaces.IAirport;
+import hm.edu.swe2.flysoft.interfaces.ICity;
+import hm.edu.swe2.flysoft.interfaces.IFlight;
 import hm.edu.swe2.flysoft.interfaces.IFlightEndPoints;
 import java.util.Date;
 
@@ -9,32 +16,38 @@ import java.util.Date;
  * @author Philipp Chavaroche
  * @version 27.04.2016
  */
-public class Flight {
+public class ParsedFlight {
     
-    //TODO refacture to entity objects or use Flight save (and remove Flightendpoint?)
-    
-    private int flightNumber;
-    private Date flightDate;
+    private IFlight flight;
     private Airline airline;  
-    
     private IFlightEndPoints endpoints;
+    private IAirport originAirport;
+    private IAirport destAirport;
+    private ICity originCity;
+    private ICity destCity;
     
-    private int departureTime;      // Only the time
+    private Date flightDate;
+    private int departureTime;      // Only the time in format 1330 for 1:30 pm
     private int arrivalTime;        // Only the time
     
-    private boolean cancelled;
-    
-    public Flight(){
+    public ParsedFlight(){
+        // TODO: would be better to seperate these classes
+        // -> parser should know nothing about db entity classes.
+        flight = new Flight();
         airline = new Airline();
-        //TODO init enpionts
+        endpoints = new Flightendpoint();
+        originAirport = new Airport();
+        destAirport = new Airport();
+        originCity = new City();
+        destCity = new City();
     }
 
     public int getFlightNumber() {
-        return flightNumber;
+        return flight.getFlightId();
     }
 
     public void setFlightNumber(int flightNumber) {
-        this.flightNumber = flightNumber;
+        flight.setFlightId(flightNumber);
     }
 
     public Date getFlightDate() {
@@ -50,6 +63,7 @@ public class Flight {
     }
 
     public void setAirlineId(int airlineId) {
+        flight.setAirlineId(airlineId);
         airline.setAirlineId(airlineId);
     }
 
@@ -70,36 +84,37 @@ public class Flight {
     }
 
     public int getOriginAirportId() {
-        return endpoints.getOriginAirportId();
+        return originAirport.getAirportId();
     }
 
     public void setOriginAirportId(int originAirportId) {
-        endpoints.setOriginAirportId(originAirportId);
+        originAirport.setAirportId(originAirportId);
     }
     
     public String getOriginAirportShortName() {
-        return endpoints.getOriginAirportShortName();
+        return originAirport.getShortName();
     }
 
     public void setOriginAirportShortName(String originAirportShortName) {
         endpoints.setOriginAirportShortName(originAirportShortName);
+        originAirport.setShortName(originAirportShortName);
     }
 
 
     public int getOriginCityId() {
-        return endpoints.getOriginCityId();
+        return originCity.getCityId();
     }
 
     public void setOriginCityId(int originCityId) {
-        endpoints.setOriginCityId(originCityId);
+        originCity.setCityId(originCityId);
     }
 
     public String getOriginCityName() {
-        return endpoints.getOriginCityName();
+        return originCity.getName();
     }
 
     public void setOriginCityName(String originCityName) {
-        endpoints.setOriginCityName(originCityName);
+        originCity.setName(originCityName);
     }
 
     /*public String getOriginStateShortName() {
@@ -119,43 +134,44 @@ public class Flight {
     }*/
 
     public double getDepartureDelay() {
-        return endpoints.getDepartureDelay();
+        return endpoints.getDeparturedelay();
     }
 
     public void setDepartureDelay(double departureDelay) {
-        endpoints.setDepartureDelay(departureDelay);
+        endpoints.setDeparturedelay(departureDelay);
     }
 
     public int getDestAirportId() {
-        return endpoints.getDestAirportId();
+        return destAirport.getAirportId();
     }
 
     public void setDestAirportId(int destAirportId) {
-        endpoints.setDestAirportId(destAirportId);
+        destAirport.setAirportId(destAirportId);
     }
     
     public String getDestAirportShortName() {
-        return endpoints.getDestAirportShortName();
+        return destAirport.getShortName();
     }
 
     public void setDestAirportShortName(String destAirportShortName) {
         endpoints.setDestAirportShortName(destAirportShortName);
+        destAirport.setShortName(destAirportShortName);
     }
 
     public int getDestCityId() {
-        return endpoints.getDestCityId();        
+        return destCity.getCityId();
     }
 
     public void setDestCityId(int destCityId) {
-        endpoints.setDestCityId(destCityId);
+        destCity.setCityId(destCityId);
     }
 
     public String getDestCityName() {
-        return endpoints.getDestCityName();
+        return destCity.getName();
     }
 
     public void setDestCityName(String destCityName) {
-        endpoints.setDestCityName(destCityName);
+        destCity.setName(destCityName);
     }
 
     /*public String getDestStateShortName() {
@@ -183,11 +199,11 @@ public class Flight {
     }
 
     public boolean isCancelled() {
-        return cancelled;
+        return flight.getCancelled();
     }
 
     public void setCancelled(boolean cancelled) {
-        this.cancelled = cancelled;
+        flight.setCancelled(cancelled);
     }
 
     public int getDepartureTime() {
@@ -207,28 +223,28 @@ public class Flight {
     }
 
     public Date getDepartureDateTime() {
-        return endpoints.getDepartureDateTime();
+        return endpoints.getDepartureTime();
     }
 
     public void setDepartureDateTime(Date departureDateTime) {
-        endpoints.setDepartureDateTime(departureDateTime);
+        endpoints.setDepartureTime(departureDateTime);
     }
 
     public Date getArrivalDateTime() {
-        return endpoints.getArrivalDateTime();
+        return endpoints.getArrivalTime();
     }
 
     public void setArrivalDateTime(Date arrivalDateTime) {
-        endpoints.setArrivalDateTime(arrivalDateTime);
+        endpoints.setArrivalTime(arrivalDateTime);
     }
     
     @Override
     public String toString() {
-        return "Flight{" + "flightNumber=" + flightNumber 
+        return "Flight{" + "flightNumber=" + flight.getFlightId()
             + ", flightDate=" + flightDate 
             + ", airlineId=" + airline.getAirlineId()
             + ", uniqueCarrierName=" + airline.getShortname()
             + ", endpoints=" + endpoints.toString()
-            + ", cancelled=" + cancelled + '}';
+            + ", cancelled=" + flight.getCancelled() + '}';
     }  
 }

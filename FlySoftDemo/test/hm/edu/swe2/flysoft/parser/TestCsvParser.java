@@ -5,7 +5,7 @@ import hm.edu.swe2.flysoft.interfaces.IMonthlyStat;
 import hm.edu.swe2.flysoft.parser.mappings.AbstractMapTable;
 import hm.edu.swe2.flysoft.parser.mappings.OnTimeMapTable;
 import hm.edu.swe2.flysoft.parser.mappings.SegmentDomesticMapTable;
-import hm.edu.swe2.flysoft.parser.model.Flight;
+import hm.edu.swe2.flysoft.parser.model.ParsedFlight;
 import hm.edu.swe2.flysoft.parser.model.MonthlyStatDummy;
 import java.io.File;
 import java.io.IOException;
@@ -33,9 +33,9 @@ public class TestCsvParser {
     public void TestCsvParser() throws Exception {
         String path = "C:\\Users\\xYrs\\Documents\\Hm\\6_Semester\\SWE2\\Transtats_Data\\Dometic\\968296915_T_ONTIME.csv";
         AbstractMapTable config = OnTimeMapTable.getInstance();
-        CsvParser<Flight> parser = new CsvParser<>(path, config,
-            ',', Flight.class);
-        List<Flight> result = parser.parse();
+        CsvParser<ParsedFlight> parser = new CsvParser<>(path, config,
+            ',', ParsedFlight.class);
+        List<ParsedFlight> result = parser.parse();
         Assert.isTrue(true);
     }
     
@@ -48,9 +48,9 @@ public class TestCsvParser {
         System.out.println("Test with " + testFile.getAbsolutePath());
         
         AbstractMapTable config = OnTimeMapTable.getInstance();
-        CsvParser<Flight> parser = new CsvParser<>(testFile.getAbsolutePath(), config,
-            ',', Flight.class);
-        Flight parsedFlight = parser.parse().get(0);
+        CsvParser<ParsedFlight> parser = new CsvParser<>(testFile.getAbsolutePath(), config,
+            ',', ParsedFlight.class);
+        ParsedFlight parsedFlight = parser.parse().get(0);
         
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 
@@ -90,9 +90,9 @@ public class TestCsvParser {
         System.out.println("Test with " + testFile.getAbsolutePath());
         
         AbstractMapTable config = OnTimeMapTable.getInstance();
-        CsvParser<Flight> parser = new CsvParser<>(testFile.getAbsolutePath(), config,
-            ',', Flight.class);
-        Flight parsedFlight = parser.parse().get(0);
+        CsvParser<ParsedFlight> parser = new CsvParser<>(testFile.getAbsolutePath(), config,
+            ',', ParsedFlight.class);
+        ParsedFlight parsedFlight = parser.parse().get(0);
         
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 

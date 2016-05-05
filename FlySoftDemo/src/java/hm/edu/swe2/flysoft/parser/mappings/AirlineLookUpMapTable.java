@@ -9,6 +9,8 @@ import java.util.HashMap;
  */
 public final class AirlineLookUpMapTable extends AbstractMapTable {
     
+    private static AbstractMapTable singletonMapTable;
+    
     private AirlineLookUpMapTable(){
         super();
     }

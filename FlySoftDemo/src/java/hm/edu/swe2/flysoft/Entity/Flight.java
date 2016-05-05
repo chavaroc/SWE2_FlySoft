@@ -5,6 +5,7 @@
  */
 package hm.edu.swe2.flysoft.entity;
 
+import hm.edu.swe2.flysoft.interfaces.IFlight;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -30,7 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Flight.findByCancelled", query = "SELECT f FROM Flight f WHERE f.cancelled = :cancelled"),
     @NamedQuery(name = "Flight.findByFlightendpointId", query = "SELECT f FROM Flight f WHERE f.flightendpointId = :flightendpointId"),
     @NamedQuery(name = "Flight.findByAirlineId", query = "SELECT f FROM Flight f WHERE f.airlineId = :airlineId")})
-public class Flight implements Serializable {
+public class Flight implements Serializable, IFlight {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -58,18 +59,22 @@ public class Flight implements Serializable {
         this.cancelled = cancelled;
     }
 
+    @Override
     public Integer getFlightId() {
         return flightId;
     }
 
+    @Override
     public void setFlightId(Integer flightId) {
         this.flightId = flightId;
     }
 
+    @Override
     public boolean getCancelled() {
         return cancelled;
     }
 
+    @Override
     public void setCancelled(boolean cancelled) {
         this.cancelled = cancelled;
     }
@@ -82,10 +87,12 @@ public class Flight implements Serializable {
         this.flightendpointId = flightendpointId;
     }
 
+    @Override
     public Integer getAirlineId() {
         return airlineId;
     }
 
+    @Override
     public void setAirlineId(Integer airlineId) {
         this.airlineId = airlineId;
     }

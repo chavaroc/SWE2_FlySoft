@@ -12,8 +12,6 @@ import java.util.Map;
  */
 public abstract class AbstractMapTable implements ICsvFieldMapping {
     
-    protected static AbstractMapTable singletonMapTable;
-    
     protected Map<String,MethodDescriptor> mapping;
     
     protected AbstractMapTable(){

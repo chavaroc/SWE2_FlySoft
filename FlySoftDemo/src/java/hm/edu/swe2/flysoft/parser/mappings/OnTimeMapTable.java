@@ -10,6 +10,8 @@ import java.util.HashMap;
  */
 public final class OnTimeMapTable extends AbstractMapTable {
     
+    private static AbstractMapTable singletonMapTable;
+    
     private OnTimeMapTable(){
         super();
     }
@@ -37,8 +39,8 @@ public final class OnTimeMapTable extends AbstractMapTable {
         mapping.put("ORIGIN", new MethodDescriptor("setOriginAirportShortName", String.class));
         mapping.put("ORIGIN_CITY_MARKET_ID", new MethodDescriptor("setOriginCityId", int.class));
         mapping.put("ORIGIN_CITY_NAME", new MethodDescriptor("setOriginCityName", String.class));
-        mapping.put("ORIGIN_STATE_NM", new MethodDescriptor("setOriginStateName", String.class));
-        mapping.put("ORIGIN_STATE_ABR", new MethodDescriptor("setOriginStateShortName", String.class));
+        //mapping.put("ORIGIN_STATE_NM", new MethodDescriptor("setOriginStateName", String.class));
+        //mapping.put("ORIGIN_STATE_ABR", new MethodDescriptor("setOriginStateShortName", String.class));
         mapping.put("DEP_TIME", new MethodDescriptor("setDepartureTime", int.class));
         mapping.put("DEP_DELAY_NEW", new MethodDescriptor("setDepartureDelay", double.class));
         
@@ -46,8 +48,8 @@ public final class OnTimeMapTable extends AbstractMapTable {
         mapping.put("DEST", new MethodDescriptor("setDestAirportShortName", String.class));
         mapping.put("DEST_CITY_MARKET_ID", new MethodDescriptor("setDestCityId", int.class));
         mapping.put("DEST_CITY_NAME", new MethodDescriptor("setDestCityName", String.class));
-        mapping.put("DEST_STATE_NM", new MethodDescriptor("setDestStateName", String.class));
-        mapping.put("DEST_STATE_ABR", new MethodDescriptor("setDestStateShortName", String.class));
+        //mapping.put("DEST_STATE_NM", new MethodDescriptor("setDestStateName", String.class));
+        //mapping.put("DEST_STATE_ABR", new MethodDescriptor("setDestStateShortName", String.class));
         mapping.put("ARR_TIME", new MethodDescriptor("setArrivalTime", int.class));
         mapping.put("ARR_DELAY_NEW", new MethodDescriptor("setArrivalDelay", double.class));
         

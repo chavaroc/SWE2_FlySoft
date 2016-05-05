@@ -3,7 +3,8 @@ package hm.edu.swe2.flysoft.parser;
 import hm.edu.swe2.flysoft.entity.Airline;
 import hm.edu.swe2.flysoft.parser.mappings.AbstractMapTable;
 import hm.edu.swe2.flysoft.parser.mappings.AirlineLookUpMapTable;
-import hm.edu.swe2.flysoft.parser.model.Flight;
+import hm.edu.swe2.flysoft.parser.model.ParsedFlight;
+import hm.edu.swe2.flysoft.util.GlobalSettings;
 import java.io.File;
 import java.util.Calendar;
 import java.util.Date;
@@ -23,11 +24,22 @@ public class FlightPreparator {
     private static List<Airline> lookupAirlines;
     
     /**
+     * Performs the preparation for the all given flights.
+     * @param flights A list of flights
+     * @return  A list of preparated flights.
+     */
+    public List<ParsedFlight> prepareAll(List<ParsedFlight> flights){
+        flights.stream()
+            .forEach(flight -> prepare(flight));
+        return flights;
+    }
+    
+    /**
      * Performs a preparation for the given flight.
      * @param flight
      * @return 
      */
-    public Flight prepare(Flight flight){
+    public ParsedFlight prepare(ParsedFlight flight){
         flight = solveArrivalDepature(flight);
         flight.setAirlineName(solveAirlineName(flight));
         return flight;
@@ -38,12 +50,12 @@ public class FlightPreparator {
      * @param flight The given flight.
      * @return The name of the airline of the flight.
      */
-    private String solveAirlineName(final Flight flight){
+    private String solveAirlineName(final ParsedFlight flight){
         String airlineName ="";
         // check if the lookup table is loaded
         if(lookupAirlines == null){
             // Load loopup table
-            File testFile = new File("resource/L_AIRLINE_ID.csv");
+            File testFile = new File(GlobalSettings.AIRLINE_FILE_NAME);
             AbstractMapTable config = AirlineLookUpMapTable.getInstance();
             CsvParser<Airline> parser = new CsvParser<>(testFile.getAbsolutePath(), config,
                 ',', Airline.class);
@@ -73,7 +85,7 @@ public class FlightPreparator {
      * @param flight The flight that dates should be converted.
      * @return The flight with combined dates.
      */
-    private Flight solveArrivalDepature(final Flight flight){
+    private ParsedFlight solveArrivalDepature(final ParsedFlight flight){
         flight.setDepartureDateTime(combineDateTime(flight.getFlightDate(), flight.getDepartureTime()));
         flight.setArrivalDateTime(combineDateTime(flight.getFlightDate(), flight.getArrivalTime()));
         
