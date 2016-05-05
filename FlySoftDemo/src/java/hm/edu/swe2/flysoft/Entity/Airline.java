@@ -5,6 +5,7 @@
  */
 package hm.edu.swe2.flysoft.entity;
 
+import hm.edu.swe2.flysoft.interfaces.IAirline;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -29,7 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Airline.findByAirlineId", query = "SELECT a FROM Airline a WHERE a.airlineId = :airlineId"),
     @NamedQuery(name = "Airline.findByName", query = "SELECT a FROM Airline a WHERE a.name = :name"),
     @NamedQuery(name = "Airline.findByShortname", query = "SELECT a FROM Airline a WHERE a.shortname = :shortname")})
-public class Airline implements Serializable {
+public class Airline implements Serializable, IAirline {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -57,26 +58,32 @@ public class Airline implements Serializable {
         this.shortname = shortname;
     }
 
+    @Override
     public Integer getAirlineId() {
         return airlineId;
     }
 
+    @Override
     public void setAirlineId(Integer airlineId) {
         this.airlineId = airlineId;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public void setName(String name) {
         this.name = name;
     }
 
+    @Override
     public String getShortname() {
         return shortname;
     }
 
+    @Override
     public void setShortname(String shortname) {
         this.shortname = shortname;
     }

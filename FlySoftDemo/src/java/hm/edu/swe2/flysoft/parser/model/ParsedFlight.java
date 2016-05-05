@@ -5,6 +5,7 @@ import hm.edu.swe2.flysoft.entity.Airport;
 import hm.edu.swe2.flysoft.entity.City;
 import hm.edu.swe2.flysoft.entity.Flight;
 import hm.edu.swe2.flysoft.entity.Flightendpoint;
+import hm.edu.swe2.flysoft.interfaces.IAirline;
 import hm.edu.swe2.flysoft.interfaces.IAirport;
 import hm.edu.swe2.flysoft.interfaces.ICity;
 import hm.edu.swe2.flysoft.interfaces.IFlight;
@@ -19,7 +20,7 @@ import java.util.Date;
 public class ParsedFlight {
     
     private IFlight flight;
-    private Airline airline;  
+    private IAirline airline;  
     private IFlightEndPoints endpoints;
     private IAirport originAirport;
     private IAirport destAirport;
@@ -237,6 +238,34 @@ public class ParsedFlight {
     public void setArrivalDateTime(Date arrivalDateTime) {
         endpoints.setArrivalTime(arrivalDateTime);
     }
+
+    public IFlight getFlight() {
+        return flight;
+    }
+
+    public IAirline getAirline() {
+        return airline;
+    }
+
+    public IFlightEndPoints getEndpoints() {
+        return endpoints;
+    }
+
+    public IAirport getOriginAirport() {
+        return originAirport;
+    }
+
+    public IAirport getDestAirport() {
+        return destAirport;
+    }
+
+    public ICity getOriginCity() {
+        return originCity;
+    }
+
+    public ICity getDestCity() {
+        return destCity;
+    }    
     
     @Override
     public String toString() {
