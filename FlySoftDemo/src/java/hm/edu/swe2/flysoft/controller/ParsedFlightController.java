@@ -27,7 +27,7 @@ public class ParsedFlightController extends AbstractEntityController{
        airlineController.createIfNotExist(flight.getAirline());
        airportController.createIfNotExist(flight.getOriginAirport());
        airportController.createIfNotExist(flight.getDestAirport());
-       flightController.createIfNotExist(flight.getFlight());
+       //flightController.createIfNotExist(flight.getFlight());
     }
 
 }

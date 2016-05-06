@@ -44,7 +44,7 @@ public class ParsedFlight {
     }
 
     public int getFlightNumber() {
-        return flight.getFlightId();
+        return flight.getFlightId(); // Flight number is not unique, use auto increment in db.
     }
 
     public void setFlightNumber(int flightNumber) {
