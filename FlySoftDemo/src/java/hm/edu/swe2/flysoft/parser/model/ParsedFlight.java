@@ -107,6 +107,7 @@ public class ParsedFlight {
     }
 
     public void setOriginCityId(int originCityId) {
+        originAirport.setCityId(originCityId);
         originCity.setCityId(originCityId);
     }
 
@@ -164,6 +165,7 @@ public class ParsedFlight {
     }
 
     public void setDestCityId(int destCityId) {
+        destAirport.setCityId(destCityId);
         destCity.setCityId(destCityId);
     }
 

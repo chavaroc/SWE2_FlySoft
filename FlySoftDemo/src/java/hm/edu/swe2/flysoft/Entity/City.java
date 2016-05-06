@@ -34,7 +34,6 @@ public class City implements Serializable, ICity {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "city_id")
     private Integer cityId;

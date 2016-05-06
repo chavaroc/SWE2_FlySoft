@@ -5,6 +5,7 @@ import hm.edu.swe2.flysoft.controller.exceptions.NonexistentEntityException;
 import hm.edu.swe2.flysoft.entity.Airline;
 import hm.edu.swe2.flysoft.interfaces.IAirline;
 import java.util.List;
+import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -20,13 +21,25 @@ public class AirlineEntityController extends AbstractEntityController {
     public AirlineEntityController() {
         super();
     }
+    
+    public void createIfNotExist(Airline newAirline){
+        Optional<Airline> optExistingAirline = findAirline(newAirline.getAirlineId());
+        if(!optExistingAirline.isPresent()){
+            // The airline does not exist
+            create(newAirline);
+        }
+        else{
+            // airline already exist.
+        }
+    }
 
-    public void create(IAirline airline) {
+    public void create(Airline airline) {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
             em.persist(airline);
             em.getTransaction().commit();
+            System.out.println(airline.toString() + " created.");
         } finally {
             if (em != null && em.isOpen()) {
                 em.close();
@@ -76,12 +89,12 @@ public class AirlineEntityController extends AbstractEntityController {
         }
     }
 
-    public List<City> findCityEntities() {
-        return findAirlineEntities(true, -1, -1);
+    public List<City> findAirlineEntities() {
+        return AirlineEntityController.this.findAirlineEntities(true, -1, -1);
     }
 
-    public List<City> findCityEntities(int maxResults, int firstResult) {
-        return findAirlineEntities(false, maxResults, firstResult);
+    public List<City> findAirlineEntities(int maxResults, int firstResult) {
+        return AirlineEntityController.this.findAirlineEntities(false, maxResults, firstResult);
     }
 
     private List<City> findAirlineEntities(boolean all, int maxResults, int firstResult) {
@@ -100,13 +113,15 @@ public class AirlineEntityController extends AbstractEntityController {
         }
     }
 
-    public Airline findAirline(Integer id) {
+    public Optional<Airline> findAirline(Integer id) {
         EntityManager em = getEntityManager();
+        Airline searchedAirline;
         try {
-            return em.find(Airline.class, id);
+            searchedAirline = em.find(Airline.class, id);
         } finally {
             em.close();
         }
+        return Optional.ofNullable(searchedAirline);
     }
 
     public int getAirlineCount() {

@@ -18,6 +18,10 @@ import javax.persistence.criteria.Root;
  */
 public class CityEntityController extends AbstractEntityController {
 
+    public CityEntityController() {
+        super();
+    }
+
     public void create(City city) {
         EntityManager em = getEntityManager();
         try {

@@ -19,6 +19,6 @@ public abstract class AbstractEntityController implements Serializable {
     private EntityManager emIni = emf.createEntityManager();
     
     public EntityManager getEntityManager() {
-        return emIni;
+        return emf.createEntityManager();
     }
 }

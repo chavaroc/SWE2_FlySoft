@@ -34,7 +34,6 @@ public class Airline implements Serializable, IAirline {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "airline_id")
     private Integer airlineId;
