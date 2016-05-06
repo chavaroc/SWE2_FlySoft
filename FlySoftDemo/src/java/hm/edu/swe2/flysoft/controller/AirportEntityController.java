@@ -7,7 +7,9 @@ package hm.edu.swe2.flysoft.controller;
 
 import hm.edu.swe2.flysoft.controller.exceptions.NonexistentEntityException;
 import hm.edu.swe2.flysoft.entity.Airport;
+import hm.edu.swe2.flysoft.interfaces.IAirport;
 import java.util.List;
+import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.Query;
@@ -22,12 +24,21 @@ public class AirportEntityController extends AbstractEntityController{
         super();
     }
     
-    public void create(final Airport airport){
+    public void createIfNotExist(final IAirport airport){
+        Optional<IAirport> optExistingAirline = findAirport(airport.getShortName());
+        if(!optExistingAirline.isPresent()){
+            // The airline does not exist
+            create(airport);
+        }
+    }
+    
+    public void create(final IAirport airport){
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
             em.persist(airport);
             em.getTransaction().commit();
+            System.out.println(airport.toString() + " created.");
         } finally {
             if (em != null && em.isOpen()) {
                 em.close();
@@ -35,7 +46,7 @@ public class AirportEntityController extends AbstractEntityController{
         }
     }
     
-    public void edit(Airport airport) throws NonexistentEntityException, Exception {
+    public void edit(IAirport airport) throws NonexistentEntityException, Exception {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
@@ -62,7 +73,7 @@ public class AirportEntityController extends AbstractEntityController{
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
-            Airport airport;
+            IAirport airport;
             try {
                 airport = em.getReference(Airport.class, shortname);
                 airport.getShortName();
@@ -78,24 +89,26 @@ public class AirportEntityController extends AbstractEntityController{
         }
     }
     
-    public Airport findAirport(final String shortname){
-                EntityManager em = getEntityManager();
+    public Optional<IAirport> findAirport(final String shortname){
+        EntityManager em = getEntityManager();
+        IAirport searchedAirport;
         try {
-            return em.find(Airport.class, shortname);
+            searchedAirport = em.find(Airport.class, shortname);
         } finally {
             em.close();
         }
+        return Optional.ofNullable(searchedAirport);
     } 
     
-    public List<Airport> findAirlineEntities() {
+    public List<IAirport> findAirlineEntities() {
         return findAirportEntities(true, -1, -1);
     }
 
-    public List<Airport> findAirlineEntities(int maxResults, int firstResult) {
+    public List<IAirport> findAirlineEntities(int maxResults, int firstResult) {
         return findAirportEntities(false, maxResults, firstResult);
     }
 
-    private List<Airport> findAirportEntities(boolean all, int maxResults, int firstResult) {
+    private List<IAirport> findAirportEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();

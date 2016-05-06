@@ -6,6 +6,7 @@ import hm.edu.swe2.flysoft.entity.Flight;
 import hm.edu.swe2.flysoft.interfaces.IFlight;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
@@ -20,6 +21,15 @@ import javax.persistence.criteria.Root;
  */
 public class FlightEntityController extends AbstractEntityController {
 
+    
+    public void createIfNotExist(IFlight newFlight){
+        Optional<IFlight> optExistingAirline = findFlight(newFlight.getFlightId());
+        if(!optExistingAirline.isPresent()){
+            // The airline does not exist
+            create(newFlight);
+        }
+    }
+    
     public void create(IFlight flight) {
         EntityManager em = getEntityManager();
         try {
@@ -42,13 +52,15 @@ public class FlightEntityController extends AbstractEntityController {
     }
 
 
-    public IFlight findFlight(Integer id) {
+    public Optional<IFlight> findFlight(Integer id) {
         EntityManager em = getEntityManager();
+        IFlight flight;
         try {
-            return em.find(Flight.class, id);
+            flight = em.find(Flight.class, id);
         } finally {
             em.close();
         }
+        return Optional.ofNullable(flight);
     }
 
     public int getFlightCount() {
