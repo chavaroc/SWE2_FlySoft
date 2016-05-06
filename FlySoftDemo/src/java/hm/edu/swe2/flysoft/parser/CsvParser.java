@@ -152,6 +152,9 @@ public class CsvParser<T> {
                 double tempDblValue = Double.parseDouble(arg);
                 parsedValue = (int)tempDblValue;
             }
+            else if("".equals(arg)){
+                parsedValue = 0;
+            }
             else{
                 parsedValue = Integer.parseInt(arg);
             }
