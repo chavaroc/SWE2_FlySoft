@@ -22,9 +22,12 @@ public class ParsedFlightController extends AbstractEntityController{
     
     public void create(ParsedFlight flight) {
        FlightEntityController flightController = new FlightEntityController();
+       CityEntityController cityController = new CityEntityController();
        AirlineEntityController airlineController = new AirlineEntityController();
        AirportEntityController airportController = new AirportEntityController();
        airlineController.createIfNotExist(flight.getAirline());
+       cityController.createIfNotExist(flight.getOriginCity());
+       cityController.createIfNotExist(flight.getDestCity());
        airportController.createIfNotExist(flight.getOriginAirport());
        airportController.createIfNotExist(flight.getDestAirport());
        //flightController.createIfNotExist(flight.getFlight());

@@ -38,6 +38,7 @@ public class CityEntityController extends AbstractEntityController {
             em.getTransaction().begin();
             em.persist(city);
             em.getTransaction().commit();
+            System.out.println(city.toString() + " created.");
         } finally {
             if (em != null && em.isOpen()) {
                 em.close();
