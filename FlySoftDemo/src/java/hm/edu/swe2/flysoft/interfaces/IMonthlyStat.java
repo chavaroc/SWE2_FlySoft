@@ -17,6 +17,8 @@ public interface IMonthlyStat {
 
     int getPassengerCount();
     
+    int getMonthlyStatId();
+    
     /**
      * Get the time aligment of the monthly stat.
      * The day is always set to the 1st of the month.
@@ -31,5 +33,7 @@ public interface IMonthlyStat {
     void setOriginAirportShortName(String origin);
 
     void setPassengerCount(int passengerCount);
+    
+    
     
 }
