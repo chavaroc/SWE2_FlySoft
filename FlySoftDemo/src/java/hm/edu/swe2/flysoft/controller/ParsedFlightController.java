@@ -1,6 +1,5 @@
 package hm.edu.swe2.flysoft.controller;
 
-import hm.edu.swe2.flysoft.entity.Airline;
 import hm.edu.swe2.flysoft.parser.model.ParsedFlight;
 import java.util.List;
 

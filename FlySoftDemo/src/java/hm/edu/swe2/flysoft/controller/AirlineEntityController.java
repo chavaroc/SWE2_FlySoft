@@ -2,6 +2,7 @@ package hm.edu.swe2.flysoft.controller;
 
 import hm.edu.swe2.flysoft.controller.exceptions.NonexistentEntityException;
 import hm.edu.swe2.flysoft.entity.Airline;
+import hm.edu.swe2.flysoft.interfaces.IAirline;
 import java.util.List;
 import java.util.Optional;
 import javax.persistence.EntityManager;

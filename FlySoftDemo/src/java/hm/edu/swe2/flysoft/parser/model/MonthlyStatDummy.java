@@ -89,6 +89,11 @@ public class MonthlyStatDummy implements IMonthlyStat {
         }
         return yearMonthdate;
     }
+
+    @Override
+    public int getMonthlyStatId() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     
 }
