@@ -40,6 +40,8 @@ public class TestMonthlystat {
         search = controller.findMonthlystat(0);
         assertTrue(search == null);
         assertTrue(2 == controller.findMmonthlystatEntities().size());
+        controller.destroy(1);
+        controller.destroy(2);
     }
     
 }
