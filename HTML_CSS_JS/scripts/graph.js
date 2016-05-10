@@ -5,6 +5,7 @@ $(function () {
 				var graph_type = "spline";
 				var x_axis_name = "Time";
 				var y_axis_name = "Frequencies";
+				var selected_x_val;
 				
 				$.redraw = function(){
 					$('#container').highcharts({
@@ -86,13 +87,40 @@ $(function () {
 			$.redraw(); //always at the beginning with default values	
 			
 			$("#x_qualifier").change(function() {
-				x_axis_name = $( "#x_qualifier option:selected" ).text();;
+				$('#3d_qualifier option').filter(function(i, e) { return $(e).text() == x_axis_name}).removeAttr("disabled");
+				x_axis_name = $( "#x_qualifier option:selected" ).text();
+				selected_x_val = $( "#x_qualifier option:selected" ).val();
 				$.redraw();
+				$('#3d_qualifier option').filter(function(i, e) { return $(e).text() == x_axis_name}).attr("disabled", "");
+				
 			});
 			
 			$("#y_qualifier").change(function() {
 				y_axis_name = $( "#y_qualifier option:selected" ).text();;
 				$.redraw();
+			});
+			
+			var options = [];
+
+			$( '.dropdown-menu a' ).on( 'click', function( event ) {
+
+			   var $target = $( event.currentTarget ),
+				   val = $target.attr( 'data-value' ),
+				   $inp = $target.find( 'input' ),
+				   idx;
+
+			   if ( ( idx = options.indexOf( val ) ) > -1 ) {
+				  options.splice( idx, 1 );
+				  setTimeout( function() { $inp.prop( 'checked', false ) }, 0);
+			   } else {
+				  options.push( val );
+				  setTimeout( function() { $inp.prop( 'checked', true ) }, 0);
+			   }
+
+			   $( event.target ).blur();
+				  
+			   console.log( options );
+			   return false;
 			});
 			
 			});
