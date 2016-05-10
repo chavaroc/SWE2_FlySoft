@@ -74,19 +74,10 @@
 						</fieldset>
 					</form> 
 					<br>
-					<form>
-						<fieldset>
-							<legend>Airlines</legend>
-							<input type="checkbox" id="check_all_airlines"> ALL<br> 
-							<input type="checkbox" name="airline" value="American Airlines Inc.: AA" checked> American Airlines Inc.: AA<br>
-							<input type="checkbox" name="airline" value="North Pacific Airlines Inc.: NPA" checked> North Pacific Airlines Inc.: NPA<br>
-							<input type="checkbox" name="airline" value="United Air Lines Inc.: UA" checked>  	United Air Lines Inc.: UA
-						</fieldset>
-					</form> 
+					<br/>
+					
 					<br>
-					<a href="origin-cities.htm" target="popup-beispiel" onClick="javascript:open('', 'popup-beispiel', 'height=400,width=400,resizable=no')">Select Origin(s)</a>
-					<br>
-					<a href="destination-cities.htm" target="popup-beispiel" onClick="javascript:open('', 'popup-beispiel', 'height=400,width=400,resizable=no')">Select Destination(s)</a>
+					<a href="popup-beispiel.html" target="popup-beispiel" onClick="javascript:open('', 'popup-beispiel', 'height=400,width=400,resizable=no')">Select Origin(s)</a>
 				</div>
 			</div>
 		</div>	

@@ -23,19 +23,19 @@ body{
 }
 .left{
 	background-color: white;
-	height: 900px;
+	height: 700px;
 	width: 250px;
 	float: left;
 }
 .right{
 	background-color: white;
-	height: 900px;
+	height: 700px;
 	width: 250px;
 	float:right;
 }
 .center{
 	background-color: brown;
-	height: 900px;
+	height: 700px;
 	width: 650px;
 	margin-left: 250px;
 }
@@ -68,7 +68,7 @@ select{
 }
 #filters{
 	background-color: white;
-	height: 440px;
+	height: 240px;
 	width: 100%;
 	padding-top: 10px;
 }
