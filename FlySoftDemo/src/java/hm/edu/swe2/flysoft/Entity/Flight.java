@@ -79,10 +79,12 @@ public class Flight implements Serializable, IFlight {
         this.cancelled = cancelled;
     }
 
+    @Override
     public Integer getFlightendpointId() {
         return flightendpointId;
     }
 
+    @Override
     public void setFlightendpointId(Integer flightendpointId) {
         this.flightendpointId = flightendpointId;
     }

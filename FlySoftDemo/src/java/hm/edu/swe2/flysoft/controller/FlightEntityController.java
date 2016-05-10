@@ -4,6 +4,7 @@ import hm.edu.swe2.flysoft.entity.City;
 import hm.edu.swe2.flysoft.controller.exceptions.NonexistentEntityException;
 import hm.edu.swe2.flysoft.entity.Flight;
 import hm.edu.swe2.flysoft.interfaces.IFlight;
+import hm.edu.swe2.flysoft.interfaces.IFlightEndPoints;
 import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -15,22 +16,24 @@ import javax.persistence.criteria.Root;
  * @author Philipp Chavaroche
  */
 public class FlightEntityController extends AbstractEntityController {
+    
+    private FlightEndpointEntityController endponitController;
 
+    public FlightEntityController(FlightEndpointEntityController endponitController) {
+        this.endponitController = endponitController;
+    }    
     
-    public void createIfNotExist(IFlight newFlight){
-        Optional<IFlight> optExistingAirline = findFlight(newFlight.getFlightId());
-        if(!optExistingAirline.isPresent()){
-            // The airline does not exist
-            create(newFlight);
-        }
-    }
-    
-    public void create(IFlight flight) {
+    public void create(IFlight flight, IFlightEndPoints endpoints) {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
+            em.persist(endpoints);
+            em.flush();
+            flight.setFlightendpointId(endpoints.getFlightendpointId());
             em.persist(flight);
             em.getTransaction().commit();
+            System.out.println(flight.toString() + " with endpoint "
+                + endpoints.toString() + " created.");
         } finally {
             if (em != null && em.isOpen()) {
                 em.close();
@@ -39,13 +42,12 @@ public class FlightEntityController extends AbstractEntityController {
     }
 
     public void edit(IFlight city) throws NonexistentEntityException, Exception {
-        
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public void destroy(Integer id) throws NonexistentEntityException {
-        
+        throw new UnsupportedOperationException("Not supported yet.");
     }
-
 
     public Optional<IFlight> findFlight(Integer id) {
         EntityManager em = getEntityManager();

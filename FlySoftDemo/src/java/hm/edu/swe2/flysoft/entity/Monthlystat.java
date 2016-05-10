@@ -17,6 +17,8 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -42,6 +44,7 @@ public class Monthlystat implements Serializable, IMonthlyStat {
     private Integer monthlystatId;
     @Basic(optional = false)
     @Column(name = "yearmonth")
+    @Temporal(TemporalType.DATE)
     private Date yearmonth;
     @Basic(optional = false)
     @Column(name = "orginairportsn")
