@@ -23,7 +23,6 @@ public class DummyData {
     public static List<String> getXAxisOptions(){
         if(xAxisOptions.size() <= 0){
             xAxisOptions.add("Time");
-            xAxisOptions.add("Weekday");
             xAxisOptions.add("Origin");
             xAxisOptions.add("Destination");
         }
