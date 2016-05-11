@@ -7,12 +7,9 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <script src='<c:url value="/resources/scripts/jquery-1.12.3.js" />'></script>
-        <title>FlyAmerica | Statistics</title>
-
     </head>
-
     <body>
-        <a href="workarea">Click here</a>
+        <div>Welcome User!</div>
+        <a href="workarea">Workarea</a>
     </body>
 </html>

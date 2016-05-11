@@ -11,5 +11,7 @@ public final class GlobalSettings {
     }
     
     public static String AIRLINE_FILE_NAME = "resource/L_AIRLINE_ID.csv";
+    
+    public static String DB_PROD_FLIGHT_COUNT_WEEK = "fly_analytics.FlightCountPerWeek";
 
 }
