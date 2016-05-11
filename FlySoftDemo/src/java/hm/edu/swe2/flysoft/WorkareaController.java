@@ -1,6 +1,14 @@
 package hm.edu.swe2.flysoft;
 
+import hm.edu.swe2.flysoft.controller.AirlineEntityController;
 import hm.edu.swe2.flysoft.ui.FilterSetting;
+import hm.edu.swe2.flysoft.controller.CityEntityController;
+import hm.edu.swe2.flysoft.entity.Airline;
+import hm.edu.swe2.flysoft.entity.City;
+import hm.edu.swe2.flysoft.interfaces.IAirline;
+import hm.edu.swe2.flysoft.ui.CityFilter;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -15,9 +23,9 @@ import org.springframework.web.portlet.ModelAndView;
  * @version 
  */
 @Controller
-public class SettingController {
+public class WorkareaController {
     
-   @RequestMapping(value = "/setting", method = RequestMethod.GET)
+   @RequestMapping(value = "/workarea", method = RequestMethod.GET)
    public String student(Model model) {
        
        // Link object to form
@@ -28,10 +36,24 @@ public class SettingController {
        model.addAttribute("airlineList", DummyData.getAirlines());
        model.addAttribute("xaxisList", DummyData.getXAxisOptions());
        model.addAttribute("yaxisList", DummyData.getYAxisOptions());
-       return "setting"; // we load the wep page "setting.jsp"
+       model.addAttribute("thirdDimensionList", DummyData.getThirdDimensionOptions());
+       model.addAttribute("timeDimensionList", DummyData.getTimeDimensionOptions());
+       
+       
+       model.addAttribute("airlineForm", setting);
+       List<String> airlineNames = new ArrayList<>();
+       AirlineEntityController airlineEntityController = new AirlineEntityController();
+       List<IAirline> airlines = airlineEntityController.findAirlineEntities();
+       for(IAirline airline : airlines){
+           airlineNames.add(airline.getName());
+       }
+       model.addAttribute("airlinenewNameList", airlineNames);
+       return "workarea"; // we load the wep page "setting.jsp"
    }
    
-   @RequestMapping(value = "/setting", method = RequestMethod.POST)
+   
+   
+   @RequestMapping(value = "/workarea", method = RequestMethod.POST)
    public String addStudent(@ModelAttribute("settingForm") FilterSetting setting, 
    ModelMap model) {
       model.addAttribute("xaxis", setting.getXaxis());
