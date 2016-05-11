@@ -19,8 +19,6 @@ public class DummyData {
     private static List<String> yAxisOptions = new ArrayList<String>();
     private static List<String> thirdDimensionOptions = new ArrayList<String>();
     private static List<String> timeDimensionOptions = new ArrayList<>();
-    //TimeRange muss auch noch einstellbar sein --> braucht man hier was?
-    private static List<String> destinationOptions = new ArrayList<>();
     private static List<String> airlines = new ArrayList<String>();
 
     public static List<String> getXAxisOptions() {

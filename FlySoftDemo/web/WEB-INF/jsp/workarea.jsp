@@ -9,13 +9,9 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <script src="http://code.jquery.com/jquery-latest.js"></script>
         <title>FlyAmerica | Statistics</title>
-        <!-- <spring:url value="/resources/theme1/styles/flyAmerica.css" var="flyAmericaCss"/> 
-         <link href="${flyAmericaCss}" rel="stylesheet"/>
-        
-        <link href="${pageContext.request.contextPath}/resources/theme1/styles/flyAmerica.css" rel="stylesheet" >
-        -->
 
-        <link href="<c:url value='/resources/theme1/styles/flyAmerica.css' />" rel="stylesheet">
+        <spring:url value="/resources/theme1/styles/flyAmerica.css" var="flyAmericaCss"/> 
+        <link href="${flyAmericaCss}" rel="stylesheet"/>
 
         <script type="text/javascript" src="scripts/graph.js"></script>
         <script src="https://code.highcharts.com/highcharts.js"></script>
@@ -51,7 +47,7 @@
                     <br><br>
                     <br> Set Time dimension<br>
                     <form:radiobuttons path="timeDimension" items="${timeDimensionList}" />
-                    </div>
+                </div>
             </form:form>
 
         </div>
@@ -67,20 +63,18 @@
             </div>
             <div id="filters">
                 <br>
-                <form>
-                    <fieldset>
-                        <legend>Airlines</legend>
-                        <input type="checkbox" name="airlines" value="all" checked> ALL<br>
-                        <input type="checkbox" name="airlines" value="month" checked> Month<br>
-                        <input type="checkbox" name="airlines" value="week" checked> Week<br>
-                        <input type="checkbox" name="airlines" value="day" checked> Day
-                    </fieldset>
-                </form>
+
+                <form:form method="POST" action="/FlySoftDemo/workarea" commandName="airlineForm">
+                    <form:checkboxes path="airlinesnew" items="${airlinenewNameList}" /> 
+                </form:form>
+
+
+
                 <br/>
 
                 <br>
+                <a href="selectdestinations/cities" target="select-destinations" onClick="javascript:open('', 'select-destinations', 'height=400,width=400,resizable=no')">Select Destination(s)</a>
                 <a href="selectorigins" target="selectorigins" onClick="javascript:open('', 'selectorigins', 'height=400,width=400,resizable=no')">Select Origin(s)</a>
-                <a href="selectdestinations" target="select-destinations" onClick="javascript:open('', 'select-destinations', 'height=400,width=400,resizable=no')">Select Destination(s)</a>
             </div>
         </div>
     </div>	

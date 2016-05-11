@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package hm.edu.swe2.flysoft;
+package hm.edu.swe2.flysoft.ui;
 
 import java.util.Date;
 
@@ -18,6 +18,7 @@ public class FilterSetting {
     private String yaxis;
     private String thirdDimension;
     private String[] airlines;
+    private String[] airlinesnew;
     //private String[] origins;
     private String[] destinations;
     private String timeDimension; //day, week or year
@@ -78,4 +79,14 @@ public class FilterSetting {
     public void setThirdDimension(String thirdDimension) {
         this.thirdDimension = thirdDimension;
     }
+
+    public String[] getAirlinesnew() {
+        return airlinesnew;
+    }
+
+    public void setAirlinesnew(String[] airlinesnew) {
+        this.airlinesnew = airlinesnew;
+    }
+    
+    
 }

@@ -1,5 +1,14 @@
 package hm.edu.swe2.flysoft;
 
+import hm.edu.swe2.flysoft.controller.AirlineEntityController;
+import hm.edu.swe2.flysoft.ui.FilterSetting;
+import hm.edu.swe2.flysoft.controller.CityEntityController;
+import hm.edu.swe2.flysoft.entity.Airline;
+import hm.edu.swe2.flysoft.entity.City;
+import hm.edu.swe2.flysoft.interfaces.IAirline;
+import hm.edu.swe2.flysoft.ui.CityFilter;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -29,20 +38,20 @@ public class WorkareaController {
        model.addAttribute("yaxisList", DummyData.getYAxisOptions());
        model.addAttribute("thirdDimensionList", DummyData.getThirdDimensionOptions());
        model.addAttribute("timeDimensionList", DummyData.getTimeDimensionOptions());
+       
+       
+       model.addAttribute("airlineForm", setting);
+       List<String> airlineNames = new ArrayList<>();
+       AirlineEntityController airlineEntityController = new AirlineEntityController();
+       List<IAirline> airlines = airlineEntityController.findAirlineEntities();
+       for(IAirline airline : airlines){
+           airlineNames.add(airline.getName());
+       }
+       model.addAttribute("airlinenewNameList", airlineNames);
        return "workarea"; // we load the wep page "setting.jsp"
    }
    
-   @RequestMapping(value = "/workarea/cities", method = RequestMethod.GET)
-   public String getCities(Model model) {
-       
-       // Link object to form
-       FilterSetting setting = new FilterSetting();  
-       model.addAttribute("cityForm", setting);
-       
-       // Fill lists
-       String[] cities;
-       return "workarea"; // we load the wep page "setting.jsp"
-   }
+   
    
    @RequestMapping(value = "/workarea", method = RequestMethod.POST)
    public String addStudent(@ModelAttribute("settingForm") FilterSetting setting, 

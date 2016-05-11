@@ -1,5 +1,6 @@
 package hm.edu.swe2.flysoft;
 
+import hm.edu.swe2.flysoft.ui.FilterSetting;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
