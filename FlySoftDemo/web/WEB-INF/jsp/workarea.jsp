@@ -16,6 +16,16 @@
 
         <title>FlyAmerica | Statistics</title>
 
+<!--        <script type="text/javascript">
+            $function(){
+                $("#submit_button").click(function () {
+                    alert("test");
+                    console.log("pressed");
+                });
+            }
+            ;
+        </script>-->
+
     </head>
 
     <div id="content">
@@ -27,7 +37,7 @@
 
         <div class="left">
 
-            <form:form method="GET" action="/FlySoftDemo/workarea" commandName="settingForm">
+            <form:form method="GET" action="/FlySoftDemo/workarea/graphdata" commandName="settingForm">
 
                 <div class="dropdown-area" id="y_area">
                     Set y-axis<br>
@@ -50,10 +60,11 @@
                     <br> Set Time dimension<br>
                     <form:radiobuttons path="timeDimension" items="${timeDimensionList}" />
                     <br><br>
-                    <input type="submit" value="Get Results!"/>
+
+                    <!--                    <input type="submit" value="Get Results!"/>-->
                 </div>
             </form:form>
-
+            <input id="submit_button" type="button" />
         </div>
         <div class="right">
             <button name="save_setting_button" onclick="myFunction()" type="submit" style="margin-top: 145px">Save setting</button>
