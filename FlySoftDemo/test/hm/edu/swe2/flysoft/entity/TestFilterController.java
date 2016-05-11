@@ -1,6 +1,6 @@
 package hm.edu.swe2.flysoft.entity;
 
-import hm.edu.swe2.flysoft.FilterSetting;
+import hm.edu.swe2.flysoft.ui.FilterSetting;
 import hm.edu.swe2.flysoft.controller.FilterController;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -26,8 +26,8 @@ public class TestFilterController {
         FilterSetting settings = new FilterSetting();
         settings.setXaxis("Frequencies");
         settings.setYaxis("Time");
-        settings.setDateFrom(dateFormat.parse("2016-01-01"));
-        settings.setDateTo(dateFormat.parse("2016-12-31"));
+        settings.setTimeFrom(dateFormat.parse("2016-01-01"));
+        settings.setTimeTo(dateFormat.parse("2016-12-31"));
         List<Object[]> result = controller.processDataRequest(settings);
         result.stream()
             .forEach(entry -> 

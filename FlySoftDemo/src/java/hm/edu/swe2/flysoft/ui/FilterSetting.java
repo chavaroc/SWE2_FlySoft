@@ -22,7 +22,8 @@ public class FilterSetting {
     //private String[] origins;
     private String[] destinations;
     private String timeDimension; //day, week or year
-    private Date timeRange;
+    private Date timeFrom;
+    private Date timeTo;
 
     public String getXaxis() {
         return xaxis;
@@ -56,8 +57,8 @@ public class FilterSetting {
         return timeDimension;
     }
 
-    public Date getTimeRange() {
-        return timeRange;
+    public Date getTimeFrom() {
+        return timeFrom;
     }
 
     public void setDestinations(String[] destinations) {
@@ -68,8 +69,8 @@ public class FilterSetting {
         this.timeDimension = timeDimension;
     }
 
-    public void setTimeRange(Date timeRange) {
-        this.timeRange = timeRange;
+    public void setTimeFrom(Date timeFrom) {
+        this.timeFrom = timeFrom;
     }
 
     public String getThirdDimension() {
@@ -87,6 +88,15 @@ public class FilterSetting {
     public void setAirlinesnew(String[] airlinesnew) {
         this.airlinesnew = airlinesnew;
     }
+
+    public Date getTimeTo() {
+        return timeTo;
+    }
+
+    public void setTimeTo(Date timeTo) {
+        this.timeTo = timeTo;
+    }
+    
     
     
 }
