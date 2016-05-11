@@ -10,7 +10,42 @@ $(function () {
     var graph_type = "spline";
     var x_axis_name = "Time";
     var y_axis_name = "Frequencies";
+    var resultFromServer;
     var selected_x_val;
+    var data_serie = [
+        {
+            name: 'Winter 2013-2014',
+            data: [
+                [ 0, 38],
+                [Date.UTC(1970, 10, 9), 0.4],
+                [Date.UTC(1970, 11, 1), 0.25],
+                [Date.UTC(1971, 0, 1), 1.66],
+                [Date.UTC(1971, 0, 10), 1.8],
+                [Date.UTC(1971, 1, 19), 1.76],
+                [Date.UTC(1971, 2, 25), 2.62],
+                [Date.UTC(1971, 3, 19), 2.41],
+                [Date.UTC(1971, 3, 30), 2.05],
+                [Date.UTC(1971, 4, 14), 1.7],
+                [Date.UTC(1971, 4, 24), 1.1],
+                [Date.UTC(1971, 5, 10), 0]
+            ]
+        }, {
+            name: 'Winter 2016-2017',
+            data: [
+                [Date.UTC(1970, 9, 29), 3],
+                [Date.UTC(1970, 10, 9), 0.4],
+                [Date.UTC(1970, 11, 1), 0.25],
+                [Date.UTC(1971, 0, 1), 2.66],
+                [Date.UTC(1971, 0, 10), 1.8],
+                [Date.UTC(1971, 1, 19), 0.76],
+                [Date.UTC(1971, 2, 25), 2.62],
+                [Date.UTC(1971, 3, 19), 2.41],
+                [Date.UTC(1971, 3, 30), 1.05],
+                [Date.UTC(1971, 4, 14), 2.7],
+                [Date.UTC(1971, 4, 24), 1.1],
+                [Date.UTC(1971, 5, 10), 1]
+            ]
+        }]
 
     $.redraw = function () {
         $('#container').highcharts({
@@ -50,54 +85,29 @@ $(function () {
                     }
                 }
             },
-            series: [
-                {
-                    name: 'Winter 2013-2014',
-                    data: [
-                        [Date.UTC(1970, 9, 29), 0],
-                        [Date.UTC(1970, 10, 9), 0.4],
-                        [Date.UTC(1970, 11, 1), 0.25],
-                        [Date.UTC(1971, 0, 1), 1.66],
-                        [Date.UTC(1971, 0, 10), 1.8],
-                        [Date.UTC(1971, 1, 19), 1.76],
-                        [Date.UTC(1971, 2, 25), 2.62],
-                        [Date.UTC(1971, 3, 19), 2.41],
-                        [Date.UTC(1971, 3, 30), 2.05],
-                        [Date.UTC(1971, 4, 14), 1.7],
-                        [Date.UTC(1971, 4, 24), 1.1],
-                        [Date.UTC(1971, 5, 10), 0]
-                    ]
-                }, {
-                    name: 'Winter 2016-2017',
-                    data: [
-                        [Date.UTC(1970, 9, 29), 3],
-                        [Date.UTC(1970, 10, 9), 0.4],
-                        [Date.UTC(1970, 11, 1), 0.25],
-                        [Date.UTC(1971, 0, 1), 2.66],
-                        [Date.UTC(1971, 0, 10), 1.8],
-                        [Date.UTC(1971, 1, 19), 0.76],
-                        [Date.UTC(1971, 2, 25), 2.62],
-                        [Date.UTC(1971, 3, 19), 2.41],
-                        [Date.UTC(1971, 3, 30), 1.05],
-                        [Date.UTC(1971, 4, 14), 2.7],
-                        [Date.UTC(1971, 4, 24), 1.1],
-                        [Date.UTC(1971, 5, 10), 1]
-                    ]
-                }]
+            series: data_serie
         });
-    }
-
+    };
+    
+    $.updateDataToPlot = function () {
+        //TODO Anpassen!
+        data_serie = [{data: resultFromServer}]; //irgendwas in der Art
+        $.redraw(); //always at the beginning with default values
+    };
+    
+    
     $.redraw(); //always at the beginning with default values	
-
+    
+    
     $("#x_qualifier").change(function () {
         $('#3d_qualifier option').filter(function (i, e) {
-            return $(e).text() == x_axis_name
+            return $(e).text() === x_axis_name;
         }).removeAttr("disabled");
         x_axis_name = $("#x_qualifier option:selected").text();
         selected_x_val = $("#x_qualifier option:selected").val();
         $.redraw();
         $('#3d_qualifier option').filter(function (i, e) {
-            return $(e).text() == x_axis_name
+            return $(e).text() === x_axis_name;
         }).attr("disabled", "");
 
     });
@@ -133,6 +143,34 @@ $(function () {
 
         console.log(options);
         return false;
+    });
+
+    $("#submit_button").click(function () {
+        var xaxis = "Time";//$("#xaxis option:selected").text();
+        var yaxis = $("#y_qualifier option:selected").text();
+        var timedim = "Week";
+        var thirddim = $("#thirdDimension option:selected").text();
+        var destinations = "Las Vegas, NV";
+        var timerange = ["01.01.2015", "31.12.2015"];
+        var airlines = ["all"];
+        
+        
+        console.log(destinations);
+         
+
+        var url = "/FlySoftDemo/workarea/graphdata";
+        $.getJSON(url, {xaxis: escape(xaxis), yaxis: yaxis, timedim: timedim, thirddim: thirddim, destinations: destinations, timerange: timerange, airlines: airlines}, function (json) {
+            console.log(json);
+            resultFromServer = json;
+            //update label-names for graph
+            x_axis_name = xaxis;
+            y_axis_name = yaxis;
+            
+            $.updateDataToPlot(); //Zu plottende Daten aktualisieren neu zeichnen lassen
+        });
+        
+        
+
     });
 
 });
