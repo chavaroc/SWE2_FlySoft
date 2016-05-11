@@ -33,7 +33,6 @@ public class WorkareaController {
        model.addAttribute("settingForm", setting);
        
        // Fill lists
-       model.addAttribute("airlineList", DummyData.getAirlines());
        model.addAttribute("xaxisList", DummyData.getXAxisOptions());
        model.addAttribute("yaxisList", DummyData.getYAxisOptions());
        model.addAttribute("thirdDimensionList", DummyData.getThirdDimensionOptions());

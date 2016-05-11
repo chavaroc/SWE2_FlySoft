@@ -6,19 +6,10 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <script src="http://code.jquery.com/jquery-latest.js"></script>
-        <title>FlyAmerica | Statistics</title>
-        <!-- <spring:url value="/resources/theme1/styles/flyAmerica.css" var="flyAmericaCss"/> 
-         <link href="${flyAmericaCss}" rel="stylesheet"/>
-        
-        <link href="${pageContext.request.contextPath}/resources/theme1/styles/flyAmerica.css" rel="stylesheet" >
-        -->
-
-        <link href="<c:url value='/resources/theme1/styles/flyAmerica.css' />" rel="stylesheet">
+        <title>FlyAmerica | Statistics</title>        
     </head>
     <body>
         <div>Welcome User!</div>
     <a href="workarea">Workarea</a>
-   
     </body>
 </html>

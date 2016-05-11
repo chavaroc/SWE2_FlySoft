@@ -42,7 +42,8 @@
         <property name="prefix" value="/WEB-INF/jsp/" />
         <property name="suffix" value=".jsp" />
     </bean>
-   
+    
+ 
     <!--
     The index controller.
     -->
@@ -51,7 +52,9 @@
           p:viewName="index" /> <!--load the index.jsp via index.htm-->
 
 
-    <mvc:resources mapping="/resources/**" location="/resources/theme1/" cache-period="31556926"/>
-    <mvc:annotation-driven/>
+    <mvc:resources mapping="/resources/**" location="/resources/theme1/"  
+                   cache-period="31556926"/>
+
+    <mvc:annotation-driven />
     
 </beans>

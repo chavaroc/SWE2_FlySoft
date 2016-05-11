@@ -24,8 +24,20 @@
         <td>${yaxis}</td>
     </tr>
     <tr>
+        <td>3rd dimension</td>
+        <td>${thirdDimension}</td>
+    </tr>
+    <tr>
         <td>Arilines</td>
-        <td>${arilines}</td>
+        <td>${arilinesnew}</td>
+    </tr>
+    <tr>
+        <td>Destination(s)</td>
+        <td>${destinations}</td>
+    </tr>
+    <tr>
+        <td>TimeDimension</td>
+        <td>${timeDimension}</td>
     </tr>
 </table>  
 </body>
