@@ -16,7 +16,7 @@ $(function () {
         {
             name: 'Winter 2013-2014',
             data: [
-                [Date.UTC(1970, 9, 29), 0],
+                [ 0, 38],
                 [Date.UTC(1970, 10, 9), 0.4],
                 [Date.UTC(1970, 11, 1), 0.25],
                 [Date.UTC(1971, 0, 1), 1.66],
@@ -91,7 +91,7 @@ $(function () {
     
     $.updateDataToPlot = function () {
         //TODO Anpassen!
-        //data_serie = resultFromServer; //irgendwas in der Art
+        data_serie = [{data: resultFromServer}]; //irgendwas in der Art
         $.redraw(); //always at the beginning with default values
     };
     
