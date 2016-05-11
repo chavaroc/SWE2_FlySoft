@@ -8,11 +8,14 @@ import hm.edu.swe2.flysoft.entity.Airline;
 import hm.edu.swe2.flysoft.entity.City;
 import hm.edu.swe2.flysoft.interfaces.IAirline;
 import hm.edu.swe2.flysoft.ui.CityFilter;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.ObjectWriter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -57,13 +60,13 @@ public class WorkareaController {
    }
    
    @RequestMapping(value = "/workarea/graphdata", method = RequestMethod.GET)
-   public @ResponseBody List<Object[]> getGraphData(
+   public @ResponseBody String getGraphData(
         @RequestParam("xaxis") String xaxis
        ,@RequestParam("yaxis") String yaxis
        ,@RequestParam("timedim") String timedim
        ,@RequestParam("thirddim") String thirddim
-       ,@RequestParam("destinations") String[] dest
-        ) {
+       ,@RequestParam("destinations") String dest
+        ) throws IOException {
        FilterController controller = new FilterController();
        FilterSetting setting = new FilterSetting();  
        // Hardcoded Workarround -> todo: Add Time range fields in gui 
@@ -72,7 +75,7 @@ public class WorkareaController {
            setting.setYaxis(yaxis);
            setting.setTimeDimension(timedim);
            setting.setThirdDimension(thirddim);
-           setting.setDestinations(dest);
+           //setting.setDestinations(dest);
            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
            setting.setTimeFrom(dateFormat.parse("2015-01-01"));
            setting.setTimeTo(dateFormat.parse("2015-12-31"));
@@ -80,7 +83,9 @@ public class WorkareaController {
        catch(Exception ex){
            System.out.println(ex);
        }
-       return controller.processDataRequest(setting);
+       ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+       List<Object[]> result = controller.processDataRequest(setting);
+       return ow.writeValueAsString(result);       
    }
       
    
