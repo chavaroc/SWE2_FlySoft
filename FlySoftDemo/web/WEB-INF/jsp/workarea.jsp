@@ -7,74 +7,78 @@
 
 <html>
     <head>
-        
-    <link href='<c:url value="/resources/styles/flyAmerica.css" />' rel="stylesheet">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <script src='<c:url value="/resources/scripts/jquery-1.12.3.js" />'></script>
-    <script src='<c:url value="/resources/scripts/highcharts.js" />'></script>
-    <script src='<c:url value="/resources/scripts/graph.js" />'></script>
-    
-    <title>FlyAmerica | Statistics</title>
-    
-</head>
 
-<div id="content">
-    <div id="header">
-        <img src='<c:url value="/resources/imgs/flyAmerica_logo.PNG" />' alt="FlyAmerica-Logo" id="logo">
-        <div id="username">Max Mustermann</div>
-    </div>
+        <link href='<c:url value="/resources/styles/flyAmerica.css" />' rel="stylesheet">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script src='<c:url value="/resources/scripts/jquery-1.12.3.js" />'></script>
+        <script src='<c:url value="/resources/scripts/highcharts.js" />'></script>
+        <script src='<c:url value="/resources/scripts/graph.js" />'></script>
 
+        <title>FlyAmerica | Statistics</title>
 
-    <div class="left">
+    </head>
 
-        <form:form method="POST" action="/FlySoftDemo/workarea" commandName="settingForm">
-
-            <div class="dropdown-area" id="y_area">
-                Set y-axis<br>
-                <form:select path="yaxis" id="y_qualifier" style="margin-top: 5px">
-                    <form:options items="${yaxisList}" />
-                </form:select>
-                <br><br>
-                Set x-axis<br>
-                <form:select path="xaxis">
-                    <form:options items="${xaxisList}" />
-                </form:select>
-                <br><br>
-                Set 3rd dimension<br>
-                <form:select path="thirdDimension" id="3d_qualifier">
-                    <form:options items="${thirdDimensionList}" />
-                </form:select>
-                <br><br>
-                <br> Set Time dimension<br>
-                <form:radiobuttons path="timeDimension" items="${timeDimensionList}" />
-            </div>
-        </form:form>
-
-    </div>
-    <div class="right">
-        <button name="save_setting_button" onclick="myFunction()" type="submit" style="margin-top: 145px">Save setting</button>
-        <button name="load_setting_button" type="submit">Load setting</button>
-        <button name="export_button" type="submit">Export to PDF</button>
-    </div>
-    <div class="center">
-        <div id="graph">
-            <br><br>
-            <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+    <div id="content">
+        <div id="header">
+            <img src='<c:url value="/resources/imgs/flyAmerica_logo.PNG" />' alt="FlyAmerica-Logo" id="logo">
+            <div id="username">Max Mustermann</div>
         </div>
-        <div id="filters">
-            <br>
 
-            <form:form method="POST" action="/FlySoftDemo/workarea" commandName="airlineForm">
-                <form:checkboxes path="airlinesnew" items="${airlinenewNameList}" /> 
+
+        <div class="left">
+
+            <form:form method="GET" action="/FlySoftDemo/workarea" commandName="settingForm">
+
+                <div class="dropdown-area" id="y_area">
+                    Set y-axis<br>
+                    <form:select path="yaxis" id="y_qualifier" style="margin-top: 5px">
+                        <form:options items="${yaxisList}" />
+                    </form:select>
+                    <br><br>
+                    Set x-axis<br>
+                    <form:select path="xaxis">
+                        <form:options items="${xaxisList}" />
+                    </form:select>
+                    <br><br>
+                    Set 3rd dimension<br>
+                    <div id="3d_qualifier">
+                        <form:select path="thirdDimension">
+                            <form:options style="background-color:white;" items="${thirdDimensionList}" />
+                        </form:select>
+                    </div>
+                    <br><br>
+                    <br> Set Time dimension<br>
+                    <form:radiobuttons path="timeDimension" items="${timeDimensionList}" />
+                    <br><br>
+                    <input type="submit" value="Get Results!"/>
+                </div>
             </form:form>
 
-            <br/>
-
-            <br>
-            <a href="selectdestinations/cities" target="select-destinations" onClick="javascript:open('', 'select-destinations', 'height=400,width=400,resizable=no')">Select Destination(s)</a>
-            <a href="selectorigins" target="selectorigins" onClick="javascript:open('', 'selectorigins', 'height=400,width=400,resizable=no')">Select Origin(s)</a>
         </div>
-    </div>
-</div>	
+        <div class="right">
+            <button name="save_setting_button" onclick="myFunction()" type="submit" style="margin-top: 145px">Save setting</button>
+            <button name="load_setting_button" type="submit">Load setting</button>
+            <button name="export_button" type="submit">Export to PDF</button>
+        </div>
+        <div class="center">
+            <div id="graph">
+                <br><br>
+                <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+            </div>
+            <div id="filters">
+                <br>
+
+                <form:form method="POST" action="/FlySoftDemo/workarea" commandName="airlineForm">
+                    <form:checkboxes path="airlinesnew" items="${airlinenewNameList}" /> 
+                </form:form>
+
+                <br/>
+
+                <br>
+                <a href="selectdestinations/cities" target="select-destinations" onClick="javascript:open('', 'select-destinations', 'height=400,width=400,resizable=no')">Select Destination(s)</a>
+                <a href="selectorigins" target="selectorigins" onClick="javascript:open('', 'selectorigins', 'height=400,width=400,resizable=no')">Select Origin(s)</a>
+            </div>
+        </div>
+    </div>	
 </body>
 </html>

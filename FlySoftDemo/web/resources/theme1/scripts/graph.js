@@ -85,19 +85,19 @@ $(function () {
                     ]
                 }]
         });
-    }
+    };
 
     $.redraw(); //always at the beginning with default values	
 
     $("#x_qualifier").change(function () {
         $('#3d_qualifier option').filter(function (i, e) {
-            return $(e).text() == x_axis_name
+            return $(e).text() === x_axis_name;
         }).removeAttr("disabled");
         x_axis_name = $("#x_qualifier option:selected").text();
         selected_x_val = $("#x_qualifier option:selected").val();
         $.redraw();
         $('#3d_qualifier option').filter(function (i, e) {
-            return $(e).text() == x_axis_name
+            return $(e).text() === x_axis_name;
         }).attr("disabled", "");
 
     });
