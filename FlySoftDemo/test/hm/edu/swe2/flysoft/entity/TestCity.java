@@ -3,6 +3,7 @@ package hm.edu.swe2.flysoft.entity;
 
 import hm.edu.swe2.flysoft.controller.CityEntityController;
 import hm.edu.swe2.flysoft.controller.exceptions.NonexistentEntityException;
+import java.util.Optional;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -26,8 +27,8 @@ public class TestCity {
         newCity.setShortNameState("bla");
         cityController.create(newCity);
         assertTrue(cityController.getCityCount() == (++currentCityCount));
-        City dbCity = cityController.findCity(cityId);
-        assertEquals("City that should be created and created city are not equal!", newCity, dbCity);
+        Optional<City> dbCity = cityController.findCity(cityId);
+        assertEquals("City that should be created and created city are not equal!", newCity, dbCity.get());
         cityController.destroy(cityId);
         
     }
