@@ -13,6 +13,6 @@
     </head>
 
     <body>
-        <a href="workarea" target="workarea">Click here</a>
+        <a href="workarea">Click here</a>
     </body>
 </html>

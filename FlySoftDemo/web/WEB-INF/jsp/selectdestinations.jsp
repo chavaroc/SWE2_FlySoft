@@ -13,7 +13,10 @@
     <body>
 
         <form:form method="POST" action="/FlySoftDemo/selectdestinations/cities" commandName="cityForm">
-            <form:checkboxes path="cities" items="${cityNameList}" />
+            <fieldset>
+                <legend>Destination Citys</legend>
+                <form:checkboxes delimiter="<br/>" path="cities" items="${cityNameList}" />   
+            </fieldset>
         </form:form>
 
     </body>
