@@ -25,7 +25,6 @@ public class SettingController {
        model.addAttribute("settingForm", setting);
        
        // Fill lists
-       model.addAttribute("airlineList", DummyData.getAirlines());
        model.addAttribute("xaxisList", DummyData.getXAxisOptions());
        model.addAttribute("yaxisList", DummyData.getYAxisOptions());
        return "setting"; // we load the wep page "setting.jsp"
