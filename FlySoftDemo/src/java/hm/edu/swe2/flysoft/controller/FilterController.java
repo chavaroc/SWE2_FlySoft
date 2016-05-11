@@ -20,8 +20,9 @@ public class FilterController extends AbstractEntityController{
         EntityManager em = getEntityManager();
 
         // TODO find a better way as compare strings?
-        if("Frequencies".equals(filter.getYaxis()) && "Time".equals(filter.getXaxis())
-        && "Week".equals(filter.getTimeDimension())){
+      //  if("Frequencies".equals(filter.getYaxis()) && "Time".equals(filter.getXaxis())
+      //  && "Week".equals(filter.getTimeDimension()))
+      {
             StoredProcedureQuery query = em.createStoredProcedureQuery(DB_PROD_FLIGHT_COUNT_WEEK);
             query.registerStoredProcedureParameter(1, Date.class, ParameterMode.IN);
             query.registerStoredProcedureParameter(2, Date.class, ParameterMode.IN);
@@ -32,9 +33,6 @@ public class FilterController extends AbstractEntityController{
             query.setParameter(3, "Las Vegas, NV"); // TODO no hardcoded values!
             query.execute();
             return query.getResultList();
-        }
-        else{
-            return null;
         }
     }
 }
