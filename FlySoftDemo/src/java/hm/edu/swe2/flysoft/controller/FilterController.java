@@ -17,18 +17,24 @@ import javax.persistence.TemporalType;
 public class FilterController extends AbstractEntityController{
     
     public List<Object[]> processDataRequest(FilterSetting filter){
-         EntityManager em = getEntityManager();
-         StoredProcedureQuery query = em.createStoredProcedureQuery(DB_PROD_FLIGHT_COUNT_WEEK);
-         
-         query.registerStoredProcedureParameter(1, Date.class, ParameterMode.IN);
-         query.registerStoredProcedureParameter(2, Date.class, ParameterMode.IN);
-         query.registerStoredProcedureParameter(3, String.class, ParameterMode.IN);
-         
-         query.setParameter(1, filter.getTimeFrom(), TemporalType.DATE);
-         query.setParameter(2, filter.getTimeTo(), TemporalType.DATE);
-         query.setParameter(3, "Las Vegas, NV"); // TODO no hardcoded values!
-         
-         query.execute();
-         return query.getResultList();
+        EntityManager em = getEntityManager();
+
+        // TODO find a better way as compare strings?
+        if("Frequencies".equals(filter.getYaxis()) && "Time".equals(filter.getXaxis())
+        && "Week".equals(filter.getTimeDimension())){
+            StoredProcedureQuery query = em.createStoredProcedureQuery(DB_PROD_FLIGHT_COUNT_WEEK);
+            query.registerStoredProcedureParameter(1, Date.class, ParameterMode.IN);
+            query.registerStoredProcedureParameter(2, Date.class, ParameterMode.IN);
+            query.registerStoredProcedureParameter(3, String.class, ParameterMode.IN);
+
+            query.setParameter(1, filter.getTimeFrom(), TemporalType.DATE);
+            query.setParameter(2, filter.getTimeTo(), TemporalType.DATE);
+            query.setParameter(3, "Las Vegas, NV"); // TODO no hardcoded values!
+            query.execute();
+            return query.getResultList();
+        }
+        else{
+            return null;
+        }
     }
 }

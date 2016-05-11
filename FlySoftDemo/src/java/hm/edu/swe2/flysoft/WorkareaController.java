@@ -3,18 +3,23 @@ package hm.edu.swe2.flysoft;
 import hm.edu.swe2.flysoft.controller.AirlineEntityController;
 import hm.edu.swe2.flysoft.ui.FilterSetting;
 import hm.edu.swe2.flysoft.controller.CityEntityController;
+import hm.edu.swe2.flysoft.controller.FilterController;
 import hm.edu.swe2.flysoft.entity.Airline;
 import hm.edu.swe2.flysoft.entity.City;
 import hm.edu.swe2.flysoft.interfaces.IAirline;
 import hm.edu.swe2.flysoft.ui.CityFilter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.portlet.ModelAndView;
 
 /**
@@ -50,7 +55,22 @@ public class WorkareaController {
        return "workarea"; // we load the wep page "setting.jsp"
    }
    
-   
+   @RequestMapping(value = "/workarea/graphdata", method = RequestMethod.GET)
+   public @ResponseBody List<Object[]> getGraphData(@ModelAttribute("settingForm") FilterSetting setting ) {
+       FilterController controller = new FilterController();
+       
+       // Hardcoded Workarround -> todo: Add Time range fields in gui 
+       try{
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+            setting.setTimeFrom(dateFormat.parse("2015-01-01"));
+            setting.setTimeTo(dateFormat.parse("2015-12-31"));
+       }
+       catch(Exception ex){
+           System.out.println(ex);
+       }
+       return controller.processDataRequest(setting);
+   }
+      
    
    @RequestMapping(value = "/workarea", method = RequestMethod.POST)
    public String addStudent(@ModelAttribute("settingForm") FilterSetting setting, 
