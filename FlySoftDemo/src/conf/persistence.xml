@@ -1,20 +1,20 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.1" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="FlySoftDemoPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <class>hm.edu.swe2.flysoft.Entity.Airport</class>
-    <class>hm.edu.swe2.flysoft.Entity.Yaxis</class>
-    <class>hm.edu.swe2.flysoft.Entity.Airline</class>
-    <class>hm.edu.swe2.flysoft.Entity.Datasourcetype</class>
-    <class>hm.edu.swe2.flysoft.Entity.Flightendpoint</class>
     <class>hm.edu.swe2.flysoft.entity.Monthlystat</class>
     <class>hm.edu.swe2.flysoft.entity.State</class>
-    <class>hm.edu.swe2.flysoft.Entity.Flight</class>
-    <class>hm.edu.swe2.flysoft.Entity.Storedsettings</class>
-    <class>hm.edu.swe2.flysoft.Entity.City</class>
-    <class>hm.edu.swe2.flysoft.Entity.Dataupdatemeta</class>
-    <class>hm.edu.swe2.flysoft.Entity.Xaxis</class>
-    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <class>hm.edu.swe2.flysoft.entity.Flight</class>
+    <class>hm.edu.swe2.flysoft.entity.Flightendpoint</class>
+    <class>hm.edu.swe2.flysoft.entity.Airport</class>
+    <class>hm.edu.swe2.flysoft.entity.Airline</class>
+    <class>hm.edu.swe2.flysoft.entity.Storedsettings</class>
+    <class>hm.edu.swe2.flysoft.entity.City</class>
+    <class>hm.edu.swe2.flysoft.entity.Datasourcetype</class>
+    <class>hm.edu.swe2.flysoft.entity.Dataupdatemeta</class>
+    <class>hm.edu.swe2.flysoft.entity.Yaxis</class>
+    <class>hm.edu.swe2.flysoft.entity.Xaxis</class>
+<exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://10.28.2.168:3306/fly_analytics?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="ExtDev4"/>
