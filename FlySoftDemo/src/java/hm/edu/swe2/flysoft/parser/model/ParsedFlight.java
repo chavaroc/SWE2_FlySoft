@@ -32,11 +32,12 @@ public class ParsedFlight {
     private int arrivalTime;        // Only the time
     
     public ParsedFlight(){
-        // TODO: would be better to seperate these classes
+        // TODO: would be better to seperate these classes (parameter?)
         // -> parser should know nothing about db entity classes.
         flight = new Flight();
         airline = new Airline();
         endpoints = new Flightendpoint();
+        endpoints.setFlightendpointId(1); // Always set id to 1 (auto increment in db)
         originAirport = new Airport();
         destAirport = new Airport();
         originCity = new City();
@@ -44,7 +45,7 @@ public class ParsedFlight {
     }
 
     public int getFlightNumber() {
-        return flight.getFlightId();
+        return flight.getFlightId(); // Flight number is not unique, use auto increment in db.
     }
 
     public void setFlightNumber(int flightNumber) {

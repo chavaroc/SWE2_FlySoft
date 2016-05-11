@@ -9,6 +9,9 @@ import java.util.Date;
  */
 public interface IFlightEndPoints {
     
+    Integer getFlightendpointId();
+    void setFlightendpointId(Integer flightendpointId);
+    
     String getOriginAirportShortName();
     void setOriginAirportShortName(String shortName);
     

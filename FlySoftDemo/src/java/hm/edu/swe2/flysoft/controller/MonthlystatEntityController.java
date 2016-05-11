@@ -1,41 +1,48 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package hm.edu.swe2.flysoft.controller;
 
 import hm.edu.swe2.flysoft.controller.exceptions.NonexistentEntityException;
-import hm.edu.swe2.flysoft.entity.Airline;
-import hm.edu.swe2.flysoft.interfaces.IAirline;
+import hm.edu.swe2.flysoft.entity.Monthlystat;
 import java.util.List;
 import java.util.Optional;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 
 /**
- * Represents the airline entity controller to handle airlines in the database.
- * @author Philipp Chavaroche
+ *
+ * @author Zwen
  */
-public class AirlineEntityController extends AbstractEntityController {
-
-    public AirlineEntityController() {
+public class MonthlystatEntityController extends AbstractEntityController{
+    
+    public MonthlystatEntityController(){
         super();
     }
     
-    public void createIfNotExist(IAirline newAirline){
-        Optional<IAirline> optExistingAirline = findAirline(newAirline.getAirlineId());
+    public void createIfNotExist(Monthlystat newMonthlystat){
+        Optional<Monthlystat> optExistingAirline = findMonthlystat
+        (newMonthlystat.getMonthlyStatId());
         if(!optExistingAirline.isPresent()){
             // The airline does not exist
-            create(newAirline);
+            create(newMonthlystat);
+        }
+        else{
+            // airline already exist.
         }
     }
 
-    public void create(IAirline airline) {
+    public void create(Monthlystat monthlystat) {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
-            em.persist(airline);
+            em.persist(monthlystat);
             em.getTransaction().commit();
-            System.out.println(airline.toString() + " created.");
+            System.out.println(monthlystat.toString() + " created.");
         } finally {
             if (em != null && em.isOpen()) {
                 em.close();
@@ -43,17 +50,17 @@ public class AirlineEntityController extends AbstractEntityController {
         }
     }
 
-    public void edit(IAirline airline) throws NonexistentEntityException, Exception {
+    public void edit(Monthlystat monthlystat) throws NonexistentEntityException, Exception {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
-            airline = em.merge(airline);
+            monthlystat = em.merge(monthlystat);
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = airline.getAirlineId();
-                if (findAirline(id) == null) {
+                Integer id = monthlystat.getMonthlyStatId();
+                if (findMonthlystat(id) == null) {
                     throw new NonexistentEntityException("The city with id " + id + " no longer exists.");
                 }
             }
@@ -65,18 +72,18 @@ public class AirlineEntityController extends AbstractEntityController {
         }
     }
 
-    public void destroy(Integer id) throws NonexistentEntityException {
+    public void destroy(int id) throws NonexistentEntityException {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
-            IAirline airline;
+            Monthlystat monthlystat;
             try {
-                airline = em.getReference(Airline.class, id);
-                airline.getAirlineId();
+                monthlystat = em.getReference(Monthlystat.class, id);
+                monthlystat.getMonthlyStatId();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The city with id " + id + " no longer exists.", enfe);
             }
-            em.remove(airline);
+            em.remove(monthlystat);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -85,19 +92,19 @@ public class AirlineEntityController extends AbstractEntityController {
         }
     }
 
-    public List<IAirline> findAirlineEntities() {
-        return AirlineEntityController.this.findAirlineEntities(true, -1, -1);
+    public List<Monthlystat> findMmonthlystatEntities() {
+        return MonthlystatEntityController.this.findMmonthlystatEntities(true, -1, -1);
     }
 
-    public List<IAirline> findAirlineEntities(int maxResults, int firstResult) {
-        return AirlineEntityController.this.findAirlineEntities(false, maxResults, firstResult);
+    public List<Monthlystat> findMmonthlystatEntities(int maxResults, int firstResult) {
+        return MonthlystatEntityController.this.findMmonthlystatEntities(false, maxResults, firstResult);
     }
 
-    private List<IAirline> findAirlineEntities(boolean all, int maxResults, int firstResult) {
+    private List<Monthlystat> findMmonthlystatEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Airline.class));
+            cq.select(cq.from(Monthlystat.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -109,27 +116,14 @@ public class AirlineEntityController extends AbstractEntityController {
         }
     }
 
-    public Optional<IAirline> findAirline(Integer id) {
+    public Optional<Monthlystat> findMonthlystat(Integer id) {
         EntityManager em = getEntityManager();
-        IAirline searchedAirline;
+        Monthlystat searchedAirline;
         try {
-            searchedAirline = em.find(Airline.class, id);
+            searchedAirline = em.find(Monthlystat.class, id);
         } finally {
             em.close();
         }
         return Optional.ofNullable(searchedAirline);
-    }
-
-    public int getAirlineCount() {
-        EntityManager em = getEntityManager();
-        try {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<IAirline> rootTable = cq.from(Airline.class);
-            cq.select(em.getCriteriaBuilder().count(rootTable));
-            Query query = em.createQuery(cq);
-            return ((Long) query.getSingleResult()).intValue();
-        } finally {
-            em.close();
-        }
     }
 }

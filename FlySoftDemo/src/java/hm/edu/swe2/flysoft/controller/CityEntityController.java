@@ -2,8 +2,10 @@ package hm.edu.swe2.flysoft.controller;
 
 import hm.edu.swe2.flysoft.entity.City;
 import hm.edu.swe2.flysoft.controller.exceptions.NonexistentEntityException;
+import hm.edu.swe2.flysoft.interfaces.ICity;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
@@ -21,13 +23,22 @@ public class CityEntityController extends AbstractEntityController {
     public CityEntityController() {
         super();
     }
+    
+    public void createIfNotExist(final ICity newCity){
+        Optional<ICity> optCity = findCity(newCity.getCityId());
+        if(!optCity.isPresent()){
+            // The airline does not exist
+            create(newCity);
+        }
+    }
 
-    public void create(City city) {
+    public void create(ICity city) {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
             em.persist(city);
             em.getTransaction().commit();
+            System.out.println(city.toString() + " created.");
         } finally {
             if (em != null && em.isOpen()) {
                 em.close();
@@ -101,13 +112,15 @@ public class CityEntityController extends AbstractEntityController {
         }
     }
 
-    public City findCity(Integer id) {
+    public Optional<ICity> findCity(Integer id) {
         EntityManager em = getEntityManager();
+        ICity foundCity;
         try {
-            return em.find(City.class, id);
+            foundCity = em.find(City.class, id);
         } finally {
             em.close();
         }
+        return Optional.ofNullable(foundCity);
     }
 
     public int getCityCount() {

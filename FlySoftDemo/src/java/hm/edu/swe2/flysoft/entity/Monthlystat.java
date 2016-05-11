@@ -5,7 +5,9 @@
  */
 package hm.edu.swe2.flysoft.entity;
 
+import hm.edu.swe2.flysoft.interfaces.IMonthlyStat;
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,10 +17,11 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
  * @author Betina Hientz
  */
 @Entity
@@ -31,7 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Monthlystat.findByOrginairportsn", query = "SELECT m FROM Monthlystat m WHERE m.orginairportsn = :orginairportsn"),
     @NamedQuery(name = "Monthlystat.findByDestairportsn", query = "SELECT m FROM Monthlystat m WHERE m.destairportsn = :destairportsn"),
     @NamedQuery(name = "Monthlystat.findByAirlineId", query = "SELECT m FROM Monthlystat m WHERE m.airlineId = :airlineId")})
-public class Monthlystat implements Serializable {
+public class Monthlystat implements Serializable, IMonthlyStat {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -41,7 +44,8 @@ public class Monthlystat implements Serializable {
     private Integer monthlystatId;
     @Basic(optional = false)
     @Column(name = "yearmonth")
-    private String yearmonth;
+    @Temporal(TemporalType.DATE)
+    private Date yearmonth;
     @Basic(optional = false)
     @Column(name = "orginairportsn")
     private String orginairportsn;
@@ -50,6 +54,9 @@ public class Monthlystat implements Serializable {
     private String destairportsn;
     @Column(name = "airline_id")
     private Integer airlineId;
+    @Basic(optional = false)
+    @Column(name = "passengercount")
+    private Integer passengercount;
 
     public Monthlystat() {
     }
@@ -58,53 +65,15 @@ public class Monthlystat implements Serializable {
         this.monthlystatId = monthlystatId;
     }
 
-    public Monthlystat(Integer monthlystatId, String yearmonth, String orginairportsn, String destairportsn) {
+    public Monthlystat(Integer monthlystatId, Date yearmonth, String orginairportsn,
+            String destairportsn, Integer passengercount) {
         this.monthlystatId = monthlystatId;
         this.yearmonth = yearmonth;
         this.orginairportsn = orginairportsn;
+        this.passengercount = passengercount;
         this.destairportsn = destairportsn;
     }
-
-    public Integer getMonthlystatId() {
-        return monthlystatId;
-    }
-
-    public void setMonthlystatId(Integer monthlystatId) {
-        this.monthlystatId = monthlystatId;
-    }
-
-    public String getYearmonth() {
-        return yearmonth;
-    }
-
-    public void setYearmonth(String yearmonth) {
-        this.yearmonth = yearmonth;
-    }
-
-    public String getOrginairportsn() {
-        return orginairportsn;
-    }
-
-    public void setOrginairportsn(String orginairportsn) {
-        this.orginairportsn = orginairportsn;
-    }
-
-    public String getDestairportsn() {
-        return destairportsn;
-    }
-
-    public void setDestairportsn(String destairportsn) {
-        this.destairportsn = destairportsn;
-    }
-
-    public Integer getAirlineId() {
-        return airlineId;
-    }
-
-    public void setAirlineId(Integer airlineId) {
-        this.airlineId = airlineId;
-    }
-
+    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -129,5 +98,54 @@ public class Monthlystat implements Serializable {
     public String toString() {
         return "hm.edu.swe2.flysoft.entity.Monthlystat[ monthlystatId=" + monthlystatId + " ]";
     }
-    
+
+    @Override
+    public String getDestAirportShortName() {
+        return destairportsn;
+    }
+
+    @Override
+    public String getOriginAirportShortName() {
+        return orginairportsn;
+    }
+
+    @Override
+    public int getPassengerCount() {
+        return passengercount;
+    }
+
+    @Override
+    public Date getYearMonth() {
+        return yearmonth;
+    }
+
+    @Override
+    public void setAirlineId(int airlineId) {
+        this.airlineId = airlineId;
+    }
+
+    @Override
+    public void setDestAirportShortName(String destination) {
+        destairportsn = destination;
+   }
+
+    @Override
+    public void setOriginAirportShortName(String origin) {
+        orginairportsn = origin;
+    }
+
+    @Override
+    public void setPassengerCount(int passengerCount) {
+        this.passengercount = passengerCount;
+    }
+
+    @Override
+    public int getAirlineId() {   
+        return airlineId;
+    }
+
+    @Override
+    public int getMonthlyStatId() {
+        return monthlystatId;
+    }
 }
