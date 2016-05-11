@@ -1,0 +1,28 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+    "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>FlyAmerica | ValueSelection</title>
+        <link type="text/css" rel="stylesheet" href="../styles/flyAmerica.css">
+        <!-- Include Required Prerequisites -->
+        <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/1/jquery.min.js"></script>
+        <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap/latest/css/bootstrap.css" />
+    </head>
+    <body>
+
+        <form>
+            <fieldset>
+                <legend>Destination Citys</legend>
+                <input type="checkbox" name="destination_citys" value="all" checked> ALL<br>
+                <input type="checkbox" name="destination_citys" value="New York" checked> New York<br>
+                <input type="checkbox" name="destination_citys" value="Las Vegas" checked> Las Vegas<br>
+                <input type="checkbox" name="destination_citys" value="Los Angeles" checked> Los Angeles
+            </fieldset>
+        </form>	
+
+    </body>
+</html>

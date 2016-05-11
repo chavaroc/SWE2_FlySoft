@@ -1,0 +1,113 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 11.05.2016, 12:56:56
+    Author     : ifw12043
+*/
+body{
+	background-color: #e6e6e6;
+	margin-top: 0;
+	font-family: verdana;
+}
+#content{
+	background-color: white;
+	width: 1150px;
+	margin: auto;
+}
+#header{
+	overflow: auto;
+}
+#logo{
+	background-color: blue;
+	float: left;
+}
+#username{
+	float: right;
+	margin-right: 50px;
+	margin-top: 22px;
+	font-size: 20px;
+}
+.left{
+	background-color: white;
+	height: 750px;
+	width: 250px;
+	float: left;
+}
+.right{
+	background-color: white;
+	height: 750px;
+	width: 250px;
+	float:right;
+}
+.center{
+	background-color: brown;
+	height: 750px;
+	width: 650px;
+	margin-left: 250px;
+}
+img{
+	height: 70px;
+}
+button{
+	width: 130px;
+	height: 35px;
+	margin: 3px;
+	margin-left: 45px;
+	border: 2px solid black;
+	border-radius: 5px;
+	font-size: 15px;
+}
+button:hover{
+	background-color: #a4a4a4;
+}
+select{
+	width: 144px;
+	margin-top: 3px;
+	border: 2px solid black;
+	border-radius: 5px;
+}
+#graph{
+	background-color: white;
+	height: 450px;
+	width: 100%;
+}
+#filters{
+	background-color: white;
+	height: 290px;
+	width: 100%;
+	padding-top: 10px;
+}
+.dropdown-area{
+	background-color: #e9e9e9;
+    border: 3px solid black;
+    border-radius: 10px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    text-align: center;
+}
+#y_area{
+	margin-left: 35px;
+    margin-top: 100px;
+    width: 180px;
+    padding-bottom: 20px;
+    padding-top: 20px;
+}
+td{
+	padding-left: 10px;
+	padding-top: 7px;
+	text-align:	left;
+}
+table{
+	margin-left: 20px;
+}
+#popular_airlines{
+	margin-left: 17px;
+}
+#graph_img{
+	width: 100%;
+	height: 400px;
+	margin-top: 50px;
+}

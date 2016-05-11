@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
     "http://www.w3.org/TR/html4/loose.dtd">
 
@@ -30,35 +31,27 @@
 
         <div class="left">
 
-            <form:form method="POST" action="/FlySoftDemo/setting" commandName="settingForm">
+            <form:form method="POST" action="/FlySoftDemo/workarea" commandName="settingForm">
 
-                <div class="dropdown-area" id="y_area">Set y-axis
-                    <br>
-                    <select id="y_qualifier" style="margin-top: 5px">
-                        <option value="frequencies">Frequencies</option>
-                        <option value="count_of_passengers">Count of passengers</option>
-                        <option value="delay_frequencies">Delay frequencies</option>
-                        <option value="delay_frequencies">Delay durations</option>
-                        <option value="cancellations">Cancellations</option>
-                    </select>
+                <div class="dropdown-area" id="y_area">
+                    Set y-axis<br>
+                    <form:select path="yaxis" id="y_qualifier" style="margin-top: 5px">
+                        <form:options items="${yaxisList}" />
+                    </form:select>
                     <br><br>
-                    Set x-axis
-                    <select id="x_qualifier">
-                        <option value="airline">Airline</option>
-                        <option value="time">Time</option>
-                        <option value="destination">Destination</option>
-                        <option value="origin">Origin</option>
-                    </select>
+                    Set x-axis<br>
+                    <form:select path="xaxis">
+                        <form:options items="${xaxisList}" />
+                    </form:select>
                     <br><br>
-                    Set 3rd dimension
-                    <select id="3d_qualifier">
-                        <option value="airline">Airline</option>
-                        <option value="time">Time</option>
-                        <option value="destination">Destination</option>
-                        <option value="origin">Origin</option>
-                    </select>
-
-                </div>
+                    Set 3rd dimension<br>
+                    <form:select path="thirdDimension" id="3d_qualifier">
+                        <form:options items="${thirdDimensionList}" />
+                    </form:select>
+                    <br><br>
+                    <br> Set Time dimension<br>
+                    <form:radiobuttons path="timeDimension" items="${timeDimensionList}" />
+                    </div>
             </form:form>
 
         </div>
@@ -73,15 +66,6 @@
                 <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
             </div>
             <div id="filters">
-                <form>
-                    <fieldset>
-                        <legend>Time</legend>
-                        <input type="radio" name="timeunit" value="month" checked> Month<br>
-                        <input type="radio" name="timeunit" value="week"> Week<br>
-                        <input type="radio" name="timeunit" value="day"> Day
-                        <!-- Hier kommt noch der Daterangepicker rein!-->
-                    </fieldset>
-                </form> 
                 <br>
                 <form>
                     <fieldset>
