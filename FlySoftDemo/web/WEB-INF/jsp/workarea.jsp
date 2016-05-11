@@ -8,11 +8,12 @@
 <html>
     <head>
         
-        <link href='<c:url value="/resources/styles/flyAmerica.css" />' rel="stylesheet">
-        <script src='<c:url value="/resources/scripts/graph.js" />'></script>
-        
+    <link href='<c:url value="/resources/styles/flyAmerica.css" />' rel="stylesheet">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src='<c:url value="/resources/scripts/jquery-1.12.3.js" />'></script>
+    <script src='<c:url value="/resources/scripts/highcharts.js" />'></script>
+    <script src='<c:url value="/resources/scripts/graph.js" />'></script>
+    
     <title>FlyAmerica | Statistics</title>
     
 </head>
