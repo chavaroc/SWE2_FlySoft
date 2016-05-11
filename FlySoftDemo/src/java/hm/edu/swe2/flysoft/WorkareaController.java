@@ -19,6 +19,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.portlet.ModelAndView;
 
@@ -56,14 +57,25 @@ public class WorkareaController {
    }
    
    @RequestMapping(value = "/workarea/graphdata", method = RequestMethod.GET)
-   public @ResponseBody List<Object[]> getGraphData(@ModelAttribute("settingForm") FilterSetting setting ) {
+   public @ResponseBody List<Object[]> getGraphData(
+        @RequestParam("xaxis") String xaxis
+       ,@RequestParam("yaxis") String yaxis
+       ,@RequestParam("timedim") String timedim
+       ,@RequestParam("thirddim") String thirddim
+       ,@RequestParam("destinations") String[] dest
+        ) {
        FilterController controller = new FilterController();
-       
+       FilterSetting setting = new FilterSetting();  
        // Hardcoded Workarround -> todo: Add Time range fields in gui 
        try{
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-            setting.setTimeFrom(dateFormat.parse("2015-01-01"));
-            setting.setTimeTo(dateFormat.parse("2015-12-31"));
+           setting.setXaxis(xaxis);
+           setting.setYaxis(yaxis);
+           setting.setTimeDimension(timedim);
+           setting.setThirdDimension(thirddim);
+           setting.setDestinations(dest);
+           DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+           setting.setTimeFrom(dateFormat.parse("2015-01-01"));
+           setting.setTimeTo(dateFormat.parse("2015-12-31"));
        }
        catch(Exception ex){
            System.out.println(ex);
