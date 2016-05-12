@@ -32,6 +32,7 @@ public class DummyData {
 
     public static List<String> getThirdDimensionOptions() {
         if (thirdDimensionOptions.size() <= 0) {
+            thirdDimensionOptions.add("nothing selected");
             thirdDimensionOptions.add("Airline");
             thirdDimensionOptions.add("Time");
             thirdDimensionOptions.add("Destination");
