@@ -2,6 +2,7 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
     "http://www.w3.org/TR/html4/loose.dtd">
 
@@ -16,15 +17,15 @@
 
         <title>FlyAmerica | Statistics</title>
 
-<!--        <script type="text/javascript">
-            $function(){
-                $("#submit_button").click(function () {
-                    alert("test");
-                    console.log("pressed");
-                });
-            }
-            ;
-        </script>-->
+        <!--        <script type="text/javascript">
+                    $function(){
+                        $("#submit_button").click(function () {
+                            alert("test");
+                            console.log("pressed");
+                        });
+                    }
+                    ;
+                </script>-->
 
     </head>
 
@@ -33,7 +34,6 @@
             <img src='<c:url value="/resources/imgs/flyAmerica_logo.PNG" />' alt="FlyAmerica-Logo" id="logo">
             <div id="username">Max Mustermann</div>
         </div>
-
 
         <div class="left">
 
@@ -60,10 +60,18 @@
                     <br> Set Time dimension<br>
                     <form:radiobuttons path="timeDimension" items="${timeDimensionList}" />
                     <br><br>
+<<<<<<< HEAD
 
                     <input id="submit_button" type="button" value="Get Results!"/>
                 </div>
             </form:form>
+=======
+                    <input id="submit_button" type="button" value="Get Results!"/>        
+                    <!--                    <input type="submit" value="Get Results!"/>-->
+                </div>
+            </form:form>
+
+>>>>>>> 42a920dda48d503cded6f31b37425897b6f3de09
         </div>
         <div class="right">
             <button name="save_setting_button" onclick="myFunction()" type="submit" style="margin-top: 145px">Save setting</button>
@@ -76,12 +84,24 @@
                 <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
             </div>
             <div id="filters">
-                <br>
 
                 <form:form method="POST" action="/FlySoftDemo/workarea" commandName="airlineForm">
-                    <form:checkboxes path="airlinesnew" items="${airlinenewNameList}" /> 
-                </form:form>
+                    <%-- <form:checkboxes path="airlinesnew" items="${airlinenewNameList}" /> --%>
 
+                    <fieldset>
+                        <legend>Airlines</legend>
+                        <table style="text-align:center">
+                            <c:forEach begin="0" end="${fn:length(airlinenewNameList) - 1}" step="2" varStatus="loop"> 
+                                <tr>
+                                    <td style="text-align: right"><input type="checkbox" name="test" value="${airlinenewNameList[loop.index]}"></td> 
+                                    <td style="width:450px">${airlinenewNameList[loop.index]}</td>
+                                    <td style="text-align: right"><input type="checkbox" name="test" value="${airlinenewNameList[loop.index + 1]}"></td>
+                                    <td style="width:450px">${airlinenewNameList[loop.index + 1]}</td>
+                                </tr>
+                            </c:forEach>
+                        </table>  
+                    </fieldset>
+                </form:form>
                 <br/>
 
                 <br>

@@ -35,9 +35,9 @@ public class FlightEntityController extends AbstractEntityController {
             //System.out.println(flight.toString() + " with endpoint "
             //    + endpoints.toString() + " created.");
         } finally {
-            if (em != null && em.isOpen()) {
+            /*if (em != null && em.isOpen()) {
                 em.close();
-            }
+            }*/
         }
     }
 

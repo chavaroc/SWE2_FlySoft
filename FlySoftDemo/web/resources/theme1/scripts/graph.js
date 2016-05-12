@@ -15,6 +15,7 @@ $(function () {
     var data_serie;
     var x_axis_unit;
 
+
     $.redraw = function () {
         $('#container').highcharts({
             chart: {
@@ -58,7 +59,8 @@ $(function () {
     };
     
     $.updateDataToPlot = function () {
-        data_serie = [{data: resultFromServer}];
+        //TODO Anpassen!
+        data_serie = [{data: resultFromServer}]; //irgendwas in der Art
         $.redraw(); //always at the beginning with default values
     };
     
@@ -113,7 +115,7 @@ $(function () {
     });
 
     $("#submit_button").click(function () {
-        var xaxis = "Time";//$("#xaxis option:selected").text();
+        var xaxis = $("#xaxis option:selected").text(); //"Time";
         var yaxis = $("#y_qualifier option:selected").text();
         var timedim = "Week";
         var thirddim = $("#thirdDimension option:selected").text();
@@ -127,6 +129,9 @@ $(function () {
             }
         }
         console.log(destinations);
+        console.log(yaxis);
+        console.log(xaxis);
+
          
 
         var url = "/FlySoftDemo/workarea/graphdata";
