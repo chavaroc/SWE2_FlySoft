@@ -60,18 +60,12 @@
                     <br> Set Time dimension<br>
                     <form:radiobuttons path="timeDimension" items="${timeDimensionList}" />
                     <br><br>
-<<<<<<< HEAD
 
-                    <input id="submit_button" type="button" value="Get Results!"/>
-                </div>
-            </form:form>
-=======
                     <input id="submit_button" type="button" value="Get Results!"/>        
                     <!--                    <input type="submit" value="Get Results!"/>-->
                 </div>
             </form:form>
 
->>>>>>> 42a920dda48d503cded6f31b37425897b6f3de09
         </div>
         <div class="right">
             <button name="save_setting_button" onclick="myFunction()" type="submit" style="margin-top: 145px">Save setting</button>
