@@ -12,40 +12,8 @@ $(function () {
     var y_axis_name = "Frequencies";
     var resultFromServer;
     var selected_x_val;
-    var data_serie = [
-        {
-            name: 'Winter 2013-2014',
-            data: [
-                [Date.UTC(1970, 9, 29), 0],
-                [Date.UTC(1970, 10, 9), 0.4],
-                [Date.UTC(1970, 11, 1), 0.25],
-                [Date.UTC(1971, 0, 1), 1.66],
-                [Date.UTC(1971, 0, 10), 1.8],
-                [Date.UTC(1971, 1, 19), 1.76],
-                [Date.UTC(1971, 2, 25), 2.62],
-                [Date.UTC(1971, 3, 19), 2.41],
-                [Date.UTC(1971, 3, 30), 2.05],
-                [Date.UTC(1971, 4, 14), 1.7],
-                [Date.UTC(1971, 4, 24), 1.1],
-                [Date.UTC(1971, 5, 10), 0]
-            ]
-        }, {
-            name: 'Winter 2016-2017',
-            data: [
-                [Date.UTC(1970, 9, 29), 3],
-                [Date.UTC(1970, 10, 9), 0.4],
-                [Date.UTC(1970, 11, 1), 0.25],
-                [Date.UTC(1971, 0, 1), 2.66],
-                [Date.UTC(1971, 0, 10), 1.8],
-                [Date.UTC(1971, 1, 19), 0.76],
-                [Date.UTC(1971, 2, 25), 2.62],
-                [Date.UTC(1971, 3, 19), 2.41],
-                [Date.UTC(1971, 3, 30), 1.05],
-                [Date.UTC(1971, 4, 14), 2.7],
-                [Date.UTC(1971, 4, 24), 1.1],
-                [Date.UTC(1971, 5, 10), 1]
-            ]
-        }]
+    var data_serie;
+    var x_axis_unit;
 
     $.redraw = function () {
         $('#container').highcharts({
@@ -90,8 +58,7 @@ $(function () {
     };
     
     $.updateDataToPlot = function () {
-        //TODO Anpassen!
-        //data_serie = resultFromServer; //irgendwas in der Art
+        data_serie = [{data: resultFromServer}];
         $.redraw(); //always at the beginning with default values
     };
     
@@ -154,7 +121,11 @@ $(function () {
         var timerange = ["01.01.2015", "31.12.2015"];
         var airlines = ["all"];
         
-        
+        if(xaxis === "Time"){
+            if(timedim === "Week"){
+                x_axis_unit = "week"; //noch schauen was ich damit genaue machen kann
+            }
+        }
         console.log(destinations);
          
 
@@ -165,7 +136,6 @@ $(function () {
             //update label-names for graph
             x_axis_name = xaxis;
             y_axis_name = yaxis;
-            
             $.updateDataToPlot(); //Zu plottende Daten aktualisieren neu zeichnen lassen
         });
         
