@@ -1,33 +1,43 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
     "http://www.w3.org/TR/html4/loose.dtd">
 
 <html>
     <head>
+
+        <link href='<c:url value="/resources/styles/flyAmerica.css" />' rel="stylesheet">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <script src="http://code.jquery.com/jquery-latest.js"></script>
+        <script src='<c:url value="/resources/scripts/jquery-1.12.3.js" />'></script>
+        <script src='<c:url value="/resources/scripts/highcharts.js" />'></script>
+        <script src='<c:url value="/resources/scripts/graph.js" />'></script>
+
         <title>FlyAmerica | Statistics</title>
 
-        <spring:url value="/resources/theme1/styles/flyAmerica.css" var="flyAmericaCss"/> 
-        <link href="${flyAmericaCss}" rel="stylesheet"/>
+        <!--        <script type="text/javascript">
+                    $function(){
+                        $("#submit_button").click(function () {
+                            alert("test");
+                            console.log("pressed");
+                        });
+                    }
+                    ;
+                </script>-->
 
-        <script type="text/javascript" src="scripts/graph.js"></script>
-        <script src="https://code.highcharts.com/highcharts.js"></script>
-        <!--<script src="https://code.highcharts.com/modules/exporting.js"></script> ggf. fuer pdf export-->
     </head>
 
     <div id="content">
         <div id="header">
-            <img src="imgs/flyAmerica_logo.png" alt="FlyAmerica-Logo" id="logo">
+            <img src='<c:url value="/resources/imgs/flyAmerica_logo.PNG" />' alt="FlyAmerica-Logo" id="logo">
             <div id="username">Max Mustermann</div>
         </div>
 
-
         <div class="left">
 
-            <form:form method="POST" action="/FlySoftDemo/workarea" commandName="settingForm">
+            <form:form method="GET" action="/FlySoftDemo/workarea/graphdata" commandName="settingForm">
 
                 <div class="dropdown-area" id="y_area">
                     Set y-axis<br>
@@ -41,12 +51,18 @@
                     </form:select>
                     <br><br>
                     Set 3rd dimension<br>
-                    <form:select path="thirdDimension" id="3d_qualifier">
-                        <form:options items="${thirdDimensionList}" />
-                    </form:select>
+                    <div id="3d_qualifier">
+                        <form:select path="thirdDimension">
+                            <form:options style="background-color:white;" items="${thirdDimensionList}" />
+                        </form:select>
+                    </div>
                     <br><br>
                     <br> Set Time dimension<br>
                     <form:radiobuttons path="timeDimension" items="${timeDimensionList}" />
+                    <br><br>
+
+                    <input id="submit_button" type="button" value="Get Results!"/>        
+                    <!--                    <input type="submit" value="Get Results!"/>-->
                 </div>
             </form:form>
 
@@ -62,14 +78,24 @@
                 <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
             </div>
             <div id="filters">
-                <br>
 
                 <form:form method="POST" action="/FlySoftDemo/workarea" commandName="airlineForm">
-                    <form:checkboxes path="airlinesnew" items="${airlinenewNameList}" /> 
+                    <%-- <form:checkboxes path="airlinesnew" items="${airlinenewNameList}" /> --%>
+
+                    <fieldset>
+                        <legend>Airlines</legend>
+                        <table style="text-align:center">
+                            <c:forEach begin="0" end="${fn:length(airlinenewNameList) - 1}" step="2" varStatus="loop"> 
+                                <tr>
+                                    <td style="text-align: right"><input type="checkbox" name="test" value="${airlinenewNameList[loop.index]}"></td> 
+                                    <td style="width:450px">${airlinenewNameList[loop.index]}</td>
+                                    <td style="text-align: right"><input type="checkbox" name="test" value="${airlinenewNameList[loop.index + 1]}"></td>
+                                    <td style="width:450px">${airlinenewNameList[loop.index + 1]}</td>
+                                </tr>
+                            </c:forEach>
+                        </table>  
+                    </fieldset>
                 </form:form>
-
-
-
                 <br/>
 
                 <br>

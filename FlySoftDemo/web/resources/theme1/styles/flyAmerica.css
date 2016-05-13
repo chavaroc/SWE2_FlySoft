@@ -32,19 +32,19 @@ body{
 }
 .left{
 	background-color: white;
-	height: 750px;
+	height: 850px;
 	width: 250px;
 	float: left;
 }
 .right{
 	background-color: white;
-	height: 750px;
+	height: 850px;
 	width: 250px;
 	float:right;
 }
 .center{
 	background-color: brown;
-	height: 750px;
+	height: 850px;
 	width: 650px;
 	margin-left: 250px;
 }
@@ -76,7 +76,7 @@ select{
 }
 #filters{
 	background-color: white;
-	height: 290px;
+	height: 390px;
 	width: 100%;
 	padding-top: 10px;
 }
@@ -110,4 +110,7 @@ table{
 	width: 100%;
 	height: 400px;
 	margin-top: 50px;
+}
+#3d_qualifier{
+        background-color: white;
 }

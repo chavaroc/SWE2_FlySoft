@@ -32,12 +32,12 @@ public class FlightEntityController extends AbstractEntityController {
             flight.setFlightendpointId(endpoints.getFlightendpointId());
             em.persist(flight);
             em.getTransaction().commit();
-            System.out.println(flight.toString() + " with endpoint "
-                + endpoints.toString() + " created.");
+            //System.out.println(flight.toString() + " with endpoint "
+            //    + endpoints.toString() + " created.");
         } finally {
-            if (em != null && em.isOpen()) {
+            /*if (em != null && em.isOpen()) {
                 em.close();
-            }
+            }*/
         }
     }
 
