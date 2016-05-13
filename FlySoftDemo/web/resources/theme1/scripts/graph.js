@@ -28,7 +28,7 @@ $(function () {
                 text: subtitle_text
             },
             xAxis: {
-                type: 'datetime',
+                type: 'number',
                 dateTimeLabelFormats: {// don't display the dummy year
                     month: '%e. %b',
                     year: '%b'
