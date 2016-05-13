@@ -114,10 +114,12 @@ $(function () {
         return false;
     });
 
+    // Request data from server for current filter settings
+    // Attension: name of 'timedim' should be equal to sql day/week/month functions
     $("#submit_button").click(function () {
         var xaxis = $("#xaxis option:selected").text(); //"Time";
         var yaxis = $("#y_qualifier option:selected").text();
-        var timedim = "Week";
+        var timedim = $("input[name=timeDimension]:checked").val();
         var thirddim = $("#thirdDimension option:selected").text();
         var destinations = "Las Vegas, NV";
         var timerange = ["01.01.2015", "31.12.2015"];
@@ -125,6 +127,7 @@ $(function () {
         
         if(xaxis === "Time"){
             if(timedim === "Week"){
+                //TODO change axis title and axis scale / scale description
                 x_axis_unit = "week"; //noch schauen was ich damit genaue machen kann
             }
         }

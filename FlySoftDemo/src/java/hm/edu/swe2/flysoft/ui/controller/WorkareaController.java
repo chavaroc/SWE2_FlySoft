@@ -2,7 +2,7 @@ package hm.edu.swe2.flysoft.ui.controller;
 
 import hm.edu.swe2.flysoft.entity.controller.AirlineEntityController;
 import hm.edu.swe2.flysoft.ui.FilterSetting;
-import hm.edu.swe2.flysoft.entity.controller.FilterController;
+import hm.edu.swe2.flysoft.entity.controller.QueryBuilder;
 import hm.edu.swe2.flysoft.entity.Airline;
 import hm.edu.swe2.flysoft.entity.City;
 import hm.edu.swe2.flysoft.interfaces.IAirline;
@@ -65,7 +65,7 @@ public class WorkareaController {
        ,@RequestParam("thirddim") String thirddim
        ,@RequestParam("destinations") String dest
         ) throws IOException {
-       FilterController controller = new FilterController();
+       QueryBuilder controller = new QueryBuilder();
        FilterSetting setting = new FilterSetting();  
        // Hardcoded Workarround -> todo: Add Time range fields in gui 
        try{
@@ -73,6 +73,7 @@ public class WorkareaController {
            setting.setYaxis(yaxis);
            setting.setTimeDimension(timedim);
            setting.setThirdDimension(thirddim);
+           setting.setDestinations(new String[]{dest});
            //setting.setDestinations(dest);
            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
            setting.setTimeFrom(dateFormat.parse("2015-01-01"));
