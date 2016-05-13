@@ -1,11 +1,8 @@
 package hm.edu.swe2.flysoft.entity.controller;
 
-import hm.edu.swe2.flysoft.entity.exceptions.NonexistentEntityException;
-import hm.edu.swe2.flysoft.entity.City;
 import java.io.Serializable;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityNotFoundException;
 import javax.persistence.Persistence;
 
 /**

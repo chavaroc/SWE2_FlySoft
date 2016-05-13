@@ -2,7 +2,6 @@ package hm.edu.swe2.flysoft.ui.controller;
 
 import hm.edu.swe2.flysoft.entity.controller.AirlineEntityController;
 import hm.edu.swe2.flysoft.ui.FilterSetting;
-import hm.edu.swe2.flysoft.entity.controller.CityEntityController;
 import hm.edu.swe2.flysoft.entity.controller.FilterController;
 import hm.edu.swe2.flysoft.entity.Airline;
 import hm.edu.swe2.flysoft.entity.City;
@@ -24,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.portlet.ModelAndView;
 
 /**
  *
