@@ -1,4 +1,4 @@
-package hm.edu.swe2.flysoft.controller.exceptions;
+package hm.edu.swe2.flysoft.entity.exceptions;
 
 public class NonexistentEntityException extends Exception {
     public NonexistentEntityException(String message, Throwable cause) {

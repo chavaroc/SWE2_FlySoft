@@ -1,12 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package hm.edu.swe2.flysoft.entity;
 
-import hm.edu.swe2.flysoft.controller.MonthlystatEntityController;
-import hm.edu.swe2.flysoft.controller.exceptions.NonexistentEntityException;
+import hm.edu.swe2.flysoft.entity.controller.MonthlystatEntityController;
+import hm.edu.swe2.flysoft.entity.exceptions.NonexistentEntityException;
 import java.util.Optional;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;

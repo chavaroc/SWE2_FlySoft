@@ -1,4 +1,4 @@
-package hm.edu.swe2.flysoft.controller.exceptions;
+package hm.edu.swe2.flysoft.entity.exceptions;
 
 import java.util.ArrayList;
 import java.util.List;

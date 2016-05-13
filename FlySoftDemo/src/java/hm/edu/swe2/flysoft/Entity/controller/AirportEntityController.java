@@ -1,11 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package hm.edu.swe2.flysoft.controller;
+package hm.edu.swe2.flysoft.entity.controller;
 
-import hm.edu.swe2.flysoft.controller.exceptions.NonexistentEntityException;
+import hm.edu.swe2.flysoft.entity.exceptions.NonexistentEntityException;
 import hm.edu.swe2.flysoft.entity.Airport;
 import hm.edu.swe2.flysoft.interfaces.IAirport;
 import java.util.List;

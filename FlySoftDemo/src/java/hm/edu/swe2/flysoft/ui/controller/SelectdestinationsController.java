@@ -1,6 +1,6 @@
-package hm.edu.swe2.flysoft;
+package hm.edu.swe2.flysoft.ui.controller;
 
-import hm.edu.swe2.flysoft.controller.CityEntityController;
+import hm.edu.swe2.flysoft.entity.controller.CityEntityController;
 import hm.edu.swe2.flysoft.entity.City;
 import hm.edu.swe2.flysoft.ui.CityFilter;
 import java.util.ArrayList;

@@ -1,7 +1,7 @@
 package hm.edu.swe2.flysoft.entity;
 
 import hm.edu.swe2.flysoft.ui.FilterSetting;
-import hm.edu.swe2.flysoft.controller.FilterController;
+import hm.edu.swe2.flysoft.entity.controller.FilterController;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;

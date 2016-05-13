@@ -1,4 +1,4 @@
-package hm.edu.swe2.flysoft.controller;
+package hm.edu.swe2.flysoft.entity.controller;
 
 import hm.edu.swe2.flysoft.ui.FilterSetting;
 import static hm.edu.swe2.flysoft.util.GlobalSettings.DB_PROD_FLIGHT_COUNT_WEEK;

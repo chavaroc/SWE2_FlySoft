@@ -1,5 +1,5 @@
 
-import hm.edu.swe2.flysoft.controller.ParsedFlightController;
+import hm.edu.swe2.flysoft.entity.controller.ParsedFlightController;
 import hm.edu.swe2.flysoft.parser.CsvParser;
 import hm.edu.swe2.flysoft.parser.FlightFilter;
 import hm.edu.swe2.flysoft.parser.FlightPreparator;
