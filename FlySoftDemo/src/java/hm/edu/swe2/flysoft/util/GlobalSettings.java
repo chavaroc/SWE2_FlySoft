@@ -23,5 +23,35 @@ public final class GlobalSettings {
     
     // obsolete (fall back solution?)
     public static final String DB_PROD_FLIGHT_COUNT_WEEK = "fly_analytics.FlightCountPerWeek";
+    
+    
+    // ================ Query Builder constants ================
+    /**
+     * The base query, to request all flights (based on the on time table).
+     * This query needs two parameter:
+     *  - selected columns
+     *  - where clausal
+     */
+    public static final String BASE_QUERY = 
+        "SELECT \n" +
+        "%s\n" +
+        "FROM\n" +
+        "        flight F\n" +
+        "        JOIN flightendpoint FE ON FE.flightendpoint_id = F.flightendpoint_id\n" +
+        "        JOIN airline AIR ON AIR.airline_id = F.airline_id\n" +
+        "        JOIN airport ORIG ON ORIG.shortname = FE.originairportshortname\n" +
+        "        JOIN airport DEST ON DEST.shortname = FE.destairportshortname\n" +
+        "        JOIN city ORIGC ON ORIGC.city_id = ORIG.city_id\n" +
+        "        JOIN city DESTC ON DESTC.city_id = DEST.city_id\n" + 
+        "%s";
+    public static final String FREQUENCIES = "Frequencies";
+    public static final String DELAY = "Delay";
+    public static final String TIME = "Time";
+    public static final String DESTINATION = "Destination";
+    public static final String ORIGIN = "Destination";
+    public static final String ARLINE = "Airline";
+    
+    
+
 
 }

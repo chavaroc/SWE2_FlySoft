@@ -2,7 +2,7 @@ package hm.edu.swe2.flysoft.ui.controller;
 
 import hm.edu.swe2.flysoft.entity.controller.AirlineEntityController;
 import hm.edu.swe2.flysoft.ui.FilterSetting;
-import hm.edu.swe2.flysoft.entity.controller.QueryBuilder;
+import hm.edu.swe2.flysoft.entity.controller.QueryController;
 import hm.edu.swe2.flysoft.entity.Airline;
 import hm.edu.swe2.flysoft.entity.City;
 import hm.edu.swe2.flysoft.interfaces.IAirline;
@@ -65,7 +65,7 @@ public class WorkareaController {
        ,@RequestParam("thirddim") String thirddim
        ,@RequestParam("destinations") String dest // TODO should be an array
         ) throws IOException {
-       QueryBuilder controller = new QueryBuilder();
+       QueryController controller = new QueryController();
        FilterSetting setting = new FilterSetting();  
        // Hardcoded Workarround -> todo: Add Time range fields in gui 
        try{
