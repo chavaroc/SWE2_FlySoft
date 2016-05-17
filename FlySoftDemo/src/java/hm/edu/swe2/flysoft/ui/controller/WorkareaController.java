@@ -63,7 +63,7 @@ public class WorkareaController {
        ,@RequestParam("yaxis") String yaxis
        ,@RequestParam("timedim") String timedim
        ,@RequestParam("thirddim") String thirddim
-       ,@RequestParam("destinations") String dest
+       ,@RequestParam("destinations") String dest // TODO should be an array
         ) throws IOException {
        QueryBuilder controller = new QueryBuilder();
        FilterSetting setting = new FilterSetting();  
