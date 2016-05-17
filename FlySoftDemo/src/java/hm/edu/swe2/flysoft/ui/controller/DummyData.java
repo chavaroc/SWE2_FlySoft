@@ -44,8 +44,10 @@ public class DummyData {
     public static List<String> getTimeDimensionOptions() {
         if (timeDimensionOptions.size() <= 0) {
             timeDimensionOptions.add("Day");
+            timeDimensionOptions.add("Weekday(s)");
             timeDimensionOptions.add("Week");
             timeDimensionOptions.add("Month");
+            timeDimensionOptions.add("Year");
         }
         return timeDimensionOptions;
     }
