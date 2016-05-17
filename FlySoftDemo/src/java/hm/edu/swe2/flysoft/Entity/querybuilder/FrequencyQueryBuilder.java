@@ -6,6 +6,8 @@ import static hm.edu.swe2.flysoft.util.GlobalSettings.*;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TemporalType;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Build all querys, that need flight frequency at the y-axis.
@@ -13,6 +15,24 @@ import javax.persistence.TemporalType;
  * @version 17.05.2016
  */
 public class FrequencyQueryBuilder{
+    
+    /**
+     * Contains all valid time dimensions.
+     */
+    private static List<String> validTimeDimensions;
+
+    /**
+     * Construct a new frequceny query builder.
+     */
+    public FrequencyQueryBuilder() {
+        if(validTimeDimensions == null){
+            validTimeDimensions = new ArrayList<>();
+            validTimeDimensions.add("day");
+            validTimeDimensions.add("week");
+            validTimeDimensions.add("month");
+            validTimeDimensions.add("year");
+        }
+    }
     
     /**
      * Build a sql query, to request the data descript by the given settings.
@@ -23,11 +43,11 @@ public class FrequencyQueryBuilder{
     public Query build(final FilterSetting settings, final EntityManager em){
         Query query = null;
         boolean isThirdDimGiven;
+        String thirdDimValueList;
+        String thirdDimColumn;
+        String thridDimQueryToken;
         // Check which x-axis is given
         if(TIME.equalsIgnoreCase(settings.getXaxis())){
-            String thirdDimValueList;
-            String thirdDimColumn;
-            String thridDimQueryToken;
             // Check if we have a 3rd dimension setting and if yes,
             // which setting it is.
             if(DESTINATION.equalsIgnoreCase(settings.getThirdDimension())){
@@ -56,11 +76,9 @@ public class FrequencyQueryBuilder{
                 : "";
             
             String timeDim = settings.getTimeDimension();
-            if("day".equalsIgnoreCase(timeDim) 
-                || "week".equalsIgnoreCase(timeDim)
-                || "month".equalsIgnoreCase(timeDim)
-                || "year".equalsIgnoreCase(timeDim))
-            {
+            // This if condition is a security condition (avoid sql injection).
+            // Use only valid values.
+            if(validTimeDimensions.contains(timeDim.toLowerCase())){
                 String selectToken = timeDim + "(FE.departuretime) as Week\n" +
                 ",Count("+timeDim+"(FE.departuretime)) as Flights";
                 String whereToken = 
@@ -82,7 +100,40 @@ public class FrequencyQueryBuilder{
             }
         }
         else if (ARLINE.equalsIgnoreCase(settings.getXaxis())){
-            
+            // Check if we have a 3rd dimension setting and if yes,
+            // which setting it is.
+            if(DESTINATION.equalsIgnoreCase(settings.getThirdDimension())){
+                thirdDimColumn = "WHERE DESTC.name IN (?3)\n";
+                thirdDimValueList = String.join(",", settings.getDestinations());
+                isThirdDimGiven = true;
+            }
+            else if(ORIGIN.equalsIgnoreCase(settings.getThirdDimension())){
+                thirdDimColumn = "WHERE ORIGC.name IN (?3)\n";
+                thirdDimValueList = String.join(",", settings.getOrigins());
+                isThirdDimGiven = true;
+            }
+            else if(TIME.equalsIgnoreCase(settings.getThirdDimension())){
+                thirdDimColumn = "WHERE FE.departuretime BETWEEN ?1 and ?2\n";
+                thirdDimValueList = ""; // not necessary for that setting
+                isThirdDimGiven = true;
+            }
+            else{
+                // handle as no 3rd dim was selected.
+                thirdDimColumn = "";
+                thirdDimValueList = "";
+                isThirdDimGiven = false;
+            }
+            thridDimQueryToken = (isThirdDimGiven) ? thirdDimColumn : "";
+            String selectToken = "AIR.name\n" +
+                ",Count(AIR.name)";
+            String whereToken = thridDimQueryToken + 
+                "GROUP BY AIR.name";
+            final String fullQuery = String.format(
+                GlobalSettings.BASE_QUERY, selectToken, whereToken);
+            query = em.createNativeQuery(fullQuery);
+            query.setParameter(1, settings.getTimeFrom(), TemporalType.DATE);
+            query.setParameter(2, settings.getTimeTo(), TemporalType.DATE);
+            query.setParameter(3, thirdDimValueList);
         }
         else{
             throw new UnsupportedOperationException("Not supported yet.");
