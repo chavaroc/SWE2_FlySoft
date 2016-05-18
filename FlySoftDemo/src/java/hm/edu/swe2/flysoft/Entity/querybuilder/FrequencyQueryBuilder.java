@@ -42,57 +42,20 @@ public class FrequencyQueryBuilder{
      */
     public Query build(final FilterSetting settings, final EntityManager em){
         Query query = null;
-        boolean isThirdDimGiven;
-        String thirdDimValueList;
-        String thirdDimColumn;
-        String thridDimQueryToken;
         // Check which x-axis is given
         if(TIME.equalsIgnoreCase(settings.getXaxis())){
-            // Check if we have a 3rd dimension setting and if yes,
-            // which setting it is.
-            if(DESTINATION.equalsIgnoreCase(settings.getThirdDimension())){
-                thirdDimColumn = "DESTC.name";
-                thirdDimValueList = String.join(",", settings.getDestinations());
-                isThirdDimGiven = true;
-            }
-            else if(ORIGIN.equalsIgnoreCase(settings.getThirdDimension())){
-                thirdDimColumn = "ORIGC.name";
-                thirdDimValueList = String.join(",", settings.getOrigins());
-                isThirdDimGiven = true;
-            }
-            else if(ARLINE.equalsIgnoreCase(settings.getThirdDimension())){
-                thirdDimColumn = "AIR.name";
-                thirdDimValueList = String.join(",", settings.getAirlines());
-                isThirdDimGiven = true;
-            }
-            else{
-                // handle as no 3rd dim was selected.
-                thirdDimColumn = "";
-                thirdDimValueList = "";
-                isThirdDimGiven = false;
-            }
-            thridDimQueryToken = (isThirdDimGiven) ?
-                 "AND "+thirdDimColumn+" IN (?3)\n"
-                : "";
-            
             String timeDim = settings.getTimeDimension();
             // This if condition is a security condition (avoid sql injection).
             // Use only valid values.
             if(validTimeDimensions.contains(timeDim.toLowerCase())){
                 String selectToken = timeDim + "(FE.departuretime) as Week\n" +
                 ",Count("+timeDim+"(FE.departuretime)) as Flights";
-                String whereToken = 
-                    "WHERE FE.departuretime BETWEEN ?1 and ?2\n" +
-                    thridDimQueryToken + 
+                String whereToken = calcWhereThirdDimToken(settings) + 
+                    "AND FE.departuretime BETWEEN ?1 and ?2\n" +
                     "GROUP BY "+timeDim+"(FE.departuretime)";
                 final String fullQuery = String.format(
                     GlobalSettings.BASE_QUERY, selectToken, whereToken);
-                query = em.createNativeQuery(fullQuery);
-                query.setParameter(1, settings.getTimeFrom(), TemporalType.DATE);
-                query.setParameter(2, settings.getTimeTo(), TemporalType.DATE);
-                if(isThirdDimGiven) {
-                    query.setParameter(3, thirdDimValueList);
-                }
+                query = createParamizedQuery(fullQuery, settings, em);
             }
             else{
                 //Invalid time dimension
@@ -100,45 +63,69 @@ public class FrequencyQueryBuilder{
             }
         }
         else if (ARLINE.equalsIgnoreCase(settings.getXaxis())){
-            // Check if we have a 3rd dimension setting and if yes,
-            // which setting it is.
-            if(DESTINATION.equalsIgnoreCase(settings.getThirdDimension())){
-                thirdDimColumn = "WHERE DESTC.name IN (?3)\n";
-                thirdDimValueList = String.join(",", settings.getDestinations());
-                isThirdDimGiven = true;
-            }
-            else if(ORIGIN.equalsIgnoreCase(settings.getThirdDimension())){
-                thirdDimColumn = "WHERE ORIGC.name IN (?3)\n";
-                thirdDimValueList = String.join(",", settings.getOrigins());
-                isThirdDimGiven = true;
-            }
-            else if(TIME.equalsIgnoreCase(settings.getThirdDimension())){
-                thirdDimColumn = "WHERE FE.departuretime BETWEEN ?1 and ?2\n";
-                thirdDimValueList = ""; // not necessary for that setting
-                isThirdDimGiven = true;
-            }
-            else{
-                // handle as no 3rd dim was selected.
-                thirdDimColumn = "";
-                thirdDimValueList = "";
-                isThirdDimGiven = false;
-            }
-            thridDimQueryToken = (isThirdDimGiven) ? thirdDimColumn : "";
             String selectToken = "AIR.name\n" +
                 ",Count(AIR.name)";
-            String whereToken = thridDimQueryToken + 
+            String whereToken = calcWhereThirdDimToken(settings) + 
                 "GROUP BY AIR.name";
             final String fullQuery = String.format(
                 GlobalSettings.BASE_QUERY, selectToken, whereToken);
-            query = em.createNativeQuery(fullQuery);
-            query.setParameter(1, settings.getTimeFrom(), TemporalType.DATE);
-            query.setParameter(2, settings.getTimeTo(), TemporalType.DATE);
-            query.setParameter(3, thirdDimValueList);
+            query = createParamizedQuery(fullQuery, settings, em);
+        }
+        else if (DESTINATION.equalsIgnoreCase(settings.getXaxis())){
+            throw new UnsupportedOperationException("Not supported yet.");
         }
         else{
             throw new UnsupportedOperationException("Not supported yet.");
         }   
         return query;
     }    
+    
+    /**
+     * Create the where query token for the third dimension.
+     * @param settings The filter settings that are currently used.
+     * @return A part of a sql query token, that contains "WHERE <3rd dim> = <x>"
+     */
+    private String calcWhereThirdDimToken(final FilterSetting settings){
+        String thirdDimColumn;
+        // Check if we have a 3rd dimension setting and if yes,
+        // which setting it is.
+        switch(settings.getThirdDimension().toLowerCase()){
+            case TIME:
+                thirdDimColumn = "WHERE FE.departuretime BETWEEN ?1 and ?2\n";
+                break;
+            case ARLINE:
+                thirdDimColumn = "WHERE AIR.name IN (?3)\n";
+                break;
+            case DESTINATION:
+                thirdDimColumn = "WHERE DESTC.name IN (?4)\n";
+                break;
+            case ORIGIN:
+                thirdDimColumn = "WHERE ORIGC.name IN (?5)\n";
+                break;
+            default:
+                // handle as no 3rd dim was selected.
+                thirdDimColumn = "wHERE 1=1\n";
+        }
+        return thirdDimColumn;
+    }
+    
+    /**
+     * Create the query with its parameters itelf.
+     * @param strQuery The full query in string format.
+     * @param settings The current filter settings (used for values).
+     * @param em The entity manager, that will create the query.
+     * @return A query object with all its parameters
+     */
+    private Query createParamizedQuery(final String strQuery,
+        final FilterSetting settings, final EntityManager em){
+        Query query = null;
+        query = em.createNativeQuery(strQuery);
+        query.setParameter(1, settings.getTimeFrom(), TemporalType.DATE);
+        query.setParameter(2, settings.getTimeTo(), TemporalType.DATE);
+        query.setParameter(3, String.join(",", settings.getAirlines()));
+        query.setParameter(4, String.join(",", settings.getDestinations()));
+        query.setParameter(5, String.join(",", settings.getOrigins()));
+        return query;
+    }
 
 }

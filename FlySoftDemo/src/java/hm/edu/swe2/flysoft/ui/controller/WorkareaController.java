@@ -74,6 +74,8 @@ public class WorkareaController {
            setting.setTimeDimension(timedim);
            setting.setThirdDimension(thirddim);
            setting.setDestinations(new String[]{dest});
+           setting.setAirlines(new String[]{});
+           setting.setOrigins(new String[]{});
            //setting.setDestinations(dest);
            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
            setting.setTimeFrom(dateFormat.parse("2015-01-01"));

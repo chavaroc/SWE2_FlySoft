@@ -48,7 +48,7 @@ public final class GlobalSettings {
     public static final String DELAY = "Delay";
     public static final String TIME = "Time";
     public static final String DESTINATION = "Destination";
-    public static final String ORIGIN = "Destination";
+    public static final String ORIGIN = "Origin";
     public static final String ARLINE = "Airline";
     
     
