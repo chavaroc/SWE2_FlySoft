@@ -49,7 +49,7 @@ public final class GlobalSettings {
     public static final String TIME = "Time";
     public static final String DESTINATION = "Destination";
     public static final String ORIGIN = "Origin";
-    public static final String ARLINE = "Airline";
+    public static final String AIRLINE = "Airline";
     
     
 
