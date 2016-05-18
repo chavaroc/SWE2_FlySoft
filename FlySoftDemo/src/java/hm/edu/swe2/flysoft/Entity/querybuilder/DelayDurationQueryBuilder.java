@@ -1,5 +1,6 @@
 package hm.edu.swe2.flysoft.entity.querybuilder;
 
+import static hm.edu.swe2.flysoft.entity.querybuilder.AbstractQueryBuilder.validTimeDimensions;
 import hm.edu.swe2.flysoft.interfaces.IQueryBuilder;
 import hm.edu.swe2.flysoft.ui.FilterSetting;
 import static hm.edu.swe2.flysoft.util.GlobalSettings.*;
@@ -8,20 +9,15 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 /**
- * Build all querys, that need flight frequency at the y-axis.
+ * Build all querys, that need delay at the y-axis.
  * @author Philipp Chavaroche
- * @version 17.05.2016
+ * @version 18.05.2016
  */
-public class FrequencyQueryBuilder extends AbstractQueryBuilder implements IQueryBuilder{
-    
-    /**
-     * Build a sql query, to request the data descript by the given settings.
-     * @param settings The current filter settings.
-     * @param em 
-     * @return The query to request the data, descriped by the filter settings.
-     */
+public class DelayDurationQueryBuilder extends AbstractQueryBuilder
+implements IQueryBuilder{
+
     @Override
-    public Query build(final FilterSetting settings, final EntityManager em){
+    public Query build(FilterSetting settings, EntityManager em) {
         Query query;
         String selectToken;
         String whereToken;
@@ -31,39 +27,38 @@ public class FrequencyQueryBuilder extends AbstractQueryBuilder implements IQuer
             // This if condition is a security condition (avoid sql injection).
             // Use only valid values.
             if(validTimeDimensions.contains(timeDim.toLowerCase(Locale.US))){
-                selectToken = timeDim + "(FE.departuretime) as Week\n" +
-                ",Count("+timeDim+"(FE.departuretime)) as Flights";
+                selectToken = timeDim + "(FE.departuretime) as Week\n";
                 whereToken = calcWhereThirdDimToken(settings) + 
                     "AND FE.departuretime BETWEEN ?1 and ?2\n" +
                     "GROUP BY "+timeDim+"(FE.departuretime)";
             }
             else{
                 //Invalid time dimension
-                throw new IllegalArgumentException("Unknown time dimension '"+timeDim+"'");
+                throw new IllegalArgumentException("Unknown time dimension '"
+                    +timeDim+"'");
             }
         }
         else if (AIRLINE.equalsIgnoreCase(settings.getXaxis())){
-            selectToken = "AIR.name\n" +
-                ",Count(AIR.name)";
+            selectToken = "AIR.name\n";
             whereToken = calcWhereThirdDimToken(settings) + 
                 "GROUP BY AIR.name";
         }
         else if (DESTINATION.equalsIgnoreCase(settings.getXaxis())){
-            selectToken = "DESTC.name\n" +
-                ",Count(DESTC.name)";
+            selectToken = "DESTC.name\n";
             whereToken = calcWhereThirdDimToken(settings) + 
                 "GROUP BY DESTC.name";
         }
         else if (ORIGIN.equalsIgnoreCase(settings.getXaxis())){
-            selectToken = "ORIGC.name\n" +
-                ",Count(ORIGC.name)";
+            selectToken = "ORIGC.name\n";
             whereToken = calcWhereThirdDimToken(settings) + 
                 "GROUP BY ORIGC.name";
         }
         else{
             throw new UnsupportedOperationException("Not supported yet.");
         }   
+        selectToken += ",SUM(FE.arrivaldelay) as SumDelay";
         query = createParamizedQuery(selectToken, whereToken, settings, em);
         return query;
-    }    
+    }
+
 }

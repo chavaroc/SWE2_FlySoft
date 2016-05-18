@@ -45,7 +45,7 @@ public final class GlobalSettings {
         "        JOIN city DESTC ON DESTC.city_id = DEST.city_id\n" + 
         "%s";
     public static final String FREQUENCIES = "Frequencies";
-    public static final String DELAY = "Delay";
+    public static final String DELAY_DURATION = "Delay durations";
     public static final String TIME = "Time";
     public static final String DESTINATION = "Destination";
     public static final String ORIGIN = "Origin";
