@@ -50,7 +50,7 @@ public final class GlobalSettings {
     public static final String CANCELLATIONS = "cancellations";
     public static final String TIME = "time";
     public static final String DESTINATION = "destination";
-    public static final String ORIGIN = "drigin";
+    public static final String ORIGIN = "origin";
     public static final String AIRLINE = "airline";
     
     

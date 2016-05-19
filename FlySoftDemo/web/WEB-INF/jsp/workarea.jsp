@@ -32,7 +32,7 @@
     <div id="content">
         <div id="header">
             <img src='<c:url value="/resources/imgs/flyAmerica_logo.PNG" />' alt="FlyAmerica-Logo" id="logo">
-            <div id="username">Max Mustermann</div>
+            <div id="username">Max Mustermän</div>
         </div>
 
         <div class="left">

@@ -59,7 +59,8 @@ public abstract class AbstractQueryBuilder {
                 // handle as no 3rd dim was selected.
                 // 1=1 is a dummy expression, maybe the query have some
                 // AND conditions after the where.
-                thirdDimColumn = "WHERE 1=1\n";
+                //thirdDimColumn = "WHERE 1=1\n";
+                thirdDimColumn = "WHERE DESTC.name IN (?4)\n";
         }
         return thirdDimColumn;
     }
