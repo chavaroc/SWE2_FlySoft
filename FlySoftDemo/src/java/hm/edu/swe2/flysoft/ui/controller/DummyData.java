@@ -25,7 +25,6 @@ public class DummyData {
             xAxisOptions.add("Airline");
             xAxisOptions.add("Time");
             xAxisOptions.add("Destination");
-            xAxisOptions.add("Origin");
         }
         return xAxisOptions;
     }
@@ -36,7 +35,6 @@ public class DummyData {
             thirdDimensionOptions.add("Airline");
             thirdDimensionOptions.add("Time");
             thirdDimensionOptions.add("Destination");
-            thirdDimensionOptions.add("Origin");
         }
         return thirdDimensionOptions;
     }

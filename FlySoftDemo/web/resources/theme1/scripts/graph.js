@@ -127,12 +127,11 @@ $(function () {
     $("#y_qualifier").change(function () {
         y_axis_name = $("#y_qualifier option:selected").text();
         console.log(y_axis_name);
-        if(y_axis_name === "Count of passengers"){
+        if (y_axis_name === "Count of passengers") {
             $("#time_dimension1").attr("disabled", "");
             $("#time_dimension2").attr("disabled", "");
             $("#time_dimension3").attr("disabled", "");
-        }
-        else{
+        } else {
             $("#time_dimension1").removeAttr("disabled");
             $("#time_dimension2").removeAttr("disabled");
             $("#time_dimension3").removeAttr("disabled");
@@ -175,9 +174,9 @@ $(function () {
     });
 
     $("#submit_button").click(function () {
-        var xaxis = $("#xaxis option:selected").text(); //"Time";
+        var xaxis = $("#xaxis_selector option:selected").text(); //"Time";
         var yaxis = $("#y_qualifier option:selected").text();
-        var timedim = "Week";
+        var timedim = $('input[name="timeDimension"]:checked').val();
         var thirddim = $("#thirdDimension option:selected").text();
         var destinations = "Las Vegas, NV";
         var timerange = ["01.01.2015", "31.12.2015"];
@@ -185,7 +184,6 @@ $(function () {
 
         console.log(yaxis);
         console.log(xaxis);
-
 
         var url = "/FlySoftDemo/workarea/graphdata";
         $.getJSON(url, {xaxis: escape(xaxis), yaxis: yaxis, timedim: timedim, thirddim: thirddim, destinations: destinations, timerange: timerange, airlines: airlines}, function (json) {
