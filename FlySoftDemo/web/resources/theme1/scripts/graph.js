@@ -131,6 +131,10 @@ $(function () {
             $("#time_dimension1").attr("disabled", "");
             $("#time_dimension2").attr("disabled", "");
             $("#time_dimension3").attr("disabled", "");
+            $("#time_dimension1").attr("checked", false);
+            $("#time_dimension2").attr("checked", false);
+            $("#time_dimension3").attr("checked", false);
+            $("#weekday_selector").hide();
         } else {
             $("#time_dimension1").removeAttr("disabled");
             $("#time_dimension2").removeAttr("disabled");
