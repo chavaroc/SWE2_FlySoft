@@ -4,6 +4,7 @@ import hm.edu.swe2.flysoft.ui.FilterSetting;
 import hm.edu.swe2.flysoft.util.GlobalSettings;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TemporalType;
@@ -18,11 +19,12 @@ public abstract class AbstractQueryBuilder {
      * Contains all valid time dimensions.
      */
     protected static List<String> validTimeDimensions;
+    private static final String TIME_DIM_DAY = "day";
 
     public AbstractQueryBuilder() {
         if(validTimeDimensions == null){
             validTimeDimensions = new ArrayList<>();
-            validTimeDimensions.add("day");
+            validTimeDimensions.add(TIME_DIM_DAY);
             validTimeDimensions.add("week");
             validTimeDimensions.add("month");
             validTimeDimensions.add("year");
@@ -81,6 +83,30 @@ public abstract class AbstractQueryBuilder {
         query.setParameter(4, String.join(",", settings.getDestinations()));
         query.setParameter(5, String.join(",", settings.getOrigins()));
         return query;
+    }
+    
+    /**
+     * Parse the time dimension and deliver a valid time dim back.
+     * The time dimension is equal with the sql functions (week, month, ...).
+     * @param settings The current filter settings.
+     * @return A valid time dimension.
+     */
+    protected String parseTimeDimension(final FilterSetting settings){
+        String timeDim = settings.getTimeDimension();
+        // This if condition is a security condition (avoid sql injection).
+        // Use only valid values.
+        if(!validTimeDimensions.contains(timeDim.toLowerCase(Locale.US))){
+            throw new IllegalArgumentException(
+                    "Unknown time dimension '"+timeDim +"'");
+        }
+        if(TIME_DIM_DAY.equalsIgnoreCase(timeDim)){
+            // If we got the time dimension 'day' we need no sql function.
+            // The sql function 'day' add all month days together 
+            // for example: group 22 = (22.01 + 22.02 + ...).
+            // There will be ~ 30 groups.
+            timeDim = "DAYOFYEAR"; 
+        }
+        return timeDim;
     }
 
 }

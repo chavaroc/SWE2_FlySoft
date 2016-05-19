@@ -1,5 +1,6 @@
 package hm.edu.swe2.flysoft.entity.querybuilder;
 
+import static hm.edu.swe2.flysoft.entity.querybuilder.AbstractQueryBuilder.validTimeDimensions;
 import hm.edu.swe2.flysoft.interfaces.IQueryBuilder;
 import hm.edu.swe2.flysoft.ui.FilterSetting;
 import static hm.edu.swe2.flysoft.util.GlobalSettings.*;
@@ -8,46 +9,47 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 /**
- * Build all querys, that need delay duration at the y-axis.
+ * Build all querys, that need cancellations at the y-axis.
  * @author Philipp Chavaroche
- * @version 18.05.2016
+ * @version 19.05.2016
  */
-public class DelayDurationQueryBuilder extends AbstractQueryBuilder implements IQueryBuilder{
-
+public class CancellationQueryBuilder extends AbstractQueryBuilder implements IQueryBuilder {
+ 
     @Override
     public Query build(FilterSetting settings, EntityManager em) {
         Query query;
         String selectToken;
         String whereToken;
+        String groupByToken;
         // Check which x-axis is given
         if(TIME.equalsIgnoreCase(settings.getXaxis())){
             final String timeDim = parseTimeDimension(settings);
             selectToken = timeDim + "(FE.departuretime) as Week\n";
             whereToken = calcWhereThirdDimToken(settings) + 
-                "AND FE.departuretime BETWEEN ?1 and ?2\n" +
-                "GROUP BY "+timeDim+"(FE.departuretime)";
+                "AND FE.departuretime BETWEEN ?1 and ?2\n";
+            groupByToken = "GROUP BY "+timeDim+"(FE.departuretime)";
         }
         else if (AIRLINE.equalsIgnoreCase(settings.getXaxis())){
             selectToken = "AIR.name\n";
-            whereToken = calcWhereThirdDimToken(settings) + 
-                "GROUP BY AIR.name";
+            whereToken = calcWhereThirdDimToken(settings);
+            groupByToken = "GROUP BY AIR.name";
         }
         else if (DESTINATION.equalsIgnoreCase(settings.getXaxis())){
             selectToken = "DESTC.name\n";
-            whereToken = calcWhereThirdDimToken(settings) + 
-                "GROUP BY DESTC.name";
+            whereToken = calcWhereThirdDimToken(settings);
+            groupByToken = "GROUP BY DESTC.name";
         }
         else if (ORIGIN.equalsIgnoreCase(settings.getXaxis())){
             selectToken = "ORIGC.name\n";
-            whereToken = calcWhereThirdDimToken(settings) + 
-                "GROUP BY ORIGC.name";
+            whereToken = calcWhereThirdDimToken(settings);
+            groupByToken = "GROUP BY ORIGC.name";
         }
         else{
             throw new UnsupportedOperationException("Not supported yet.");
         }   
-        selectToken += ",SUM(FE.arrivaldelay) as SumDelay";
+        selectToken += ",COUNT(F.cancelled) as CancelledCount";
+        whereToken = whereToken + "AND F.cancelled > 0\n" + groupByToken;
         query = createParamizedQuery(selectToken, whereToken, settings, em);
         return query;
     }
-
 }
