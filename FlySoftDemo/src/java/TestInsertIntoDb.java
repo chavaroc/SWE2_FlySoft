@@ -1,4 +1,6 @@
 
+import hm.edu.swe2.flysoft.crawler.CrawlTableType;
+import hm.edu.swe2.flysoft.crawler.FileCrawler;
 import hm.edu.swe2.flysoft.entity.controller.ParsedFlightController;
 import hm.edu.swe2.flysoft.parser.CsvParser;
 import hm.edu.swe2.flysoft.parser.FlightFilter;
@@ -6,15 +8,16 @@ import hm.edu.swe2.flysoft.parser.FlightPreparator;
 import hm.edu.swe2.flysoft.parser.mappings.AbstractMapTable;
 import hm.edu.swe2.flysoft.parser.mappings.OnTimeMapTable;
 import hm.edu.swe2.flysoft.parser.model.ParsedFlight;
+import hm.edu.swe2.flysoft.util.GlobalSettings;
 import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.LinkOption;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 
 
 /**
- *
+ * This class performs a data download from trans stats (via crawler),
+ * parse the data and write them into db.
  * @author Philipp Chavaroche
  * @version 
  */
@@ -24,12 +27,10 @@ public class TestInsertIntoDb {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws Exception {
-        File onTimeTable;
+        File onTimeTableFile;
         List<String> fileList = new ArrayList<String>();
-        //String filePath //"C:\\Users\\xYrs\\Documents\\Hm\\6_Semester\\SWE2\\Transtats_Data\\Dometic\\968296915_T_ONTIME.csv";
-//            = "C:\\Users\\xYrs\\Documents\\Hm\\6_Semester\\SWE2\\FlySoft_Git\\FileCrawler\\FileCrawler\\downloaded\\2015_01_T_ONTIME.csv";
-        String parentDir = "C:\\Users\\xYrs\\Documents\\Hm\\6_Semester\\SWE2\\FlySoft_Git\\FileCrawler\\FileCrawler\\downloaded\\";
-        fileList.add(parentDir + "2015_02_T_ONTIME.csv");
+        String parentDir = GlobalSettings.CRAWLER_DOWNLOAD_DIR;
+        /*fileList.add(parentDir + "2015_02_T_ONTIME.csv");
         fileList.add(parentDir + "2015_03_T_ONTIME.csv");
         fileList.add(parentDir + "2015_04_T_ONTIME.csv");
         fileList.add(parentDir + "2015_05_T_ONTIME.csv");
@@ -39,7 +40,12 @@ public class TestInsertIntoDb {
         fileList.add(parentDir + "2015_09_T_ONTIME.csv");
         fileList.add(parentDir + "2015_10_T_ONTIME.csv");
         fileList.add(parentDir + "2015_11_T_ONTIME.csv");
-        fileList.add(parentDir + "2015_12_T_ONTIME.csv");
+        fileList.add(parentDir + "2015_12_T_ONTIME.csv");*/
+        
+        FileCrawler crawler = new FileCrawler(
+            EnumSet.of(CrawlTableType.OnTime));
+        crawler.crawl();
+        fileList.addAll(crawler.getCrawledFileNames());
             
         //if(args.length > 0){
         //    filePath = args[0];
@@ -56,9 +62,9 @@ public class TestInsertIntoDb {
             }
             System.out.println("Parse file '"+filePath+"'");
             
-            onTimeTable = new File(filePath);
+            onTimeTableFile = new File(filePath);
             AbstractMapTable config = OnTimeMapTable.getInstance();
-            CsvParser<ParsedFlight> parser = new CsvParser<>(onTimeTable.getAbsolutePath(), config,
+            CsvParser<ParsedFlight> parser = new CsvParser<>(onTimeTableFile.getAbsolutePath(), config,
                 ',', ParsedFlight.class);
 
             System.out.println("Start parsing...");
