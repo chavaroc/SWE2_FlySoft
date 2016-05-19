@@ -27,20 +27,12 @@ public class FrequencyQueryBuilder extends AbstractQueryBuilder implements IQuer
         String whereToken;
         // Check which x-axis is given
         if(TIME.equalsIgnoreCase(settings.getXaxis())){
-            final String timeDim = settings.getTimeDimension();
-            // This if condition is a security condition (avoid sql injection).
-            // Use only valid values.
-            if(validTimeDimensions.contains(timeDim.toLowerCase(Locale.US))){
-                selectToken = timeDim + "(FE.departuretime) as Week\n" +
-                ",Count("+timeDim+"(FE.departuretime)) as Flights";
-                whereToken = calcWhereThirdDimToken(settings) + 
-                    "AND FE.departuretime BETWEEN ?1 and ?2\n" +
-                    "GROUP BY "+timeDim+"(FE.departuretime)";
-            }
-            else{
-                //Invalid time dimension
-                throw new IllegalArgumentException("Unknown time dimension '"+timeDim+"'");
-            }
+            final String timeDim = parseTimeDimension(settings);
+            selectToken = timeDim + "(FE.departuretime) as Week\n" +
+            ",Count("+timeDim+"(FE.departuretime)) as Flights";
+            whereToken = calcWhereThirdDimToken(settings) + 
+                "AND FE.departuretime BETWEEN ?1 and ?2\n" +
+                "GROUP BY "+timeDim+"(FE.departuretime)";
         }
         else if (AIRLINE.equalsIgnoreCase(settings.getXaxis())){
             selectToken = "AIR.name\n" +

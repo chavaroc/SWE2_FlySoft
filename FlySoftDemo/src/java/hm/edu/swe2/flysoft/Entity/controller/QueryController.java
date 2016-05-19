@@ -1,6 +1,8 @@
 package hm.edu.swe2.flysoft.entity.controller;
 
+import hm.edu.swe2.flysoft.entity.querybuilder.CancellationQueryBuilder;
 import hm.edu.swe2.flysoft.entity.querybuilder.DelayDurationQueryBuilder;
+import hm.edu.swe2.flysoft.entity.querybuilder.DelayFrequencyQueryBuilder;
 import hm.edu.swe2.flysoft.entity.querybuilder.FrequencyQueryBuilder;
 import hm.edu.swe2.flysoft.ui.FilterSetting;
 import static hm.edu.swe2.flysoft.util.GlobalSettings.*;
@@ -31,8 +33,15 @@ public class QueryController extends AbstractEntityController {
         else if(DELAY_DURATION.equalsIgnoreCase(settings.getYaxis())){
             query = new DelayDurationQueryBuilder().build(settings, em);
         }
+        else if(DELAY_FREQ.equalsIgnoreCase(settings.getYaxis())){
+            query = new DelayFrequencyQueryBuilder().build(settings, em);
+        }
+        else if(CANCELLATIONS.equalsIgnoreCase(settings.getYaxis())){
+            query = new CancellationQueryBuilder().build(settings, em);
+        }
         else{
-            throw new UnsupportedOperationException("Not supported yet.");
+            throw new UnsupportedOperationException("QueryController does not"
+                + " support '"+settings.getYaxis()+"' on y-axi");
         }   
         return query;
     }

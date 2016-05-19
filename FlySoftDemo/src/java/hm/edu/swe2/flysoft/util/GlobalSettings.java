@@ -46,6 +46,8 @@ public final class GlobalSettings {
         "%s";
     public static final String FREQUENCIES = "Frequencies";
     public static final String DELAY_DURATION = "Delay durations";
+    public static final String DELAY_FREQ = "Delay frequencies";
+    public static final String CANCELLATIONS = "Cancellations";
     public static final String TIME = "Time";
     public static final String DESTINATION = "Destination";
     public static final String ORIGIN = "Origin";
