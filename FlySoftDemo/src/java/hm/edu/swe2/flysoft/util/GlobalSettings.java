@@ -44,14 +44,14 @@ public final class GlobalSettings {
         "        JOIN city ORIGC ON ORIGC.city_id = ORIG.city_id\n" +
         "        JOIN city DESTC ON DESTC.city_id = DEST.city_id\n" + 
         "%s";
-    public static final String FREQUENCIES = "Frequencies";
-    public static final String DELAY_DURATION = "Delay durations";
-    public static final String DELAY_FREQ = "Delay frequencies";
-    public static final String CANCELLATIONS = "Cancellations";
-    public static final String TIME = "Time";
-    public static final String DESTINATION = "Destination";
-    public static final String ORIGIN = "Origin";
-    public static final String AIRLINE = "Airline";
+    public static final String FREQUENCIES = "frequencies";
+    public static final String DELAY_DURATION = "delay durations";
+    public static final String DELAY_FREQ = "delay frequencies";
+    public static final String CANCELLATIONS = "cancellations";
+    public static final String TIME = "time";
+    public static final String DESTINATION = "destination";
+    public static final String ORIGIN = "drigin";
+    public static final String AIRLINE = "airline";
     
     
 
