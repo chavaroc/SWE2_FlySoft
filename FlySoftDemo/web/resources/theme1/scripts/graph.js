@@ -11,10 +11,15 @@ $(function () {
     var x_axis_name = "Time";
     var y_axis_name = "Frequencies";
     var resultFromServer;
-    var selected_x_val;
+    var selected_3d_val;
     var data_serie;
     var x_axis_unit;
 
+
+    $("#destinations_link").hide();
+    $("#timeDimension_selector").hide();
+    $("#weekday_selector").hide();
+    $('#3d_selector option').filter(":eq( 1 )").attr("disabled", "");
 
     $.redraw = function () {
         $('#container').highcharts({
@@ -57,34 +62,92 @@ $(function () {
             series: data_serie
         });
     };
-    
+
     $.updateDataToPlot = function () {
         //TODO Anpassen!
         data_serie = [{data: resultFromServer}]; //irgendwas in der Art
         $.redraw(); //always at the beginning with default values
     };
-    
-    
+
+
     $.redraw(); //always at the beginning with default values	
-    
-    
-    $("#x_qualifier").change(function () {
-        $('#3d_qualifier option').filter(function (i, e) {
+
+
+    $("#xaxis_selector").change(function () {
+        $('#3d_selector option').filter(function (i, e) {
             return $(e).text() === x_axis_name;
         }).removeAttr("disabled");
-        x_axis_name = $("#x_qualifier option:selected").text();
-        selected_x_val = $("#x_qualifier option:selected").val();
-        $.redraw();
-        $('#3d_qualifier option').filter(function (i, e) {
+        $('#3d_selector option').filter(":eq( 1 )").removeAttr("disabled");
+        x_axis_name = $("#xaxis_selector option:selected").text();
+        if (x_axis_name === "Time") {
+            $("#destinations_link").hide();
+            $("#airlines_selector").hide();
+            $("#timeDimension_selector").show();
+        } else if (x_axis_name === "Destination") {
+            $("#destinations_link").show();
+            $("#airlines_selector").hide();
+            $("#timeDimension_selector").hide();
+            $("#weekday_selector").hide();
+        } else if (x_axis_name === "Airline") {
+            $("#destinations_link").hide();
+            $("#airlines_selector").show();
+            $("#timeDimension_selector").hide();
+            $("#weekday_selector").hide();
+        }
+        $('#3d_selector option').filter(function (i, e) {
             return $(e).text() === x_axis_name;
         }).attr("disabled", "");
+    });
 
+    $("#3d_selector").change(function () {
+        $('#xaxis_selector option').filter(function (i, e) {
+            return $(e).text() === selected_3d_val;
+        }).removeAttr("disabled");
+        if (selected_3d_val === "Airline") {
+            $("#airlines_selector").hide();
+        } else if (selected_3d_val === "Time") {
+            $("#timeDimension_selector").hide();
+            $("#weekday_selector").hide();
+        } else if (selected_3d_val === "Destination") {
+            $("#destinations_link").hide();
+        }
+        selected_3d_val = $("#3d_selector option:selected").text();
+        if (selected_3d_val === "Airline") {
+            $("#airlines_selector").show();
+        } else if (selected_3d_val === "Time") {
+            $("#timeDimension_selector").show();
+        } else if (selected_3d_val === "Destination") {
+            $("#destinations_link").show();
+        }
+        $('#xaxis_selector option').filter(function (i, e) {
+            return $(e).text() === selected_3d_val;
+        }).attr("disabled", "");
     });
 
     $("#y_qualifier").change(function () {
         y_axis_name = $("#y_qualifier option:selected").text();
-        ;
-        $.redraw();
+        console.log(y_axis_name);
+        if (y_axis_name === "Count of passengers") {
+            $("#time_dimension1").attr("disabled", "");
+            $("#time_dimension2").attr("disabled", "");
+            $("#time_dimension3").attr("disabled", "");
+            $("#time_dimension1").attr("checked", false);
+            $("#time_dimension2").attr("checked", false);
+            $("#time_dimension3").attr("checked", false);
+            $("#weekday_selector").hide();
+        } else {
+            $("#time_dimension1").removeAttr("disabled");
+            $("#time_dimension2").removeAttr("disabled");
+            $("#time_dimension3").removeAttr("disabled");
+        }
+    });
+
+    $("#timeDimension_selector input").on("click", function () {
+        if ($("#timeDimension_selector input:checked").val() === "Weekday(s)") {
+            $("#weekday_selector").show();
+        } else {
+            $("#weekday_selector").hide();
+        }
     });
 
     var options = [];
@@ -115,24 +178,16 @@ $(function () {
     });
 
     $("#submit_button").click(function () {
-        var xaxis = $("#xaxis option:selected").text(); //"Time";
+        var xaxis = $("#xaxis_selector option:selected").text(); //"Time";
         var yaxis = $("#y_qualifier option:selected").text();
-        var timedim = "Week";
+        var timedim = $('input[name="timeDimension"]:checked').val();
         var thirddim = $("#thirdDimension option:selected").text();
         var destinations = "Las Vegas, NV";
         var timerange = ["01.01.2015", "31.12.2015"];
         var airlines = ["all"];
-        
-        if(xaxis === "Time"){
-            if(timedim === "Week"){
-                x_axis_unit = "week"; //noch schauen was ich damit genaue machen kann
-            }
-        }
-        console.log(destinations);
+
         console.log(yaxis);
         console.log(xaxis);
-
-         
 
         var url = "/FlySoftDemo/workarea/graphdata";
         $.getJSON(url, {xaxis: escape(xaxis), yaxis: yaxis, timedim: timedim, thirddim: thirddim, destinations: destinations, timerange: timerange, airlines: airlines}, function (json) {
@@ -143,8 +198,8 @@ $(function () {
             y_axis_name = yaxis;
             $.updateDataToPlot(); //Zu plottende Daten aktualisieren neu zeichnen lassen
         });
-        
-        
+
+
 
     });
 

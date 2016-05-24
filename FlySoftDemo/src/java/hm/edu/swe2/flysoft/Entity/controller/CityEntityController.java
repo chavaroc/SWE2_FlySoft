@@ -1,8 +1,8 @@
-package hm.edu.swe2.flysoft.controller;
+package hm.edu.swe2.flysoft.entity.controller;
 
-import hm.edu.swe2.flysoft.controller.exceptions.NonexistentEntityException;
-import hm.edu.swe2.flysoft.entity.Airline;
-import hm.edu.swe2.flysoft.interfaces.IAirline;
+import hm.edu.swe2.flysoft.entity.City;
+import hm.edu.swe2.flysoft.entity.exceptions.NonexistentEntityException;
+import hm.edu.swe2.flysoft.interfaces.ICity;
 import java.util.List;
 import java.util.Optional;
 import javax.persistence.EntityManager;
@@ -12,30 +12,30 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 /**
- * Represents the airline entity controller to handle airlines in the database.
- * @author Philipp Chavaroche
+ *
+ * @author Betina Hientz
  */
-public class AirlineEntityController extends AbstractEntityController {
+public class CityEntityController extends AbstractEntityController {
 
-    public AirlineEntityController() {
+    public CityEntityController() {
         super();
     }
     
-    public void createIfNotExist(IAirline newAirline){
-        Optional<IAirline> optExistingAirline = findAirline(newAirline.getAirlineId());
-        if(!optExistingAirline.isPresent()){
+    public void createIfNotExist(final ICity newCity){
+        Optional<ICity> optCity = findCity(newCity.getCityId());
+        if(!optCity.isPresent()){
             // The airline does not exist
-            create(newAirline);
+            create(newCity);
         }
     }
 
-    public void create(IAirline airline) {
+    public void create(ICity city) {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
-            em.persist(airline);
+            em.persist(city);
             em.getTransaction().commit();
-            System.out.println(airline.toString() + " created.");
+            System.out.println(city.toString() + " created.");
         } finally {
             if (em != null && em.isOpen()) {
                 em.close();
@@ -43,17 +43,17 @@ public class AirlineEntityController extends AbstractEntityController {
         }
     }
 
-    public void edit(IAirline airline) throws NonexistentEntityException, Exception {
+    public void edit(City city) throws NonexistentEntityException, Exception {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
-            airline = em.merge(airline);
+            city = em.merge(city);
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = airline.getAirlineId();
-                if (findAirline(id) == null) {
+                Integer id = city.getCityId();
+                if (findCity(id) == null) {
                     throw new NonexistentEntityException("The city with id " + id + " no longer exists.");
                 }
             }
@@ -69,14 +69,14 @@ public class AirlineEntityController extends AbstractEntityController {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
-            IAirline airline;
+            City city;
             try {
-                airline = em.getReference(Airline.class, id);
-                airline.getAirlineId();
+                city = em.getReference(City.class, id);
+                city.getCityId();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The city with id " + id + " no longer exists.", enfe);
             }
-            em.remove(airline);
+            em.remove(city);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -85,19 +85,19 @@ public class AirlineEntityController extends AbstractEntityController {
         }
     }
 
-    public List<IAirline> findAirlineEntities() {
-        return AirlineEntityController.this.findAirlineEntities(true, -1, -1);
+    public List<City> findCityEntities() {
+        return findCityEntities(true, -1, -1);
     }
 
-    public List<IAirline> findAirlineEntities(int maxResults, int firstResult) {
-        return AirlineEntityController.this.findAirlineEntities(false, maxResults, firstResult);
+    public List<City> findCityEntities(int maxResults, int firstResult) {
+        return findCityEntities(false, maxResults, firstResult);
     }
 
-    private List<IAirline> findAirlineEntities(boolean all, int maxResults, int firstResult) {
+    private List<City> findCityEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Airline.class));
+            cq.select(cq.from(City.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -109,27 +109,28 @@ public class AirlineEntityController extends AbstractEntityController {
         }
     }
 
-    public Optional<IAirline> findAirline(Integer id) {
+    public Optional<ICity> findCity(Integer id) {
         EntityManager em = getEntityManager();
-        IAirline searchedAirline;
+        ICity foundCity;
         try {
-            searchedAirline = em.find(Airline.class, id);
+            foundCity = em.find(City.class, id);
         } finally {
             em.close();
         }
-        return Optional.ofNullable(searchedAirline);
+        return Optional.ofNullable(foundCity);
     }
 
-    public int getAirlineCount() {
+    public int getCityCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<IAirline> rootTable = cq.from(Airline.class);
-            cq.select(em.getCriteriaBuilder().count(rootTable));
-            Query query = em.createQuery(cq);
-            return ((Long) query.getSingleResult()).intValue();
+            Root<City> rt = cq.from(City.class);
+            cq.select(em.getCriteriaBuilder().count(rt));
+            Query q = em.createQuery(cq);
+            return ((Long) q.getSingleResult()).intValue();
         } finally {
             em.close();
         }
     }
+    
 }

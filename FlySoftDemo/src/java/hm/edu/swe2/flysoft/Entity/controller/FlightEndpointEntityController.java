@@ -1,6 +1,6 @@
-package hm.edu.swe2.flysoft.controller;
+package hm.edu.swe2.flysoft.entity.controller;
 
-import hm.edu.swe2.flysoft.controller.exceptions.NonexistentEntityException;
+import hm.edu.swe2.flysoft.entity.exceptions.NonexistentEntityException;
 import hm.edu.swe2.flysoft.entity.Flightendpoint;
 import hm.edu.swe2.flysoft.interfaces.IFlightEndPoints;
 import java.util.Optional;

@@ -19,7 +19,7 @@ public class FilterSetting {
     private String thirdDimension;
     private String[] airlines;
     private String[] airlinesnew;
-    //private String[] origins;
+    private String[] origins;
     private String[] destinations;
     private String timeDimension; //day, week or year
     private Date timeFrom;
@@ -96,7 +96,13 @@ public class FilterSetting {
     public void setTimeTo(Date timeTo) {
         this.timeTo = timeTo;
     }
-    
-    
+
+    public String[] getOrigins() {
+        return origins;
+    }
+
+    public void setOrigins(String[] origins) {
+        this.origins = origins;
+    }  
     
 }

@@ -1,4 +1,4 @@
-package hm.edu.swe2.flysoft;
+package hm.edu.swe2.flysoft.ui.controller;
 
 import hm.edu.swe2.flysoft.ui.FilterSetting;
 import org.springframework.stereotype.Controller;

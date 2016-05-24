@@ -1,8 +1,8 @@
 
 package hm.edu.swe2.flysoft.entity;
 
-import hm.edu.swe2.flysoft.controller.CityEntityController;
-import hm.edu.swe2.flysoft.controller.exceptions.NonexistentEntityException;
+import hm.edu.swe2.flysoft.entity.controller.CityEntityController;
+import hm.edu.swe2.flysoft.entity.exceptions.NonexistentEntityException;
 import hm.edu.swe2.flysoft.interfaces.ICity;
 import java.util.Optional;
 import org.junit.Test;

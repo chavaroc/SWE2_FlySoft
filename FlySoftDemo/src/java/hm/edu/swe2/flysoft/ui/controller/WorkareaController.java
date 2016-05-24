@@ -1,9 +1,8 @@
-package hm.edu.swe2.flysoft;
+package hm.edu.swe2.flysoft.ui.controller;
 
-import hm.edu.swe2.flysoft.controller.AirlineEntityController;
+import hm.edu.swe2.flysoft.entity.controller.AirlineEntityController;
 import hm.edu.swe2.flysoft.ui.FilterSetting;
-import hm.edu.swe2.flysoft.controller.CityEntityController;
-import hm.edu.swe2.flysoft.controller.FilterController;
+import hm.edu.swe2.flysoft.entity.controller.QueryController;
 import hm.edu.swe2.flysoft.entity.Airline;
 import hm.edu.swe2.flysoft.entity.City;
 import hm.edu.swe2.flysoft.interfaces.IAirline;
@@ -24,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.portlet.ModelAndView;
 
 /**
  *
@@ -65,9 +63,9 @@ public class WorkareaController {
        ,@RequestParam("yaxis") String yaxis
        ,@RequestParam("timedim") String timedim
        ,@RequestParam("thirddim") String thirddim
-       ,@RequestParam("destinations") String dest
+       ,@RequestParam("destinations") String dest // TODO should be an array
         ) throws IOException {
-       FilterController controller = new FilterController();
+       QueryController controller = new QueryController();
        FilterSetting setting = new FilterSetting();  
        // Hardcoded Workarround -> todo: Add Time range fields in gui 
        try{
@@ -75,6 +73,9 @@ public class WorkareaController {
            setting.setYaxis(yaxis);
            setting.setTimeDimension(timedim);
            setting.setThirdDimension(thirddim);
+           setting.setDestinations(new String[]{dest});
+           setting.setAirlines(new String[]{});
+           setting.setOrigins(new String[]{});
            //setting.setDestinations(dest);
            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
            setting.setTimeFrom(dateFormat.parse("2015-01-01"));
