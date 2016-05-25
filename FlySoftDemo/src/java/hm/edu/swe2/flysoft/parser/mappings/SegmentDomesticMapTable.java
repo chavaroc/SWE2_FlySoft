@@ -1,6 +1,5 @@
 package hm.edu.swe2.flysoft.parser.mappings;
 import hm.edu.swe2.flysoft.parser.model.MethodDescriptor;
-import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -12,20 +11,25 @@ public final class SegmentDomesticMapTable extends AbstractMapTable {
     
     private static AbstractMapTable singletonMapTable;
     
+    /**
+     * Construct a mapping for the segment docmestic table.
+     * Privae because of singleton pattern.
+     */
     private SegmentDomesticMapTable(){
         super();
     }
     
+     /**
+     * Get the instance of the segemnt domestic table mapping.
+     * @return A segement domestic mapping object.
+     */
     public static AbstractMapTable getInstance(){
         if(singletonMapTable== null){
             singletonMapTable = new SegmentDomesticMapTable();
         }
         return singletonMapTable;
     }
-    
-    /**
-     * Initialize the map table.
-     */
+
     @Override
     protected void initMap(){
         mapping = new HashMap<>();

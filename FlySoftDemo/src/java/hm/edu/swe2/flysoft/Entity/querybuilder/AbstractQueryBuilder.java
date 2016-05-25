@@ -12,7 +12,7 @@ import javax.persistence.TemporalType;
 /**
  * ABC class for query builders.
  * @author Philipp Chavaroche
- * @version 
+ * @version 19.05.2016
  */
 public abstract class AbstractQueryBuilder {
     /**
@@ -21,6 +21,9 @@ public abstract class AbstractQueryBuilder {
     protected static List<String> validTimeDimensions;
     private static final String TIME_DIM_DAY = "day";
 
+    /**
+     * Construct a new abstract query builder.
+     */
     public AbstractQueryBuilder() {
         if(validTimeDimensions == null){
             validTimeDimensions = new ArrayList<>();
@@ -59,8 +62,7 @@ public abstract class AbstractQueryBuilder {
                 // handle as no 3rd dim was selected.
                 // 1=1 is a dummy expression, maybe the query have some
                 // AND conditions after the where.
-                //thirdDimColumn = "WHERE 1=1\n";
-                thirdDimColumn = "WHERE DESTC.name IN (?4)\n";
+                thirdDimColumn = "WHERE 1=1\n";
         }
         return thirdDimColumn;
     }
@@ -70,14 +72,15 @@ public abstract class AbstractQueryBuilder {
      * @param selectToken The select oken of the query.
      * @param whereToken The where token of the query.
      * @param settings The current filter settings (used for values).
-     * @param em The entity manager, that will create the query.
+     * @param entityManager The entity manager, that will create the query.
      * @return A query object with all its parameters
      */
     protected Query createParamizedQuery(final String selectToken,
-        final String whereToken, final FilterSetting settings, final EntityManager em) {
+        final String whereToken, final FilterSetting settings,
+        final EntityManager entityManager) {
         Query query;
         final String fullQuery = String.format(GlobalSettings.BASE_QUERY, selectToken, whereToken);
-        query = em.createNativeQuery(fullQuery);
+        query = entityManager.createNativeQuery(fullQuery);
         query.setParameter(1, settings.getTimeFrom(), TemporalType.DATE);
         query.setParameter(2, settings.getTimeTo(), TemporalType.DATE);
         query.setParameter(3, String.join(",", settings.getAirlines()));

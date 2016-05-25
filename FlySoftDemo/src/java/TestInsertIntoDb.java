@@ -3,7 +3,7 @@ import hm.edu.swe2.flysoft.crawler.CrawlTableType;
 import hm.edu.swe2.flysoft.crawler.FileCrawler;
 import hm.edu.swe2.flysoft.entity.controller.ParsedFlightController;
 import hm.edu.swe2.flysoft.parser.CsvParser;
-import hm.edu.swe2.flysoft.parser.FlightFilter;
+import hm.edu.swe2.flysoft.parser.NewYorkFlightFilter;
 import hm.edu.swe2.flysoft.parser.FlightPreparator;
 import hm.edu.swe2.flysoft.parser.mappings.AbstractMapTable;
 import hm.edu.swe2.flysoft.parser.mappings.OnTimeMapTable;
@@ -14,12 +14,11 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
-
 /**
  * This class performs a data download from trans stats (via crawler),
  * parse the data and write them into db.
  * @author Philipp Chavaroche
- * @version 
+ * @version 25.05.2016
  */
 public class TestInsertIntoDb {
     
@@ -72,7 +71,7 @@ public class TestInsertIntoDb {
             System.out.println(parsedFlights.size() + " flights parsed.");
 
             System.out.println("Start filtering...");
-            FlightFilter newYorkFilter = new FlightFilter();
+            NewYorkFlightFilter newYorkFilter = new NewYorkFlightFilter();
             parsedFlights = newYorkFilter.filter(parsedFlights);
             System.out.println("Filtering finished ("+parsedFlights.size() +" flights left).");
 

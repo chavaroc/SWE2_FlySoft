@@ -89,7 +89,8 @@ public class FlightPreparator {
         flight.setDepartureDateTime(combineDateTime(flight.getFlightDate(), flight.getDepartureTime()));
         flight.setArrivalDateTime(combineDateTime(flight.getFlightDate(), flight.getArrivalTime()));
         
-        // if the arrival time is earlier than the depature time,
+        // In the data inport, we have only one date for arrival and depature.
+        // So, if the arrival time is earlier than the depature time,
         // that the next day is reached -> increase day by 1.
         if(flight.getArrivalDateTime().before(flight.getDepartureDateTime())){
             final Calendar calendar = Calendar.getInstance(); 

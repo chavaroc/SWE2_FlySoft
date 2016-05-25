@@ -3,7 +3,6 @@ package hm.edu.swe2.flysoft.entity.querybuilder;
 import hm.edu.swe2.flysoft.interfaces.IQueryBuilder;
 import hm.edu.swe2.flysoft.ui.FilterSetting;
 import static hm.edu.swe2.flysoft.util.GlobalSettings.*;
-import java.util.Locale;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
@@ -13,15 +12,10 @@ import javax.persistence.Query;
  * @version 17.05.2016
  */
 public class FrequencyQueryBuilder extends AbstractQueryBuilder implements IQueryBuilder{
-    
-    /**
-     * Build a sql query, to request the data descript by the given settings.
-     * @param settings The current filter settings.
-     * @param em 
-     * @return The query to request the data, descriped by the filter settings.
-     */
+
     @Override
-    public Query build(final FilterSetting settings, final EntityManager em){
+    public Query build(final FilterSetting settings,
+        final EntityManager entityManager){
         Query query;
         String selectToken;
         String whereToken;
@@ -55,7 +49,7 @@ public class FrequencyQueryBuilder extends AbstractQueryBuilder implements IQuer
         else{
             throw new UnsupportedOperationException("Not supported yet.");
         }   
-        query = createParamizedQuery(selectToken, whereToken, settings, em);
+        query = createParamizedQuery(selectToken, whereToken, settings, entityManager);
         return query;
     }    
 }

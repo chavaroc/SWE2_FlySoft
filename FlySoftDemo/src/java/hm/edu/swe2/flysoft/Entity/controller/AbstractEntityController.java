@@ -12,12 +12,14 @@ import javax.persistence.Persistence;
  */
 public abstract class AbstractEntityController implements Serializable {
     
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("FlySoftDemoPU");
-    private EntityManager emIni = emf.createEntityManager();
+    private final EntityManagerFactory entityFactory =
+        Persistence.createEntityManagerFactory("FlySoftDemoPU");
+    
+    private EntityManager emIni = entityFactory.createEntityManager();
     
     public EntityManager getEntityManager() {
         if(!emIni.isOpen()){
-            return emf.createEntityManager();
+            return entityFactory.createEntityManager();
         }
         else{
             return emIni;

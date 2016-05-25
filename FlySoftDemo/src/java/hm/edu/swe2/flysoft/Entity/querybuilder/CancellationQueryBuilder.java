@@ -1,10 +1,8 @@
 package hm.edu.swe2.flysoft.entity.querybuilder;
 
-import static hm.edu.swe2.flysoft.entity.querybuilder.AbstractQueryBuilder.validTimeDimensions;
 import hm.edu.swe2.flysoft.interfaces.IQueryBuilder;
 import hm.edu.swe2.flysoft.ui.FilterSetting;
 import static hm.edu.swe2.flysoft.util.GlobalSettings.*;
-import java.util.Locale;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
@@ -16,7 +14,7 @@ import javax.persistence.Query;
 public class CancellationQueryBuilder extends AbstractQueryBuilder implements IQueryBuilder {
  
     @Override
-    public Query build(FilterSetting settings, EntityManager em) {
+    public Query build(final FilterSetting settings, final EntityManager entityManager) {
         Query query;
         String selectToken;
         String whereToken;
@@ -49,7 +47,7 @@ public class CancellationQueryBuilder extends AbstractQueryBuilder implements IQ
         }   
         selectToken += ",COUNT(F.cancelled) as CancelledCount";
         whereToken = whereToken + "AND F.cancelled > 0\n" + groupByToken;
-        query = createParamizedQuery(selectToken, whereToken, settings, em);
+        query = createParamizedQuery(selectToken, whereToken, settings, entityManager);
         return query;
     }
 }

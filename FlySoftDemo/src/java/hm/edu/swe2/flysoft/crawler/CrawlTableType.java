@@ -1,15 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package hm.edu.swe2.flysoft.crawler;
 
 /**
- *
+ * Represents the typs of transtat tables that can be crawled.
  * @author Philipp Chavaroche
- * @version 
+ * @version 30.04.2016
  */
 public enum CrawlTableType {
     OnTime,

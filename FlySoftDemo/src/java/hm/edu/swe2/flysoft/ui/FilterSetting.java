@@ -1,16 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package hm.edu.swe2.flysoft.ui;
 
 import java.util.Date;
 
 /**
- *
+ * Represents a choosen filter setting.
  * @author Philipp Chavaroche
- * @version
+ * @version 11.05.2016
  */
 public class FilterSetting {
 
@@ -25,14 +20,26 @@ public class FilterSetting {
     private Date timeFrom;
     private Date timeTo;
 
+    /**
+     * Get the x-axis of the setting.
+     * @return The name of the x-axis.
+     */
     public String getXaxis() {
         return xaxis;
     }
 
+    /**
+     * Set the x-axis of the setting.
+     * @param xaxis 
+     */
     public void setXaxis(String xaxis) {
         this.xaxis = xaxis;
     }
 
+    /**
+     * Get the y-axis of the setting.
+     * @return The name of the y-axis.
+     */
     public String getYaxis() {
         return yaxis;
     }
