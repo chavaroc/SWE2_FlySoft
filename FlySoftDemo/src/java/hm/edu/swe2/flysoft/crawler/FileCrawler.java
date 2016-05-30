@@ -27,59 +27,81 @@ import java.util.EnumSet;
 import java.util.Set;
 
 /**
- * Downloads required Data (as zip) from transtats.bts.gov
+ * Downloads and unpacks required Data from transtats.bts.gov.
  *
  * @author Markus Huber
- * @version 30-04-16 modified_last: Markus Huber
+ * @version 30-05-16 modified_last: Markus Huber
  */
 public class FileCrawler {
 
+    // location of this file/class
     private String projectDirectory;
-    private static final char separator = File.separatorChar;
+
+    // system-specific path-separator
+    private static final char SEPARATOR = File.separatorChar;
+
+    // OnTime, Segment or Market-Table
     private final Set<CrawlTableType> tableTypesTocrawl;
+
     private final List<String> crawledFileNames;
 
+    /**
+     * Creates a new FileCrawler an starts the FileCrawler.
+     *
+     * @param args - not used.
+     *
+     */
     public static void main(String[] args) throws URISyntaxException {
         FileCrawler crawler = new FileCrawler(
-            EnumSet.of(CrawlTableType.OnTime
-                , CrawlTableType.T100MarketDomestic
-                , CrawlTableType.T100SegmentDomestic
-            ));
+                EnumSet.of(CrawlTableType.OnTime, CrawlTableType.T100MarketDomestic, CrawlTableType.T100SegmentDomestic
+                ));
         crawler.crawl();
     }
-    
-    public FileCrawler(Set<CrawlTableType> types) throws URISyntaxException{
+
+    /**
+     * Constructor.
+     *
+     * @param types - specifieces the Table-Types to download.
+     * @throws URISyntaxException
+     */
+    public FileCrawler(Set<CrawlTableType> types) throws URISyntaxException {
         projectDirectory = getProjectDirectory();
         tableTypesTocrawl = types;
         crawledFileNames = new ArrayList<>();
     }
-    
-    public void crawl() throws URISyntaxException{
+
+    /**
+     * Starts the crawling, dependent on the tableTypesToCrawl.
+     *
+     * @throws URISyntaxException
+     */
+    public void crawl() throws URISyntaxException {
         System.out.println("Start file crawling...");
         System.out.println("Info: Project-Directory: " + projectDirectory);
-        System.out.println("Info: System-path-separator: " + separator);
-        if(tableTypesTocrawl.contains(CrawlTableType.OnTime)){
+        System.out.println("Info: System-path-separator: " + SEPARATOR);
+        if (tableTypesTocrawl.contains(CrawlTableType.OnTime)) {
             String onTimeDataRequest = readConfig(45, 144);
             doRequestAndDownload(onTimeDataRequest);
         }
-        if(tableTypesTocrawl.contains(CrawlTableType.T100MarketDomestic)){
+        if (tableTypesTocrawl.contains(CrawlTableType.T100MarketDomestic)) {
             String marketDataRequest = readConfig(0, 43);
             doRequestAndDownload(marketDataRequest);
         }
-        if(tableTypesTocrawl.contains(CrawlTableType.T100SegmentDomestic)){
+        if (tableTypesTocrawl.contains(CrawlTableType.T100SegmentDomestic)) {
             String segmentDataRequest = readConfig(147, 196);
             doRequestAndDownload(segmentDataRequest);
         }
         System.out.println("Crawled files:");
         crawledFileNames.stream()
-            .forEach(fileName -> System.out.println(fileName));
+                .forEach(fileName -> System.out.println(fileName));
     }
-    
+
     /**
      * The list of file names, that were crawled.
+     *
      * @return A list of file names, that were crawled.
      */
-    public List<String> getCrawledFileNames(){
+    public List<String> getCrawledFileNames() {
         return crawledFileNames;
     }
 
@@ -96,7 +118,7 @@ public class FileCrawler {
             conn.setDoInput(true);
             conn.setRequestProperty("content-type", "binary/data");
             InputStream in = conn.getInputStream();
-            String absoluteFileName = projectDirectory + separator + GlobalSettings.CRAWLER_DOWNLOAD_DIR + zipName;
+            String absoluteFileName = projectDirectory + SEPARATOR + GlobalSettings.CRAWLER_DOWNLOAD_DIR + zipName;
             FileOutputStream out = new FileOutputStream(absoluteFileName);
 
             byte[] b = new byte[1024];
@@ -112,6 +134,18 @@ public class FileCrawler {
         }
     }
 
+    /**
+     * Reads the config file, which includes the parameters for the request for
+     * transtats.bts.gov.
+     *
+     * @param startIndex - index where to start reading the config-file (depends
+     * on the table-type, that is needed)
+     * @param endIndex - index where to end reading the config-file (depends on
+     * the table-type, that is needed)
+     * @return resultPart - String - includes all the needed parameters and
+     * headerinformation for a request for a certain table-type
+     * @throws URISyntaxException
+     */
     private String readConfig(int startIndex, int endIndex) throws URISyntaxException {
         ArrayList<String> result = new ArrayList<>();
         String resultPart = "";
@@ -140,6 +174,14 @@ public class FileCrawler {
         return resultPart;
     }
 
+    /**
+     * Connects to Transtats.bts.gov. Sends Request for downloading a certain
+     * table, with the needed information. Receives response and starts
+     * download. Starts Unzipping of the downloaded file.
+     *
+     * @param post - String - includes all the needed parameters and
+     * headerinformation for a request for a certain table-type
+     */
     private void doRequestAndDownload(String post) {
         String responsePart;
 
@@ -189,22 +231,28 @@ public class FileCrawler {
         return projectDirectory;
     }
 
+    /**
+     * Unzips downloaded files.
+     * @param fileName - Name for the unzipped File.
+     * @throws FileNotFoundException
+     * @throws IOException 
+     */
     private void unzipFile(String fileName) throws FileNotFoundException, IOException {
-        String downloadPath = projectDirectory + separator + GlobalSettings.CRAWLER_DOWNLOAD_DIR;
-        
+        String downloadPath = projectDirectory + SEPARATOR + GlobalSettings.CRAWLER_DOWNLOAD_DIR;
+
         ZipInputStream zis = new ZipInputStream(new FileInputStream(downloadPath + fileName));
         ZipEntry entry = zis.getNextEntry();
-        
+
         byte[] buffer = new byte[1024];
-        
+
         String unzippedfileName = entry.getName();
         File newFile = new File(downloadPath + unzippedfileName);
         crawledFileNames.add(newFile.getAbsolutePath());
         new File(newFile.getParent()).mkdirs();
-        
+
         try (FileOutputStream fos = new FileOutputStream(newFile)) {
             int length;
-            while((length = zis.read(buffer)) > 0){
+            while ((length = zis.read(buffer)) > 0) {
                 fos.write(buffer, 0, length);
             }
         }
