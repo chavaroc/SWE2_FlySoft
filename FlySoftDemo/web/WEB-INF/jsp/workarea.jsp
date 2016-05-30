@@ -87,9 +87,9 @@
                         <table style="text-align:center">
                             <c:forEach begin="0" end="${fn:length(airlinenewNameList) - 1}" step="2" varStatus="loop"> 
                                 <tr>
-                                    <td style="text-align: right"><input type="checkbox" name="test" value="${airlinenewNameList[loop.index]}"></td> 
+                                    <td style="text-align: right"><input type="checkbox" name="airline" value="${airlinenewNameList[loop.index]}"></td> 
                                     <td style="width:450px">${airlinenewNameList[loop.index]}</td>
-                                    <td style="text-align: right"><input type="checkbox" name="test" value="${airlinenewNameList[loop.index + 1]}"></td>
+                                    <td style="text-align: right"><input type="checkbox" name="airline" value="${airlinenewNameList[loop.index + 1]}"></td>
                                     <td style="width:450px">${airlinenewNameList[loop.index + 1]}</td>
                                 </tr>
                             </c:forEach>
@@ -97,6 +97,14 @@
                     </fieldset>
                 </form:form>
                 <br/>
+                <form:form id="timerange_selector">
+                    <fieldset>
+                        <legend>Timerange</legend>
+                        Start <input type="date" name="startDate" value="01.01.2015">
+                        End <input type="date" name="endDate" value="31.10.2015">
+                    </fieldset>
+                </form:form>
+                <br>
                 <form:form id="weekday_selector">
                     <fieldset>
                         <legend>Weekdays</legend>
@@ -108,7 +116,7 @@
                         <label> <input type="checkbox" name="weekday" value="Thursday"> Thursday </label>
                         <label> <input type="checkbox" name="weekday" value="Friday"> Friday </label>
                         <label> <input type="checkbox" name="weekday" value="Saturday"> Saturday </label>
-                        <label> <input type="checkbox" name="weekday" value="schinken"> Sunday </label>
+                        <label> <input type="checkbox" name="weekday" value="Sunday"> Sunday </label>
                     </fieldset>
                 </form:form>
                 <br>
