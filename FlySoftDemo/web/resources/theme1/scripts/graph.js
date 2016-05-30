@@ -33,11 +33,11 @@ $(function () {
                 text: subtitle_text
             },
             xAxis: {
-                type: 'number',
-                dateTimeLabelFormats: {// don't display the dummy year
-                    month: '%e. %b',
-                    year: '%b'
-                },
+                /*type: 'text',
+                 dateTimeLabelFormats: {// don't display the dummy year
+                 month: '%e. %b',
+                 year: '%b'
+                 },*/
                 title: {
                     text: x_axis_name
                 }
@@ -49,8 +49,8 @@ $(function () {
                 min: 0
             },
             tooltip: {
-                headerFormat: '<b>{series.name}</b><br>',
-                pointFormat: '{point.x:%e. %b}: {point.y:.2f} m'
+                //headerFormat: '<b>{series.name}</b><br>',
+                pointFormat: '{point.y}'
             },
             plotOptions: {
                 spline: {
@@ -183,18 +183,26 @@ $(function () {
         var timedim = $('input[name="timeDimension"]:checked').val();
         var thirddim = $("#thirdDimension option:selected").text();
         var destinations = "Las Vegas, NV";
-        var timerange = ["01.01.2015", "31.12.2015"];
+        var timerange = [$('input[name="startDate"]').val(), $('input[name="endDate"]').val()];
         var airlines = ["all"];
+        var weekdays = ["all"];
 
         console.log(yaxis);
         console.log(xaxis);
+        console.log(timerange);
 
         var url = "/FlySoftDemo/workarea/graphdata";
         $.getJSON(url, {xaxis: escape(xaxis), yaxis: yaxis, timedim: timedim, thirddim: thirddim, destinations: destinations, timerange: timerange, airlines: airlines}, function (json) {
             console.log(json);
             resultFromServer = json;
             //update label-names for graph
-            x_axis_name = xaxis;
+
+            if (xaxis === "Time") {
+                x_axis_name = "Time in " + timedim + "s";
+            } else {
+                x_axis_name = xaxis;
+            }
+
             y_axis_name = yaxis;
             $.updateDataToPlot(); //Zu plottende Daten aktualisieren neu zeichnen lassen
         });

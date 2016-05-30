@@ -97,6 +97,14 @@
                     </fieldset>
                 </form:form>
                 <br/>
+                <form:form id="timerange_selector">
+                    <fieldset>
+                        <legend>Timerange</legend>
+                        Start <input type="date" name="startDate" value="01.01.2015">
+                        End <input type="date" name="endDate" value="31.10.2015">
+                    </fieldset>
+                </form:form>
+                <br>
                 <form:form id="weekday_selector">
                     <fieldset>
                         <legend>Weekdays</legend>
