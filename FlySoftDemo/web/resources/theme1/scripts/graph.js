@@ -1,3 +1,7 @@
+/*
+ * JavaScript File for GUI on Client-Site.
+ * Using JQuery- and Highcharts- API.
+ */
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -5,17 +9,15 @@
  */
 $(function () {
 
-    var title_text = "";
-    var subtitle_text = "";
-    var graph_type = "spline";
-    var x_axis_name = "Time";
-    var y_axis_name = "Frequencies";
-    var resultFromServer;
-    var selected_3d_val;
-    var data_serie;
-    var x_axis_unit;
+    var title_text = "";        // title of the highcharts-graph -> currently none
+    var subtitle_text = "";     // subtitle of the highcharts-graph -> currently none
+    var graph_type = "spline";  // for more detail, see Highcharts-API-Documentation
+    var x_axis_name = "Time";   // label of x_axis -> Default (when page has loaded at the beginning): Time
+    var y_axis_name = "Frequencies";    // label of y_axis -> Default (when page has loaded at the beginning): Frequencies
+    var resultFromServer;       // Received Data from Server. Data to Plot in Graph.    
+    var data_serie;             // Data to plot. For more detail, see Highcharts-API-Documentation            
 
-
+    // Hiding of filter-settings, that are not changeable at the beginning, because of the default-constellation of the axis-settings.
     $("#destinations_link").hide();
     $("#timeDimension_selector").hide();
     $("#weekday_selector").hide();
@@ -70,7 +72,7 @@ $(function () {
     };
 
 
-    $.redraw(); //always at the beginning with default values
+    $.redraw(); //always at the beginning with default values -> crates empty graph
 
     /**
      * Checks / Unchecks all airlines.
@@ -119,6 +121,7 @@ $(function () {
      * Hides or shows changeable filter-settings, depending on filter-criteria at the 3rd dimension.
      */
     $("#3d_selector").change(function () {
+        var selected_3d_val;
         $('#xaxis_selector option').filter(function (i, e) {
             return $(e).text() === selected_3d_val;
         }).removeAttr("disabled");
@@ -214,8 +217,8 @@ $(function () {
          * TODO: Betina
          * maybe like at airlines and weekdays
          * @type String
-         */ 
-        var destinations = "Las Vegas, NV";                             
+         */
+        var destinations = "Las Vegas, NV";
         var timerange = [$('input[name="startDate"]').val(), $('input[name="endDate"]').val()]; //selected timerange
         var airlines = $('input[name="airline"]:checked').map(function () { //selected airlines
             return this.value;
@@ -236,15 +239,15 @@ $(function () {
         $.getJSON(url, {xaxis: escape(xaxis), yaxis: yaxis, timedim: timedim, thirddim: thirddim, destinations: destinations, timerange: timerange, airlines: airlines}, function (json) {
             console.log(json);
             resultFromServer = json;
-            //update label-names for graph
 
+            //update axis-/labelnames for graph
             if (xaxis === "Time") {
                 x_axis_name = "Time in " + timedim + "s";
             } else {
                 x_axis_name = xaxis;
             }
-
             y_axis_name = yaxis;
+
             // updates data to plot and updates graph
             $.updateDataToPlot();
         });
