@@ -73,6 +73,14 @@ $(function () {
     $.redraw(); //always at the beginning with default values	
 
 
+    $("#check_all_airlines").change(function () {
+        $("input:checkbox[name='airline']").prop('checked', $(this).prop("checked"));
+    });
+    
+    $("#check_all_weekdays").change(function () {
+        $("input:checkbox[name='weekday']").prop('checked', $(this).prop("checked"));
+    });
+
     $("#xaxis_selector").change(function () {
         $('#3d_selector option').filter(function (i, e) {
             return $(e).text() === x_axis_name;
@@ -184,11 +192,11 @@ $(function () {
         var thirddim = $("#thirdDimension option:selected").text();
         var destinations = "Las Vegas, NV";
         var timerange = [$('input[name="startDate"]').val(), $('input[name="endDate"]').val()];
-        
+
         var airlines = $('input[name="airline"]:checked').map(function () {
             return this.value;
         }).get();
-        
+
         var weekdays = $('input[name="weekday"]:checked').map(function () {
             return this.value;
         }).get();

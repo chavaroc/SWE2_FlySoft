@@ -85,6 +85,7 @@
                     <fieldset>
                         <legend>Airlines</legend>
                         <table style="text-align:center">
+                            <tr><label> <input type="checkbox" id="check_all_airlines" value="all"> all </label></tr>
                             <c:forEach begin="0" end="${fn:length(airlinenewNameList) - 1}" step="2" varStatus="loop"> 
                                 <tr>
                                     <td style="text-align: right"><input type="checkbox" name="airline" value="${airlinenewNameList[loop.index]}"></td> 
@@ -108,7 +109,7 @@
                 <form:form id="weekday_selector">
                     <fieldset>
                         <legend>Weekdays</legend>
-                        <label> <input type="checkbox" name="weekday" value="all"> all </label>
+                        <label> <input type="checkbox" id="check_all_weekdays" value="all"> all </label>
                         <br>
                         <label> <input type="checkbox" name="weekday" value="Monday"> Monday </label>
                         <label> <input type="checkbox" name="weekday" value="Tuesday"> Tuesday </label>
