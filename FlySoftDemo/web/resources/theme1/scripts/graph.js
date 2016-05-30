@@ -184,12 +184,22 @@ $(function () {
         var thirddim = $("#thirdDimension option:selected").text();
         var destinations = "Las Vegas, NV";
         var timerange = [$('input[name="startDate"]').val(), $('input[name="endDate"]').val()];
-        var airlines = ["all"];
-        var weekdays = ["all"];
+        
+        var airlines = $('input[name="airline"]:checked').map(function () {
+            return this.value;
+        }).get();
+        
+        var weekdays = $('input[name="weekday"]:checked').map(function () {
+            return this.value;
+        }).get();
+
+
 
         console.log(yaxis);
         console.log(xaxis);
         console.log(timerange);
+        console.log(airlines);
+        console.log(weekdays);
 
         var url = "/FlySoftDemo/workarea/graphdata";
         $.getJSON(url, {xaxis: escape(xaxis), yaxis: yaxis, timedim: timedim, thirddim: thirddim, destinations: destinations, timerange: timerange, airlines: airlines}, function (json) {
