@@ -1,4 +1,4 @@
-package hm.edu.swe2.flysoft;
+package hm.edu.swe2.flysoft.ui.controller;
 
 import hm.edu.swe2.flysoft.ui.FilterSetting;
 import org.springframework.stereotype.Controller;
@@ -7,7 +7,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.portlet.ModelAndView;
 
 /**
  *

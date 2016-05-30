@@ -1,17 +1,15 @@
-package hm.edu.swe2.flysoft;
+package hm.edu.swe2.flysoft.ui.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.portlet.ModelAndView;
 
 /**
- *
+ * TODO necessary?
+ *  A spring controller to handle HTTP requests to select origions.
  * @author Philipp Chavaroche
- * @version 
+ * @version 11.05.2016
  */
 @Controller
 public class SelectoriginsController {

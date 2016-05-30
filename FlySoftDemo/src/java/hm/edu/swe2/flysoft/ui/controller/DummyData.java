@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package hm.edu.swe2.flysoft;
+package hm.edu.swe2.flysoft.ui.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +25,6 @@ public class DummyData {
             xAxisOptions.add("Airline");
             xAxisOptions.add("Time");
             xAxisOptions.add("Destination");
-            xAxisOptions.add("Origin");
         }
         return xAxisOptions;
     }
@@ -36,7 +35,6 @@ public class DummyData {
             thirdDimensionOptions.add("Airline");
             thirdDimensionOptions.add("Time");
             thirdDimensionOptions.add("Destination");
-            thirdDimensionOptions.add("Origin");
         }
         return thirdDimensionOptions;
     }
@@ -44,8 +42,10 @@ public class DummyData {
     public static List<String> getTimeDimensionOptions() {
         if (timeDimensionOptions.size() <= 0) {
             timeDimensionOptions.add("Day");
+            timeDimensionOptions.add("Weekday(s)");
             timeDimensionOptions.add("Week");
             timeDimensionOptions.add("Month");
+            timeDimensionOptions.add("Year");
         }
         return timeDimensionOptions;
     }

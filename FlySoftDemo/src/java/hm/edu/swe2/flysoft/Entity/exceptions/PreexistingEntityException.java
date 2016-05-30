@@ -1,4 +1,4 @@
-package hm.edu.swe2.flysoft.controller.exceptions;
+package hm.edu.swe2.flysoft.entity.exceptions;
 
 public class PreexistingEntityException extends Exception {
     public PreexistingEntityException(String message, Throwable cause) {

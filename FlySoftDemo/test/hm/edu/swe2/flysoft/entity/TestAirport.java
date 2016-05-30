@@ -5,11 +5,9 @@
  */
 package hm.edu.swe2.flysoft.entity;
 
-import hm.edu.swe2.flysoft.controller.AirportEntityController;
-import hm.edu.swe2.flysoft.controller.exceptions.NonexistentEntityException;
+import hm.edu.swe2.flysoft.entity.controller.AirportEntityController;
+import hm.edu.swe2.flysoft.entity.exceptions.NonexistentEntityException;
 import hm.edu.swe2.flysoft.interfaces.IAirport;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;

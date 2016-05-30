@@ -32,7 +32,7 @@
     <div id="content">
         <div id="header">
             <img src='<c:url value="/resources/imgs/flyAmerica_logo.PNG" />' alt="FlyAmerica-Logo" id="logo">
-            <div id="username">Max Mustermann</div>
+            <div id="username">Max Mustermän</div>
         </div>
 
         <div class="left">
@@ -46,20 +46,22 @@
                     </form:select>
                     <br><br>
                     Set x-axis<br>
-                    <form:select path="xaxis">
+                    <form:select id="xaxis_selector" path="xaxis">
                         <form:options items="${xaxisList}" />
                     </form:select>
                     <br><br>
                     Set 3rd dimension<br>
                     <div id="3d_qualifier">
-                        <form:select path="thirdDimension">
+                        <form:select id="3d_selector" path="thirdDimension">
                             <form:options style="background-color:white;" items="${thirdDimensionList}" />
                         </form:select>
                     </div>
-                    <br><br>
-                    <br> Set Time dimension<br>
-                    <form:radiobuttons path="timeDimension" items="${timeDimensionList}" />
-                    <br><br>
+                    <br>
+                    <div id="timeDimension_selector">
+                        <br> Set Time dimension<br>
+                        <form:radiobuttons id="time_dimension" path="timeDimension" items="${timeDimensionList}" />
+                    </div>
+                    <br>
 
                     <input id="submit_button" type="button" value="Get Results!"/>        
                     <!--                    <input type="submit" value="Get Results!"/>-->
@@ -79,9 +81,7 @@
             </div>
             <div id="filters">
 
-                <form:form method="POST" action="/FlySoftDemo/workarea" commandName="airlineForm">
-                    <%-- <form:checkboxes path="airlinesnew" items="${airlinenewNameList}" /> --%>
-
+                <form:form id="airlines_selector" method="POST" action="/FlySoftDemo/workarea" commandName="airlineForm">
                     <fieldset>
                         <legend>Airlines</legend>
                         <table style="text-align:center">
@@ -97,10 +97,22 @@
                     </fieldset>
                 </form:form>
                 <br/>
-
+                <form:form id="weekday_selector">
+                    <fieldset>
+                        <legend>Weekdays</legend>
+                        <label> <input type="checkbox" name="weekday" value="all"> all </label>
+                        <br>
+                        <label> <input type="checkbox" name="weekday" value="Monday"> Monday </label>
+                        <label> <input type="checkbox" name="weekday" value="Tuesday"> Tuesday </label>
+                        <label> <input type="checkbox" name="weekday" value="Wednesday"> Wednesday </label>
+                        <label> <input type="checkbox" name="weekday" value="Thursday"> Thursday </label>
+                        <label> <input type="checkbox" name="weekday" value="Friday"> Friday </label>
+                        <label> <input type="checkbox" name="weekday" value="Saturday"> Saturday </label>
+                        <label> <input type="checkbox" name="weekday" value="schinken"> Sunday </label>
+                    </fieldset>
+                </form:form>
                 <br>
-                <a href="selectdestinations/cities" target="select-destinations" onClick="javascript:open('', 'select-destinations', 'height=400,width=400,resizable=no')">Select Destination(s)</a>
-                <a href="selectorigins" target="selectorigins" onClick="javascript:open('', 'selectorigins', 'height=400,width=400,resizable=no')">Select Origin(s)</a>
+                <a id="destinations_link" href="selectdestinations/cities" target="select-destinations" onClick="javascript:open('', 'select-destinations', 'height=400,width=400,resizable=no')">Select Destination(s)</a>
             </div>
         </div>
     </div>	

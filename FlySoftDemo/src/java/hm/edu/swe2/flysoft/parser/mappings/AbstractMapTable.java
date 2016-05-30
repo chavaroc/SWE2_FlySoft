@@ -6,25 +6,28 @@ import java.util.Collections;
 import java.util.Map;
 
 /**
- * Defines a mappintg configuration between CSV columns and Java setter methods.
+ * Defines a mapping configuration between CSV columns and Java setter methods.
  * @author Philipp Chavaroche
- * @version 
+ * @version 29.04.2016
  */
 public abstract class AbstractMapTable implements ICsvFieldMapping {
     
     protected Map<String,MethodDescriptor> mapping;
     
+    /**
+     * Construct a new abstract table mapping.
+     */
     protected AbstractMapTable(){
         initMap();
     }
     
+     /**
+     * Initialize the map table.
+     */
     protected abstract void initMap();
     
     @Override
     public Map<String,MethodDescriptor> getMapping(){
         return Collections.unmodifiableMap(mapping);
     }
-    
-    
-
 }

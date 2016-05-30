@@ -1,7 +1,7 @@
 package hm.edu.swe2.flysoft.entity;
 
 import hm.edu.swe2.flysoft.ui.FilterSetting;
-import hm.edu.swe2.flysoft.controller.FilterController;
+import hm.edu.swe2.flysoft.entity.controller.QueryController;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -28,7 +28,7 @@ public class TestFilterController {
     @Test
     public void TestFlightsPerWeek() throws ParseException, IOException{
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-        FilterController controller = new FilterController();
+        QueryController controller = new QueryController();
         FilterSetting settings = new FilterSetting();
         settings.setYaxis("Frequencies");
         settings.setXaxis("Time");

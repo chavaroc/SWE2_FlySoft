@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package hm.edu.swe2.flysoft.controller;
+package hm.edu.swe2.flysoft.entity.controller;
 
-import hm.edu.swe2.flysoft.controller.exceptions.NonexistentEntityException;
+import hm.edu.swe2.flysoft.entity.exceptions.NonexistentEntityException;
 import hm.edu.swe2.flysoft.entity.Monthlystat;
 import java.util.List;
 import java.util.Optional;
