@@ -88,7 +88,7 @@ public class WorkareaController {
            setting.setDestinations(new String[]{dest});
            setting.setAirlines(new String[]{});
            setting.setOrigins(new String[]{});
-           DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMANY);
+           DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.US);
            if(timerange.length > 1){
                setting.setTimeFrom(dateFormat.parse(timerange[0]));
                setting.setTimeTo(dateFormat.parse(timerange[1]));
