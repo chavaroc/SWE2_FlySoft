@@ -51,7 +51,7 @@ public class TestCsvParser {
             ',', ParsedFlight.class);
         ParsedFlight parsedFlight = parser.parse().get(0);
         
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
         assertEquals("Flight date is not correctly parsed.", dateFormat.parse("2016-01-29"), parsedFlight.getFlightDate());
         assertEquals("Airline id is not correctly parsed.", 19393, parsedFlight.getAirlineId());
@@ -93,7 +93,7 @@ public class TestCsvParser {
             ',', ParsedFlight.class);
         ParsedFlight parsedFlight = parser.parse().get(0);
         
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
         //TODO set correct expected data
         /*assertEquals("Flight date is not correctly parsed.", dateFormat.parse("2016-01-29"), parsedFlight.getFlightDate());
@@ -136,7 +136,7 @@ public class TestCsvParser {
             ',', MonthlyStatDummy.class);
         MonthlyStatDummy parsedStat = parser.parse().get(0);
         
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
         assertEquals("Passenger count is not correctly parsed.", 129, parsedStat.getPassengerCount());
         assertEquals("Airline id is not correctly parsed.", 19930, parsedStat.getAirlineId());

@@ -88,7 +88,7 @@ public class WorkareaController {
            setting.setAirlines(new String[]{});
            setting.setOrigins(new String[]{});
            //setting.setDestinations(dest);
-           DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+           DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
            setting.setTimeFrom(dateFormat.parse("2015-01-01"));
            setting.setTimeTo(dateFormat.parse("2015-12-31"));
        }

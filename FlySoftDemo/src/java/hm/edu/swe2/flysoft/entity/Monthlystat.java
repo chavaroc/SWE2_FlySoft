@@ -7,7 +7,11 @@ package hm.edu.swe2.flysoft.entity;
 
 import hm.edu.swe2.flysoft.interfaces.IMonthlyStat;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,6 +23,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -57,12 +62,18 @@ public class Monthlystat implements Serializable, IMonthlyStat {
     @Basic(optional = false)
     @Column(name = "passengercount")
     private Integer passengercount;
-
+    
+    @Transient
+    private int monthMon;
+    @Transient
+    private int yearMon;
+    
     public Monthlystat() {
+        this(-1);
     }
 
     public Monthlystat(Integer monthlystatId) {
-        this.monthlystatId = monthlystatId;
+        this(monthlystatId, new Date(0),"","",-1);
     }
 
     public Monthlystat(Integer monthlystatId, Date yearmonth, String orginairportsn,
@@ -72,6 +83,7 @@ public class Monthlystat implements Serializable, IMonthlyStat {
         this.orginairportsn = orginairportsn;
         this.passengercount = passengercount;
         this.destairportsn = destairportsn;
+        
     }
     
     @Override
@@ -116,6 +128,7 @@ public class Monthlystat implements Serializable, IMonthlyStat {
 
     @Override
     public Date getYearMonth() {
+          
         return yearmonth;
     }
 
@@ -147,5 +160,61 @@ public class Monthlystat implements Serializable, IMonthlyStat {
     @Override
     public int getMonthlyStatId() {
         return monthlystatId;
+    }
+
+    @Override
+    public void setMonth(int month) {
+        this.monthMon = month;
+        adjustYearMonth(false, month);
+    }
+
+    @Override
+    public void setYear(int year) {
+        this.yearMon = year;
+        adjustYearMonth(true, year);
+    }
+
+    @Override
+    public int getMonth() {
+        return monthMon;
+    }
+
+    @Override
+    public int getYear() {
+        return yearMon;
+    }
+    
+    private void adjustYearMonth(boolean isyear, int value){
+      
+        
+        Calendar calendar = Calendar.getInstance();
+        String monthString;
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM", Locale.US);
+        calendar.setTime(yearmonth);
+        int days = calendar.get(Calendar.DAY_OF_MONTH);
+        int month = 0;
+        if(!isyear){
+            month = value;
+        }
+        else{
+            month = calendar.get(Calendar.MONTH);
+        }
+        if(month <= 9){
+            monthString = "0"+month;
+        }
+        else{
+            monthString = Integer.toString(month);
+        }
+        try {
+            if(isyear){  
+             this.yearmonth = dateFormat.parse(value+"-"+
+                monthString);
+            }
+            else{
+             this.yearmonth = dateFormat.parse(calendar.get(Calendar.YEAR)+"-"+
+                monthString);   
+            }
+        } catch (Exception e) {System.err.println(e);
+        }
     }
 }

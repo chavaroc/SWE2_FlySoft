@@ -27,7 +27,7 @@ public class TestFilterController {
     
     @Test
     public void TestFlightsPerWeek() throws ParseException, IOException{
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         QueryController controller = new QueryController();
         FilterSetting settings = new FilterSetting();
         settings.setYaxis("Frequencies");

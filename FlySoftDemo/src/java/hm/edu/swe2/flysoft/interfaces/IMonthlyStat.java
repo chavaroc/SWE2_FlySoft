@@ -19,6 +19,10 @@ public interface IMonthlyStat {
     
     int getMonthlyStatId();
     
+    int getMonth();
+    
+    int getYear();
+    
     /**
      * Get the time aligment of the monthly stat.
      * The day is always set to the 1st of the month.
@@ -34,6 +38,8 @@ public interface IMonthlyStat {
 
     void setPassengerCount(int passengerCount);
     
+    void setMonth(int month);
     
+    void setYear(int year);
     
 }
