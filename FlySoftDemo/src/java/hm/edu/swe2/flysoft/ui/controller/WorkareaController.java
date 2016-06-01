@@ -75,6 +75,7 @@ public class WorkareaController {
        ,@RequestParam("timedim") String timedim
        ,@RequestParam("thirddim") String thirddim
        ,@RequestParam("destinations") String dest // TODO should be an array
+       ,@RequestParam("timerange[]") String[] timerange
         ) throws IOException {
        QueryController controller = new QueryController();
        FilterSetting setting = new FilterSetting();  
@@ -87,10 +88,14 @@ public class WorkareaController {
            setting.setDestinations(new String[]{dest});
            setting.setAirlines(new String[]{});
            setting.setOrigins(new String[]{});
-           //setting.setDestinations(dest);
-           DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-           setting.setTimeFrom(dateFormat.parse("2015-01-01"));
-           setting.setTimeTo(dateFormat.parse("2015-12-31"));
+           DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMANY);
+           if(timerange.length > 1){
+               setting.setTimeFrom(dateFormat.parse(timerange[0]));
+               setting.setTimeTo(dateFormat.parse(timerange[1]));
+           }
+           else{
+               System.err.println("Error: Time range not given.");
+           }
        }
        catch(Exception ex){
            System.out.println(ex);
