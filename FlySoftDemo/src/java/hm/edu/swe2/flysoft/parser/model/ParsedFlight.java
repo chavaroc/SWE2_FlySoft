@@ -28,16 +28,24 @@ public class ParsedFlight {
     private ICity destCity;
     
     private Date flightDate;
-    private int departureTime;      // Only the time in format 1330 for 1:30 pm
-    private int arrivalTime;        // Only the time
+    /**
+     * The time of the depature.
+     * Contains only the time in format (e.g. 1330 for 1:30 pm).
+     */
+    private int departureTime;      
+    
+    /**
+     * The time of the arrival.
+     * Contains only the time in format (e.g. 1330 for 1:30 pm).
+     */
+    private int arrivalTime;        
     
     public ParsedFlight(){
-        // TODO: would be better to seperate these classes (parameter?)
-        // -> parser should know nothing about db entity classes.
         flight = new Flight();
         airline = new Airline();
         endpoints = new Flightendpoint();
-        endpoints.setFlightendpointId(1); // Always set id to 1 (auto increment in db)
+        // Always set id to 1 (auto increment in db)
+        endpoints.setFlightendpointId(1); 
         originAirport = new Airport();
         destAirport = new Airport();
         originCity = new City();
@@ -120,22 +128,6 @@ public class ParsedFlight {
         originCity.setName(originCityName);
     }
 
-    /*public String getOriginStateShortName() {
-        return originStateShortName;
-    }
-
-    public void setOriginStateShortName(String originStateNumber) {
-        this.originStateShortName = originStateNumber;
-    }
-
-    public String getOriginStateName() {
-        return originStateName;
-    }
-
-    public void setOriginStateName(String originStateName) {
-        this.originStateName = originStateName;
-    }*/
-
     public double getDepartureDelay() {
         return endpoints.getDeparturedelay();
     }
@@ -177,22 +169,6 @@ public class ParsedFlight {
     public void setDestCityName(String destCityName) {
         destCity.setName(destCityName);
     }
-
-    /*public String getDestStateShortName() {
-        return destStateShortName;
-    }
-
-    public void setDestStateShortName(String destStateNumber) {
-        this.destStateShortName = destStateNumber;
-    }
-
-    public String getDestStateName() {
-        return destStateName;
-    }
-
-    public void setDestStateName(String destStateName) {
-        this.destStateName = destStateName;
-    }*/
 
     public double getArrivalDelay() {
         return endpoints.getArrivalDelay();

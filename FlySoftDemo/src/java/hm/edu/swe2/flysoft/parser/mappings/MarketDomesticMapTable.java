@@ -1,6 +1,5 @@
 package hm.edu.swe2.flysoft.parser.mappings;
 import hm.edu.swe2.flysoft.parser.model.MethodDescriptor;
-import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -11,21 +10,25 @@ import java.util.HashMap;
 public final class MarketDomesticMapTable extends AbstractMapTable {
     
     private static AbstractMapTable singletonMapTable;
-    
+    /**
+     * Construct a mapping for the market docmestic table.
+     * Privae because of singleton pattern.
+     */    
     private MarketDomesticMapTable(){
-        super();
+           super();
     }
     
+     /**
+     * Get the instance of the segemnt domestic table mapping.
+     * @return A segement domestic mapping object.
+     */
     public static AbstractMapTable getInstance(){
         if(singletonMapTable== null){
             singletonMapTable = new MarketDomesticMapTable();
         }
         return singletonMapTable;
     }
-    
-    /**
-     * Initialize the map table.
-     */
+
     @Override
     protected void initMap(){
         mapping = new HashMap<>();

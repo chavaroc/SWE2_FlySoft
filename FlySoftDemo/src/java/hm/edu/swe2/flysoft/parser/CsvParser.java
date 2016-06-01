@@ -19,15 +19,15 @@ import java.util.Locale;
 /**
  * Parse a csv file to java objects (T) via a mapping.
  * @author Philipp Chavaroche
- * @version 29.04.2016.
+ * @version 29.04.2016. 
  */
 public class CsvParser<T> {
     
-    private String csvFileName;
-    private ICsvFieldMapping mapper;
+    private final String csvFileName;
+    private final ICsvFieldMapping mapper;
     private List<String> headerColumnNames;
-    private char csvSeperator;
-    private Class<T> genType;
+    private final char csvSeperator;
+    private final Class<T> genType;
 
     /**
      * Construct a new csv parser.
@@ -47,19 +47,23 @@ public class CsvParser<T> {
     
     /**
      * Parse all lines from the csv file to a list of objects.
-     * @return
-     * @throws Exception 
+     * The first line will be interpretet as header column line.
+     * @return A list of parsed objects.
+     * @throws Exception In case of problems with the mapping (reflection)
+     * or the input file.
      */
     public List<T> parse() throws Exception {
         List<T> resultList = new ArrayList<>();
         
+        // init csv reader
         try(FileReader fileReader = new FileReader(csvFileName);
             CSVReader csvReader = new CSVReader(fileReader, csvSeperator))
         {
             String[] line;
             int lineIndex = 0;
-            // Read out csv file
+            // Read out line per line
             while ((line = csvReader.readNext()) != null) {                
+                // If its the first line -> save header column names
                 if(lineIndex == 0){
                     headerColumnNames = Arrays.asList(line);
                 }
@@ -67,7 +71,9 @@ public class CsvParser<T> {
                     try{
                         resultList.add(parseToObject(line));
                     }
-                    catch(Exception ex){
+                    catch(InstantiationException | IllegalAccessException
+                        | NoSuchMethodException | IllegalArgumentException
+                        | InvocationTargetException ex){
                         throw ex;
                     }
                 }
@@ -80,17 +86,15 @@ public class CsvParser<T> {
 		return resultList;
     }
    
-    
     /**
-     * Parse a csv token set to a object
-     * @param csvTokens
-     * @param type
-     * @return
-     * @throws InstantiationException
-     * @throws IllegalAccessException
-     * @throws NoSuchMethodException
-     * @throws IllegalArgumentException
-     * @throws InvocationTargetException 
+     * Parse a csv token set to a object.
+     * @param csvTokens The tokens from the csv line, that should be parsed.
+     * @return The object that is generated out of the given csv tokens.
+     * @throws InstantiationException Object can not creaete an instance.
+     * @throws IllegalAccessException If object is not compatible to mapping.
+     * @throws NoSuchMethodException In case of mapping error.
+     * @throws IllegalArgumentException In case of mapping error.
+     * @throws InvocationTargetException In case of mapping error.
      */
     private T parseToObject(String[] csvTokens) throws InstantiationException,
         IllegalAccessException, NoSuchMethodException, IllegalArgumentException,
@@ -112,8 +116,7 @@ public class CsvParser<T> {
             if(target != null){
                 // A mapping is defined for that column.
                 // Find setter method of the target type via reflection.
-                setMethod = genType.getMethod(
-                    target.getMethodName(),
+                setMethod = genType.getMethod(target.getMethodName(),
                     target.getArgumentType());
                 // Try to parse value to the same type as the argument 
                 // of the setter have.
@@ -137,10 +140,10 @@ public class CsvParser<T> {
     /**
      * Parse the given string into the given type.
      * Supports only int, date, boolean conversions.
-     * @param arg
-     * @param targetType
+     * @param arg The string value, that should be parsed.
+     * @param targetType The target type of the conversion.
      * @return The value in the given type or null, if it couldnt be parsed.
-     * @throws IllegalArgumentException if 
+     * @throws IllegalArgumentException If type is not supported.
      */
     private Object parseArgument(String arg, Class<?> targetType) throws IllegalArgumentException, ParseException{
         Object parsedValue = null;
