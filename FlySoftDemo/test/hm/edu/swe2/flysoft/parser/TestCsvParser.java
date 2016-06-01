@@ -4,7 +4,7 @@ package hm.edu.swe2.flysoft.parser;
 import hm.edu.swe2.flysoft.interfaces.IMonthlyStat;
 import hm.edu.swe2.flysoft.parser.mappings.AbstractMapTable;
 import hm.edu.swe2.flysoft.parser.mappings.OnTimeMapTable;
-import hm.edu.swe2.flysoft.parser.mappings.SegmentDomesticMapTable;
+import hm.edu.swe2.flysoft.parser.mappings.MarketDomesticMapTable;
 import hm.edu.swe2.flysoft.parser.model.ParsedFlight;
 import hm.edu.swe2.flysoft.parser.model.MonthlyStatDummy;
 import java.io.File;
@@ -132,7 +132,7 @@ public class TestCsvParser {
         File testFile = new File("test/hm/edu/swe2/flysoft/parser/testdata/TestCsvParser_SegmentCase1.csv");
         System.out.println("Test with " + testFile.getAbsolutePath());
         
-        AbstractMapTable config = SegmentDomesticMapTable.getInstance();
+        AbstractMapTable config = MarketDomesticMapTable.getInstance();
         CsvParser<MonthlyStatDummy> parser = new CsvParser<>(testFile.getAbsolutePath(), config,
             ',', MonthlyStatDummy.class);
         MonthlyStatDummy parsedStat = parser.parse().get(0);
