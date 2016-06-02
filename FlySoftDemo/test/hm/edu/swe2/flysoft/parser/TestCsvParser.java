@@ -1,6 +1,5 @@
 package hm.edu.swe2.flysoft.parser;
 
-import hm.edu.swe2.flysoft.interfaces.IMonthlyStat;
 import hm.edu.swe2.flysoft.parser.mappings.AbstractMapTable;
 import hm.edu.swe2.flysoft.parser.mappings.OnTimeMapTable;
 import hm.edu.swe2.flysoft.parser.mappings.SegmentDomesticMapTable;

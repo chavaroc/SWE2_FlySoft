@@ -1,4 +1,3 @@
-
 package hm.edu.swe2.flysoft.entity;
 
 import hm.edu.swe2.flysoft.entity.controller.CityEntityController;
@@ -9,7 +8,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * Tests 
+ * Tests for the city entity
  * @author Philipp Chavaroche
  */
 public class TestCity {

@@ -7,7 +7,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertTrue;
 
 /**
- *
+ * Tests for the monthly stat entity
  * @author Zwen
  */
 public class TestMonthlystat {

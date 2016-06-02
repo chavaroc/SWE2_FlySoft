@@ -9,15 +9,11 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 import org.junit.Test;
-import static org.junit.Assert.*;
-
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
 
 /**
- *
+ * Tests for the filter controller
  * @author Philipp Chavaroche
  */
 public class TestFilterController {
