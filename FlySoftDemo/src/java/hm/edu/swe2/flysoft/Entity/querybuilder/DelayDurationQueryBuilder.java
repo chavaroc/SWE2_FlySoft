@@ -2,6 +2,7 @@ package hm.edu.swe2.flysoft.entity.querybuilder;
 
 import hm.edu.swe2.flysoft.interfaces.IQueryBuilder;
 import hm.edu.swe2.flysoft.ui.FilterSetting;
+import hm.edu.swe2.flysoft.util.GlobalSettings;
 import static hm.edu.swe2.flysoft.util.GlobalSettings.*;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -46,7 +47,8 @@ public class DelayDurationQueryBuilder extends AbstractQueryBuilder implements I
             throw new UnsupportedOperationException("Not supported yet.");
         }   
         selectToken += ",SUM(FE.arrivaldelay) as SumDelay";
-        query = createParamizedQuery(selectToken, whereToken, settings, entityManager);
+        query = createParamizedQuery(GlobalSettings.BASE_QUERY_ON_TIME,
+            selectToken, whereToken, settings, entityManager);
         return query;
     }
 

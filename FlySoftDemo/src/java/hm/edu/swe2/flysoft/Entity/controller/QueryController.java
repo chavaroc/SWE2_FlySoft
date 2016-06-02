@@ -4,6 +4,7 @@ import hm.edu.swe2.flysoft.entity.querybuilder.CancellationQueryBuilder;
 import hm.edu.swe2.flysoft.entity.querybuilder.DelayDurationQueryBuilder;
 import hm.edu.swe2.flysoft.entity.querybuilder.DelayFrequencyQueryBuilder;
 import hm.edu.swe2.flysoft.entity.querybuilder.FrequencyQueryBuilder;
+import hm.edu.swe2.flysoft.entity.querybuilder.PassengerQueryBuilder;
 import hm.edu.swe2.flysoft.ui.FilterSetting;
 import static hm.edu.swe2.flysoft.util.GlobalSettings.*;
 import javax.persistence.EntityManager;
@@ -38,6 +39,9 @@ public class QueryController extends AbstractEntityController {
         }
         else if(CANCELLATIONS.equalsIgnoreCase(settings.getYaxis())){
             query = new CancellationQueryBuilder().build(settings, em);
+        }
+        else if(PASSENGER_COUNT.equalsIgnoreCase(settings.getYaxis())){
+            query = new PassengerQueryBuilder().build(settings, em);
         }
         else{
             throw new UnsupportedOperationException("QueryController does not"

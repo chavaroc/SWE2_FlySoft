@@ -69,17 +69,19 @@ public abstract class AbstractQueryBuilder {
 
     /**
      * Create the query with its parameters itelf.
+     * @param baseQuery The base query (query part without select and where),
+     *                  that should be used.
      * @param selectToken The select oken of the query.
      * @param whereToken The where token of the query.
      * @param settings The current filter settings (used for values).
      * @param entityManager The entity manager, that will create the query.
      * @return A query object with all its parameters
      */
-    protected Query createParamizedQuery(final String selectToken,
-        final String whereToken, final FilterSetting settings,
-        final EntityManager entityManager) {
+    protected Query createParamizedQuery(final String baseQuery, 
+        final String selectToken, final String whereToken,
+        final FilterSetting settings, final EntityManager entityManager) {
         Query query;
-        final String fullQuery = String.format(GlobalSettings.BASE_QUERY, selectToken, whereToken);
+        final String fullQuery = String.format(baseQuery, selectToken, whereToken);
         query = entityManager.createNativeQuery(fullQuery);
         query.setParameter(1, settings.getTimeFrom(), TemporalType.DATE);
         query.setParameter(2, settings.getTimeTo(), TemporalType.DATE);
