@@ -2,6 +2,7 @@ package hm.edu.swe2.flysoft.entity.querybuilder;
 
 import hm.edu.swe2.flysoft.ui.FilterSetting;
 import hm.edu.swe2.flysoft.util.GlobalSettings;
+import static hm.edu.swe2.flysoft.util.GlobalSettings.PASSENGER_COUNT;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -47,7 +48,13 @@ public abstract class AbstractQueryBuilder {
         // in method 'createParamizedQuery'
         switch (settings.getThirdDimension().toLowerCase()) {
             case GlobalSettings.TIME:
-                thirdDimColumn = "WHERE FE.departuretime BETWEEN ?1 and ?2\n";
+                // Passenger count have an other field for time
+                if(PASSENGER_COUNT.equalsIgnoreCase(settings.getYaxis())){
+                    thirdDimColumn = "WHERE MS.yearmonth BETWEEN ?1 and ?2\n";
+                }
+                else{
+                    thirdDimColumn = "WHERE FE.departuretime BETWEEN ?1 and ?2\n";
+                }
                 break;
             case GlobalSettings.AIRLINE:
                 thirdDimColumn = "WHERE AIR.name IN (?3)\n";

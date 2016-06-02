@@ -61,8 +61,9 @@ public class WorkareaController {
     * Request the graph data for the given setting.
     * @param xaxis The choosen x-axis.
     * @param yaxis The choosen y-axis.
-    * @param timedim The choosen time dimension.
     * @param thirddim The choosen third dimension.
+    * @param timedim The choosen time dimension.
+    * @param airlines The choosen airlines.
     * @param dest The choosen destination.
     * @param timerange the time range for the request.
     * @return The response body in form of json string.
@@ -73,10 +74,11 @@ public class WorkareaController {
    public @ResponseBody String getGraphData(
         @RequestParam("xaxis") String xaxis
        ,@RequestParam("yaxis") String yaxis
-       ,@RequestParam("timedim") String timedim
        ,@RequestParam("thirddim") String thirddim
-       ,@RequestParam("destinations") String dest // TODO should be an array
-       ,@RequestParam("timerange[]") String[] timerange
+       ,@RequestParam(value="timedim",required=false) String timedim
+       ,@RequestParam(value="airlines[]", required=false) String[] airlines
+       ,@RequestParam(value="destinations", required=false) String dest // TODO should be an array
+       ,@RequestParam(value="timerange[]", required=false) String[] timerange
         ) throws IOException {
        QueryController controller = new QueryController();
        FilterSetting setting = new FilterSetting();  
@@ -86,15 +88,12 @@ public class WorkareaController {
            setting.setTimeDimension(timedim);
            setting.setThirdDimension(thirddim);
            setting.setDestinations(new String[]{dest});
-           setting.setAirlines(new String[]{});
+           setting.setAirlines((airlines == null? new String[]{} : airlines));
            setting.setOrigins(new String[]{});
            DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.US);
            if(timerange.length > 1){
                setting.setTimeFrom(dateFormat.parse(timerange[0]));
                setting.setTimeTo(dateFormat.parse(timerange[1]));
-           }
-           else{
-               System.err.println("Error: Time range not given.");
            }
        }
        catch(Exception ex){

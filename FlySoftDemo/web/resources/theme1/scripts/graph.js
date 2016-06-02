@@ -212,15 +212,13 @@ $(function () {
         var xaxis = $("#xaxis_selector option:selected").text();        // selected filter for x-axis
         var yaxis = $("#y_qualifier option:selected").text();           // selected filter for y-axis
         var timedim = $('input[name="timeDimension"]:checked').val();   // selected timedimension
-        var thirddim = $("#thirdDimension option:selected").text();     // selected third dimension
+        var thirddim = $("#3d_selector option:selected").text();     // selected third dimension
         /**
          * TODO: Betina
          * maybe like at airlines and weekdays
          * @type String
          */
-        var destinations = $('input[name="destination"]:checked').map(function () { //selected destinations
-            return this.value;
-        }).get();
+        var destinations = "Las Vegas, NV";
         var timerange = [$('input[name="startDate"]').val(), $('input[name="endDate"]').val()]; //selected timerange
         var airlines = $('input[name="airline"]:checked').map(function () { //selected airlines
             return this.value;

@@ -24,11 +24,11 @@ public class PassengerQueryBuilder extends AbstractQueryBuilder
         // Check which x-axis is given
         if(TIME.equalsIgnoreCase(settings.getXaxis())){
             final String timeDim = parseTimeDimension(settings);
-            selectToken = timeDim + "(FE.departuretime) as Week\n" +
-            ",Count("+timeDim+"(FE.departuretime)) as Flights";
+            selectToken = timeDim + "(MS.yearmonth) as Week\n" +
+            ",Count("+timeDim+"(MS.yearmonth)) as Flights";
             whereToken = calcWhereThirdDimToken(settings) + 
-                "AND FE.departuretime BETWEEN ?1 and ?2\n" +
-                "GROUP BY "+timeDim+"(FE.departuretime)";
+                "AND MS.yearmonth BETWEEN ?1 and ?2\n" +
+                "GROUP BY "+timeDim+"(MS.yearmonth)";
         }
         else if (AIRLINE.equalsIgnoreCase(settings.getXaxis())){
             selectToken = "AIR.name\n" +

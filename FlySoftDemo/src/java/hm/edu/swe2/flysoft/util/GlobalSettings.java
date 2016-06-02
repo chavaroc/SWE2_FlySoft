@@ -51,7 +51,7 @@ public final class GlobalSettings {
         "JOIN airport ORIG ON ORIG.shortname = MS.orginairportsn\n" +
         "JOIN airport DEST ON DEST.shortname = MS.destairportsn\n" +
         "JOIN city ORIGC ON ORIGC.city_id = ORIG.city_id\n" +
-        "JOIN city DESTC ON DESTC.city_id = DEST.city_id" +
+        "JOIN city DESTC ON DESTC.city_id = DEST.city_id\n" +
         "%s";
     public static final String FREQUENCIES = "frequencies";
     public static final String DELAY_DURATION = "delay durations";
