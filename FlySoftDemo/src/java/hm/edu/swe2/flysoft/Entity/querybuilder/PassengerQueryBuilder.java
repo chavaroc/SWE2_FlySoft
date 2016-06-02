@@ -8,11 +8,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 /**
- * Build all querys, that need flight frequency at the y-axis.
+ * Build all querys, that need passenger at the y-axis.
  * @author Philipp Chavaroche
  * @version 17.05.2016
  */
-public class FrequencyQueryBuilder extends AbstractQueryBuilder
+public class PassengerQueryBuilder extends AbstractQueryBuilder
     implements IQueryBuilder{
 
     @Override
@@ -51,7 +51,7 @@ public class FrequencyQueryBuilder extends AbstractQueryBuilder
         else{
             throw new UnsupportedOperationException("Not supported yet.");
         }   
-        query = createParamizedQuery(GlobalSettings.BASE_QUERY_ON_TIME,
+        query = createParamizedQuery(GlobalSettings.BASE_QUERY_MONTHLY_STAT,
             selectToken, whereToken, settings, entityManager);
         return query;
     }    
