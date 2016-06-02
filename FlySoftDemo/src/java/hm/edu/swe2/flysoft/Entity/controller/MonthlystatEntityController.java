@@ -1,12 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package hm.edu.swe2.flysoft.entity.controller;
 
 import hm.edu.swe2.flysoft.entity.exceptions.NonexistentEntityException;
-import hm.edu.swe2.flysoft.entity.Monthlystat;
+import hm.edu.swe2.flysoft.entity.MonthlyStat;
 import java.util.List;
 import java.util.Optional;
 import javax.persistence.EntityManager;
@@ -15,34 +10,35 @@ import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 
 /**
- *
+ * Represents the monthly stat entity controller to handle monthly statitics in the database.
  * @author Zwen
+ * @version 02.6.16
  */
-public class MonthlystatEntityController extends AbstractEntityController{
+public class MonthlyStatEntityController extends AbstractEntityController{
     
-    public MonthlystatEntityController(){
+    public MonthlyStatEntityController(){
         super();
     }
     
-    public void createIfNotExist(Monthlystat newMonthlystat){
-        Optional<Monthlystat> optExistingAirline = findMonthlystat
-        (newMonthlystat.getMonthlyStatId());
+    public void createIfNotExist(MonthlyStat newMonthlyStat){
+        Optional<MonthlyStat> optExistingAirline = findMonthlyStat
+        (newMonthlyStat.getMonthlyStatId());
         if(!optExistingAirline.isPresent()){
             // The airline does not exist
-            create(newMonthlystat);
+            create(newMonthlyStat);
         }
         else{
             // airline already exist.
         }
     }
 
-    public void create(Monthlystat monthlystat) {
+    public void create(MonthlyStat monthlyStat) {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
-            em.persist(monthlystat);
+            em.persist(monthlyStat);
             em.getTransaction().commit();
-            System.out.println(monthlystat.toString() + " created.");
+            System.out.println(monthlyStat.toString() + " created.");
         } finally {
             if (em != null && em.isOpen()) {
                 em.close();
@@ -50,17 +46,17 @@ public class MonthlystatEntityController extends AbstractEntityController{
         }
     }
 
-    public void edit(Monthlystat monthlystat) throws NonexistentEntityException, Exception {
+    public void edit(MonthlyStat monthlyStat) throws NonexistentEntityException, Exception {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
-            monthlystat = em.merge(monthlystat);
+            monthlyStat = em.merge(monthlyStat);
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = monthlystat.getMonthlyStatId();
-                if (findMonthlystat(id) == null) {
+                Integer id = monthlyStat.getMonthlyStatId();
+                if (findMonthlyStat(id) == null) {
                     throw new NonexistentEntityException("The city with id " + id + " no longer exists.");
                 }
             }
@@ -76,14 +72,14 @@ public class MonthlystatEntityController extends AbstractEntityController{
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
-            Monthlystat monthlystat;
+            MonthlyStat monthlyStat;
             try {
-                monthlystat = em.getReference(Monthlystat.class, id);
-                monthlystat.getMonthlyStatId();
+                monthlyStat = em.getReference(MonthlyStat.class, id);
+                monthlyStat.getMonthlyStatId();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The city with id " + id + " no longer exists.", enfe);
             }
-            em.remove(monthlystat);
+            em.remove(monthlyStat);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -92,19 +88,19 @@ public class MonthlystatEntityController extends AbstractEntityController{
         }
     }
 
-    public List<Monthlystat> findMmonthlystatEntities() {
-        return MonthlystatEntityController.this.findMmonthlystatEntities(true, -1, -1);
+    public List<MonthlyStat> findMonthlystatEntities() {
+        return MonthlyStatEntityController.this.findMonthlystatEntities(true, -1, -1);
     }
 
-    public List<Monthlystat> findMmonthlystatEntities(int maxResults, int firstResult) {
-        return MonthlystatEntityController.this.findMmonthlystatEntities(false, maxResults, firstResult);
+    public List<MonthlyStat> findMonthlystatEntities(int maxResults, int firstResult) {
+        return MonthlyStatEntityController.this.findMonthlystatEntities(false, maxResults, firstResult);
     }
 
-    private List<Monthlystat> findMmonthlystatEntities(boolean all, int maxResults, int firstResult) {
+    private List<MonthlyStat> findMonthlystatEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Monthlystat.class));
+            cq.select(cq.from(MonthlyStat.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -116,11 +112,11 @@ public class MonthlystatEntityController extends AbstractEntityController{
         }
     }
 
-    public Optional<Monthlystat> findMonthlystat(Integer id) {
+    public Optional<MonthlyStat> findMonthlyStat(Integer id) {
         EntityManager em = getEntityManager();
-        Monthlystat searchedAirline;
+        MonthlyStat searchedAirline;
         try {
-            searchedAirline = em.find(Monthlystat.class, id);
+            searchedAirline = em.find(MonthlyStat.class, id);
         } finally {
             em.close();
         }

@@ -9,14 +9,14 @@ import java.util.Date;
  */
 public interface IFlightEndPoints {
     
-    Integer getFlightendpointId();
-    void setFlightendpointId(Integer flightendpointId);
+    Integer getFlightEndPointId();
+    void setFlightEndPointId(Integer flightEndPointId);
     
     String getOriginAirportShortName();
     void setOriginAirportShortName(String shortName);
     
-    double getDeparturedelay();
-    void setDeparturedelay(double departureDelay);
+    double getDepartureDelay();
+    void setDepartureDelay(double departureDelay);
     Date getDepartureTime();
     void setDepartureTime(Date date);
     

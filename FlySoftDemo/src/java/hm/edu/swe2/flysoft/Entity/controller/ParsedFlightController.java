@@ -20,7 +20,7 @@ public class ParsedFlightController extends AbstractEntityController{
     }
     
     public void create(ParsedFlight flight) {
-       FlightEndpointEntityController endpointController = new FlightEndpointEntityController();
+       FlightEndPointEntityController endpointController = new FlightEndPointEntityController();
        FlightEntityController flightController = new FlightEntityController(endpointController);
        
        CityEntityController cityController = new CityEntityController();

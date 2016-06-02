@@ -25,7 +25,6 @@ public class TestCity {
         int cityId = 342343;
         newCity.setCityId(342343);
         newCity.setName("BlaBla");
-        newCity.setShortNameState("bla");
         cityController.create(newCity);
         assertTrue(cityController.getCityCount() == (++currentCityCount));
         Optional<ICity> optDbCity = cityController.findCity(cityId);

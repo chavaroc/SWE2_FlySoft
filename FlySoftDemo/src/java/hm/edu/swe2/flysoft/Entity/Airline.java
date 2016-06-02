@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package hm.edu.swe2.flysoft.entity;
 
 import hm.edu.swe2.flysoft.interfaces.IAirline;
@@ -10,8 +5,6 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -19,8 +12,9 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
+ * Class who represents the table airline in the database with all attributes.
  * @author Betina Hientz
+ * @version 02.06.2016
  */
 @Entity
 @Table(name = "airline")
@@ -29,7 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Airline.findAll", query = "SELECT a FROM Airline a"),
     @NamedQuery(name = "Airline.findByAirlineId", query = "SELECT a FROM Airline a WHERE a.airlineId = :airlineId"),
     @NamedQuery(name = "Airline.findByName", query = "SELECT a FROM Airline a WHERE a.name = :name"),
-    @NamedQuery(name = "Airline.findByShortname", query = "SELECT a FROM Airline a WHERE a.shortname = :shortname")})
+    @NamedQuery(name = "Airline.findByShortName", query = "SELECT a FROM Airline a WHERE a.shortName = :shortName")})
 public class Airline implements Serializable, IAirline {
 
     private static final long serialVersionUID = 1L;
@@ -42,7 +36,7 @@ public class Airline implements Serializable, IAirline {
     private String name;
     @Basic(optional = false)
     @Column(name = "shortname")
-    private String shortname;
+    private String shortName;
 
     public Airline() {
     }
@@ -51,10 +45,10 @@ public class Airline implements Serializable, IAirline {
         this.airlineId = airlineId;
     }
 
-    public Airline(Integer airlineId, String name, String shortname) {
+    public Airline(Integer airlineId, String name, String shortName) {
         this.airlineId = airlineId;
         this.name = name;
-        this.shortname = shortname;
+        this.shortName = shortName;
     }
 
     @Override
@@ -78,13 +72,13 @@ public class Airline implements Serializable, IAirline {
     }
 
     @Override
-    public String getShortname() {
-        return shortname;
+    public String getShortName() {
+        return shortName;
     }
 
     @Override
-    public void setShortname(String shortname) {
-        this.shortname = shortname;
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
     }
 
     @Override

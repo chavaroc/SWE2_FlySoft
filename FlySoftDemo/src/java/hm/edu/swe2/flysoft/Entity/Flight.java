@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package hm.edu.swe2.flysoft.entity;
 
 import hm.edu.swe2.flysoft.interfaces.IFlight;
@@ -19,8 +14,9 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
+ * Class who represents the table flight in the database with all attributes.
  * @author Betina Hientz
+ * @version 02.06.2016
  */
 @Entity
 @Table(name = "flight")
@@ -29,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Flight.findAll", query = "SELECT f FROM Flight f"),
     @NamedQuery(name = "Flight.findByFlightId", query = "SELECT f FROM Flight f WHERE f.flightId = :flightId"),
     @NamedQuery(name = "Flight.findByCancelled", query = "SELECT f FROM Flight f WHERE f.cancelled = :cancelled"),
-    @NamedQuery(name = "Flight.findByFlightendpointId", query = "SELECT f FROM Flight f WHERE f.flightendpointId = :flightendpointId"),
+    @NamedQuery(name = "Flight.findByFlightEndPointId", query = "SELECT f FROM Flight f WHERE f.flightEndPointId = :flightEndPointId"),
     @NamedQuery(name = "Flight.findByAirlineId", query = "SELECT f FROM Flight f WHERE f.airlineId = :airlineId")})
 public class Flight implements Serializable, IFlight {
 
@@ -43,7 +39,7 @@ public class Flight implements Serializable, IFlight {
     @Column(name = "cancelled")
     private boolean cancelled;
     @Column(name = "flightendpoint_id")
-    private Integer flightendpointId;
+    private Integer flightEndPointId;
     @Column(name = "airline_id")
     private Integer airlineId;
 
@@ -80,13 +76,13 @@ public class Flight implements Serializable, IFlight {
     }
 
     @Override
-    public Integer getFlightendpointId() {
-        return flightendpointId;
+    public Integer getFlightEndPointId() {
+        return flightEndPointId;
     }
 
     @Override
-    public void setFlightendpointId(Integer flightendpointId) {
-        this.flightendpointId = flightendpointId;
+    public void setFlightEndPointId(Integer flightEndPointId) {
+        this.flightEndPointId = flightEndPointId;
     }
 
     @Override

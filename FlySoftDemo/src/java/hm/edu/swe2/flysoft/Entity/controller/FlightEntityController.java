@@ -12,24 +12,25 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 /**
- *
+ * Represents the flight entity controller to handle flights in the database.
  * @author Philipp Chavaroche
+ * @version 02.6.16
  */
 public class FlightEntityController extends AbstractEntityController {
     
-    private FlightEndpointEntityController endponitController;
+    private FlightEndPointEntityController endPointController;
 
-    public FlightEntityController(FlightEndpointEntityController endponitController) {
-        this.endponitController = endponitController;
+    public FlightEntityController(FlightEndPointEntityController endPointController) {
+        this.endPointController = endPointController;
     }    
     
-    public void create(IFlight flight, IFlightEndPoints endpoints) {
+    public void create(IFlight flight, IFlightEndPoints endPoints) {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
-            em.persist(endpoints);
+            em.persist(endPoints);
             em.flush();
-            flight.setFlightendpointId(endpoints.getFlightendpointId());
+            flight.setFlightEndPointId(endPoints.getFlightEndPointId());
             em.persist(flight);
             em.getTransaction().commit();
             //System.out.println(flight.toString() + " with endpoint "
