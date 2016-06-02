@@ -7,6 +7,7 @@ import hm.edu.swe2.flysoft.interfaces.IFlight;
 import hm.edu.swe2.flysoft.interfaces.IFlightEndPoints;
 import java.util.Optional;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -47,7 +48,23 @@ public class FlightEntityController extends AbstractEntityController {
     }
 
     public void destroy(Integer id) throws NonexistentEntityException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        EntityManager em = getEntityManager();
+        try {
+            em.getTransaction().begin();
+            Flight flight;
+            try {
+                flight = em.getReference(Flight.class, id);
+                flight.getFlightId();
+            } catch (EntityNotFoundException enfe) {
+                throw new NonexistentEntityException("The flight with id " + id + " no longer exists.", enfe);
+            }
+            em.remove(flight);
+            em.getTransaction().commit();
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
     }
 
     public Optional<IFlight> findFlight(Integer id) {
@@ -65,10 +82,10 @@ public class FlightEntityController extends AbstractEntityController {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<City> rt = cq.from(Flight.class);
-            cq.select(em.getCriteriaBuilder().count(rt));
-            Query q = em.createQuery(cq);
-            return ((Long) q.getSingleResult()).intValue();
+            Root<IFlight> rootTable = cq.from(Flight.class);
+            cq.select(em.getCriteriaBuilder().count(rootTable));
+            Query query = em.createQuery(cq);
+            return ((Long) query.getSingleResult()).intValue();
         } finally {
             em.close();
         }

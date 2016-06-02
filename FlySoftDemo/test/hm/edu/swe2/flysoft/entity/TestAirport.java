@@ -12,8 +12,8 @@ import org.junit.Test;
  * @author Zwen
  */
 public class TestAirport {
+    
     public TestAirport(){
-        
     }
  
     @Test

@@ -23,7 +23,7 @@ public class TestCity {
         ICity newCity = new City();
         int cityId = 342343;
         newCity.setCityId(342343);
-        newCity.setName("BlaBla");
+        newCity.setName("New York");
         cityController.create(newCity);
         assertTrue(cityController.getCityCount() == (++currentCityCount));
         Optional<ICity> optDbCity = cityController.findCity(cityId);
