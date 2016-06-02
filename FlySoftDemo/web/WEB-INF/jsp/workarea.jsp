@@ -47,7 +47,7 @@
                         <br>
                         <div id="timeDimension_selector">
                             <br> Set Time dimension<br>
-                            <form:radiobuttons id="time_dimension" path="timeDimension" items="${timeDimensionList}" />
+                            <form:radiobuttons delimiter="<br/>" id="time_dimension" path="timeDimension" items="${timeDimensionList}" />
                         </div>
                         <br>
                         <input id="submit_button" type="button" value="Get Results!"/>        
