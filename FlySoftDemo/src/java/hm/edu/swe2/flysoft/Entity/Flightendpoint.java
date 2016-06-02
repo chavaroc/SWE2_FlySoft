@@ -22,146 +22,149 @@ import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
+ * Class who represents the table flightendpoint in the database with all attributes.
  * @author Betina Hientz
+ * @version 02.06.2016
  */
 @Entity
 @Table(name = "flightendpoint")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Flightendpoint.findAll", query = "SELECT f FROM Flightendpoint f"),
-    @NamedQuery(name = "Flightendpoint.findByFlightendpointId", query = "SELECT f FROM Flightendpoint f WHERE f.flightendpointId = :flightendpointId"),
-    @NamedQuery(name = "Flightendpoint.findByOriginairportshortname", query = "SELECT f FROM Flightendpoint f WHERE f.originairportshortname = :originairportshortname"),
-    @NamedQuery(name = "Flightendpoint.findByDeparturetime", query = "SELECT f FROM Flightendpoint f WHERE f.departuretime = :departuretime"),
-    @NamedQuery(name = "Flightendpoint.findByDeparturedelay", query = "SELECT f FROM Flightendpoint f WHERE f.departuredelay = :departuredelay"),
-    @NamedQuery(name = "Flightendpoint.findByDestairportshortname", query = "SELECT f FROM Flightendpoint f WHERE f.destairportshortname = :destairportshortname"),
-    @NamedQuery(name = "Flightendpoint.findByArrivaltime", query = "SELECT f FROM Flightendpoint f WHERE f.arrivaltime = :arrivaltime"),
-    @NamedQuery(name = "Flightendpoint.findByArrivaldelay", query = "SELECT f FROM Flightendpoint f WHERE f.arrivaldelay = :arrivaldelay")})
-public class Flightendpoint implements IFlightEndPoints, Serializable {
+    @NamedQuery(name = "FlightEndPoint.findAll", query = "SELECT f FROM FlightEndPoint f"),
+    @NamedQuery(name = "FlightEndPoint.findByFlightEndPointId", query = "SELECT f FROM FlightEndPoint f WHERE f.flightEndPointId = :flightEndPointId"),
+    @NamedQuery(name = "FlightEndPoint.findByOriginAirportShortName", query = "SELECT f FROM FlightEndPoint f WHERE f.originAirportShortName = :originAirportShortName"),
+    @NamedQuery(name = "FlightEndPoint.findByDepartureTime", query = "SELECT f FROM FlightEndPoint f WHERE f.departureTime = :departureTime"),
+    @NamedQuery(name = "FlightEndPoint.findByDepartureDelay", query = "SELECT f FROM FlightEndPoint f WHERE f.departureDelay = :departureDelay"),
+    @NamedQuery(name = "FlightEndPoint.findByDestAirportShortName", query = "SELECT f FROM FlightEndPoint f WHERE f.destAirportShortName = :destAirportShortName"),
+    @NamedQuery(name = "FlightEndPoint.findByArrivalTime", query = "SELECT f FROM FlightEndPoint f WHERE f.arrivalTime = :arrivalTime"),
+    @NamedQuery(name = "FlightEndPoint.findByArrivalDelay", query = "SELECT f FROM FlightEndPoint f WHERE f.arrivalDelay = :arrivalDelay")})
+public class FlightEndPoint implements IFlightEndPoints, Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "flightendpoint_id")
-    private Integer flightendpointId;
+    private Integer flightEndPointId;
     @Column(name = "originairportshortname")
-    private String originairportshortname;
+    private String originAirportShortName;
     @Basic(optional = false)
     @Column(name = "departuretime")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date departuretime;
+    private Date departureTime;
     @Basic(optional = false)
     @Column(name = "departuredelay")
-    private double departuredelay;
+    private double departureDelay;
     @Column(name = "destairportshortname")
-    private String destairportshortname;
+    private String destAirportShortName;
     @Basic(optional = false)
     @Column(name = "arrivaltime")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date arrivaltime;
+    private Date arrivalTime;
     @Basic(optional = false)
     @Column(name = "arrivaldelay")
-    private double arrivaldelay;
+    private double arrivalDelay;
 
-    public Flightendpoint() {
+    public FlightEndPoint() {
     }
 
-    public Flightendpoint(Integer flightendpointId) {
-        this.flightendpointId = flightendpointId;
+    public FlightEndPoint(Integer flightEndPointId) {
+        this.flightEndPointId = flightEndPointId;
     }
 
-    public Flightendpoint(Integer flightendpointId, Date departuretime, double departuredelay, Date arrivaltime, double arrivaldelay) {
-        this.flightendpointId = flightendpointId;
-        this.departuretime = departuretime;
-        this.departuredelay = departuredelay;
-        this.arrivaltime = arrivaltime;
-        this.arrivaldelay = arrivaldelay;
+    public FlightEndPoint(Integer flightEndPointId, Date departureTime, double departureDelay, Date arrivalTime, double arrivalDelay) {
+        this.flightEndPointId = flightEndPointId;
+        this.departureTime = departureTime;
+        this.departureDelay = departureDelay;
+        this.arrivalTime = arrivalTime;
+        this.arrivalDelay = arrivalDelay;
     }
 
-    public Integer getFlightendpointId() {
-        return flightendpointId;
+    @Override
+    public Integer getFlightEndPointId() {
+        return flightEndPointId;
     }
 
-    public void setFlightendpointId(Integer flightendpointId) {
-        this.flightendpointId = flightendpointId;
+    @Override
+    public void setFlightEndPointId(Integer flightEndPointId) {
+        this.flightEndPointId = flightEndPointId;
     }
 
     @Override
     public String getOriginAirportShortName() {
-        return originairportshortname;
+        return originAirportShortName;
     }
 
     @Override
-    public void setOriginAirportShortName(String originairportshortname) {
-        this.originairportshortname = originairportshortname;
+    public void setOriginAirportShortName(String originAirportShortName) {
+        this.originAirportShortName = originAirportShortName;
     }
 
     @Override
     public Date getDepartureTime() {
-        return departuretime;
+        return departureTime;
     }
 
     @Override
-    public void setDepartureTime(Date depaturetime) {
-        this.departuretime = depaturetime;
+    public void setDepartureTime(Date depatureTime) {
+        this.departureTime = depatureTime;
     }
 
     @Override
-    public double getDeparturedelay() {
-        return departuredelay;
+    public double getDepartureDelay() {
+        return departureDelay;
     }
 
     @Override
-    public void setDeparturedelay(double depaturedelay) {
-        this.departuredelay = depaturedelay;
+    public void setDepartureDelay(double depatureDelay) {
+        this.departureDelay = depatureDelay;
     }
 
     @Override
     public String getDestAirportShortName() {
-        return destairportshortname;
+        return destAirportShortName;
     }
 
     @Override
-    public void setDestAirportShortName(String destairportshortname) {
-        this.destairportshortname = destairportshortname;
+    public void setDestAirportShortName(String destAirportShortName) {
+        this.destAirportShortName = destAirportShortName;
     }
 
     @Override
     public Date getArrivalTime() {
-        return arrivaltime;
+        return arrivalTime;
     }
 
     @Override
-    public void setArrivalTime(Date arrivaltime) {
-        this.arrivaltime = arrivaltime;
+    public void setArrivalTime(Date arrivalTime) {
+        this.arrivalTime = arrivalTime;
     }
 
     @Override
     public double getArrivalDelay() {
-        return arrivaldelay;
+        return arrivalDelay;
     }
 
     @Override
-    public void setArrivalDelay(double arrivaldelay) {
-        this.arrivaldelay = arrivaldelay;
+    public void setArrivalDelay(double arrivalDelay) {
+        this.arrivalDelay = arrivalDelay;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (flightendpointId != null ? flightendpointId.hashCode() : 0);
+        hash += (flightEndPointId != null ? flightEndPointId.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Flightendpoint)) {
+        if (!(object instanceof FlightEndPoint)) {
             return false;
         }
-        Flightendpoint other = (Flightendpoint) object;
-        if ((this.flightendpointId == null && other.flightendpointId != null) || (this.flightendpointId != null && !this.flightendpointId.equals(other.flightendpointId))) {
+        FlightEndPoint other = (FlightEndPoint) object;
+        if ((this.flightEndPointId == null && other.flightEndPointId != null) || (this.flightEndPointId != null && !this.flightEndPointId.equals(other.flightEndPointId))) {
             return false;
         }
         return true;
@@ -169,6 +172,6 @@ public class Flightendpoint implements IFlightEndPoints, Serializable {
 
     @Override
     public String toString() {
-        return "hm.edu.swe2.flysoft.entity.Flightendpoint[ flightendpointId=" + flightendpointId + " ]";
+        return "hm.edu.swe2.flysoft.entity.FlightEndPoint[ flightEndPointId=" + flightEndPointId + " ]";
     }    
 }

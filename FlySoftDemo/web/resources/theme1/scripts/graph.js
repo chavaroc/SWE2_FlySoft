@@ -218,7 +218,9 @@ $(function () {
          * maybe like at airlines and weekdays
          * @type String
          */
-        var destinations = "Las Vegas, NV";
+        var destinations = $('input[name="destination"]:checked').map(function () { //selected destinations
+            return this.value;
+        }).get();
         var timerange = [$('input[name="startDate"]').val(), $('input[name="endDate"]').val()]; //selected timerange
         var airlines = $('input[name="airline"]:checked').map(function () { //selected airlines
             return this.value;
@@ -230,9 +232,11 @@ $(function () {
         // Logging for testing, during development
         console.log(yaxis);
         console.log(xaxis);
+        console.log(destinations);
         console.log(timerange);
         console.log(airlines);
         console.log(weekdays);
+        
 
         // sending information to querybuilder and receiving plotable data from server
         var url = "/FlySoftDemo/workarea/graphdata";

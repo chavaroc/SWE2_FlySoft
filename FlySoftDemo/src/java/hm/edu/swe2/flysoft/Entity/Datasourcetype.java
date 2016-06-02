@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package hm.edu.swe2.flysoft.entity;
 
 import java.io.Serializable;
@@ -18,46 +13,47 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
+ * Class who list the type of datasource.
  * @author Betina Hientz
+ * @version 02.06.2016
  */
 @Entity
 @Table(name = "datasourcetype")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Datasourcetype.findAll", query = "SELECT d FROM Datasourcetype d"),
-    @NamedQuery(name = "Datasourcetype.findByDatasourcetypeId", query = "SELECT d FROM Datasourcetype d WHERE d.datasourcetypeId = :datasourcetypeId"),
-    @NamedQuery(name = "Datasourcetype.findByName", query = "SELECT d FROM Datasourcetype d WHERE d.name = :name")})
-public class Datasourcetype implements Serializable {
+    @NamedQuery(name = "DataSourceType.findAll", query = "SELECT d FROM DataSourceType d"),
+    @NamedQuery(name = "DataSourceType.findByDataSourceTypeId", query = "SELECT d FROM DataSourceType d WHERE d.dataSourceTypeId = :dataSourceTypeId"),
+    @NamedQuery(name = "DataSourceType.findByName", query = "SELECT d FROM DataSourceType d WHERE d.name = :name")})
+public class DataSourceType implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "datasourcetype_id")
-    private Integer datasourcetypeId;
+    private Integer dataSourceTypeId;
     @Basic(optional = false)
     @Column(name = "name")
     private String name;
 
-    public Datasourcetype() {
+    public DataSourceType() {
     }
 
-    public Datasourcetype(Integer datasourcetypeId) {
-        this.datasourcetypeId = datasourcetypeId;
+    public DataSourceType(Integer dataSourceTypeId) {
+        this.dataSourceTypeId = dataSourceTypeId;
     }
 
-    public Datasourcetype(Integer datasourcetypeId, String name) {
-        this.datasourcetypeId = datasourcetypeId;
+    public DataSourceType(Integer dataSourceTypeId, String name) {
+        this.dataSourceTypeId = dataSourceTypeId;
         this.name = name;
     }
 
-    public Integer getDatasourcetypeId() {
-        return datasourcetypeId;
+    public Integer getDataSourceTypeId() {
+        return dataSourceTypeId;
     }
 
-    public void setDatasourcetypeId(Integer datasourcetypeId) {
-        this.datasourcetypeId = datasourcetypeId;
+    public void setDataSourceTypeId(Integer dataSourceTypeId) {
+        this.dataSourceTypeId = dataSourceTypeId;
     }
 
     public String getName() {
@@ -71,18 +67,18 @@ public class Datasourcetype implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (datasourcetypeId != null ? datasourcetypeId.hashCode() : 0);
+        hash += (dataSourceTypeId != null ? dataSourceTypeId.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Datasourcetype)) {
+        if (!(object instanceof DataSourceType)) {
             return false;
         }
-        Datasourcetype other = (Datasourcetype) object;
-        if ((this.datasourcetypeId == null && other.datasourcetypeId != null) || (this.datasourcetypeId != null && !this.datasourcetypeId.equals(other.datasourcetypeId))) {
+        DataSourceType other = (DataSourceType) object;
+        if ((this.dataSourceTypeId == null && other.dataSourceTypeId != null) || (this.dataSourceTypeId != null && !this.dataSourceTypeId.equals(other.dataSourceTypeId))) {
             return false;
         }
         return true;
@@ -90,7 +86,7 @@ public class Datasourcetype implements Serializable {
 
     @Override
     public String toString() {
-        return "hm.edu.swe2.flysoft.entity.Datasourcetype[ datasourcetypeId=" + datasourcetypeId + " ]";
+        return "hm.edu.swe2.flysoft.entity.DataSourceType[ dataSourceTypeId=" + dataSourceTypeId + " ]";
     }
     
 }

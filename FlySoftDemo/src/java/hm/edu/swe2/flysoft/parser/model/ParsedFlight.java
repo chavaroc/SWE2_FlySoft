@@ -4,7 +4,7 @@ import hm.edu.swe2.flysoft.entity.Airline;
 import hm.edu.swe2.flysoft.entity.Airport;
 import hm.edu.swe2.flysoft.entity.City;
 import hm.edu.swe2.flysoft.entity.Flight;
-import hm.edu.swe2.flysoft.entity.Flightendpoint;
+import hm.edu.swe2.flysoft.entity.FlightEndPoint;
 import hm.edu.swe2.flysoft.interfaces.IAirline;
 import hm.edu.swe2.flysoft.interfaces.IAirport;
 import hm.edu.swe2.flysoft.interfaces.ICity;
@@ -43,9 +43,9 @@ public class ParsedFlight {
     public ParsedFlight(){
         flight = new Flight();
         airline = new Airline();
-        endpoints = new Flightendpoint();
+        endpoints = new FlightEndPoint();
         // Always set id to 1 (auto increment in db)
-        endpoints.setFlightendpointId(1); 
+        endpoints.setFlightEndPointId(1); 
         originAirport = new Airport();
         destAirport = new Airport();
         originCity = new City();
@@ -78,11 +78,11 @@ public class ParsedFlight {
     }
 
     public String getUniqueCarrierName() {
-        return airline.getShortname();
+        return airline.getShortName();
     }
 
     public void setUniqueCarrierName(String uniqueCarrierName) {
-        airline.setShortname(uniqueCarrierName);
+        airline.setShortName(uniqueCarrierName);
     }
     
     public String getAirlineName() {
@@ -129,11 +129,11 @@ public class ParsedFlight {
     }
 
     public double getDepartureDelay() {
-        return endpoints.getDeparturedelay();
+        return endpoints.getDepartureDelay();
     }
 
     public void setDepartureDelay(double departureDelay) {
-        endpoints.setDeparturedelay(departureDelay);
+        endpoints.setDepartureDelay(departureDelay);
     }
 
     public int getDestAirportId() {
@@ -251,7 +251,7 @@ public class ParsedFlight {
         return "Flight{" + "flightNumber=" + flight.getFlightId()
             + ", flightDate=" + flightDate 
             + ", airlineId=" + airline.getAirlineId()
-            + ", uniqueCarrierName=" + airline.getShortname()
+            + ", uniqueCarrierName=" + airline.getShortName()
             + ", endpoints=" + endpoints.toString()
             + ", cancelled=" + flight.getCancelled() + '}';
     }  

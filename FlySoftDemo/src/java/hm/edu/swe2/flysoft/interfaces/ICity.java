@@ -11,12 +11,8 @@ public interface ICity {
 
     String getName();
 
-    String getShortNameState();
-
     void setCityId(Integer cityId);
 
     void setName(String name);
-
-    void setShortNameState(String shortnamestate);
     
 }

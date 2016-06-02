@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package hm.edu.swe2.flysoft.entity;
 
 import hm.edu.swe2.flysoft.interfaces.IAirport;
@@ -17,15 +12,16 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
+ * Class who represents the table airport in the database with all attributes.
  * @author Betina Hientz
+ * @version 02.06.2016
  */
 @Entity
 @Table(name = "airport")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Airport.findAll", query = "SELECT a FROM Airport a"),
-    @NamedQuery(name = "Airport.findByShortname", query = "SELECT a FROM Airport a WHERE a.shortname = :shortname"),
+    @NamedQuery(name = "Airport.findByShortName", query = "SELECT a FROM Airport a WHERE a.shortName = :shortName"),
     @NamedQuery(name = "Airport.findByAirportId", query = "SELECT a FROM Airport a WHERE a.airportId = :airportId"),
     @NamedQuery(name = "Airport.findByCityId", query = "SELECT a FROM Airport a WHERE a.cityId = :cityId")})
 public class Airport implements Serializable, IAirport {
@@ -34,7 +30,7 @@ public class Airport implements Serializable, IAirport {
     @Id
     @Basic(optional = false)
     @Column(name = "shortname")
-    private String shortname;
+    private String shortName;
     @Basic(optional = false)
     @Column(name = "airport_id")
     private int airportId;
@@ -44,23 +40,23 @@ public class Airport implements Serializable, IAirport {
     public Airport() {
     }
 
-    public Airport(String shortname) {
-        this.shortname = shortname;
+    public Airport(String shortName) {
+        this.shortName = shortName;
     }
 
-    public Airport(String shortname, int airportId) {
-        this.shortname = shortname;
+    public Airport(String shortName, int airportId) {
+        this.shortName = shortName;
         this.airportId = airportId;
     }
 
     @Override
     public String getShortName() {
-        return shortname;
+        return shortName;
     }
 
     @Override
-    public void setShortName(String shortname) {
-        this.shortname = shortname;
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
     }
 
     @Override
@@ -86,7 +82,7 @@ public class Airport implements Serializable, IAirport {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (shortname != null ? shortname.hashCode() : 0);
+        hash += (shortName != null ? shortName.hashCode() : 0);
         return hash;
     }
 
@@ -97,7 +93,7 @@ public class Airport implements Serializable, IAirport {
             return false;
         }
         Airport other = (Airport) object;
-        if ((this.shortname == null && other.shortname != null) || (this.shortname != null && !this.shortname.equals(other.shortname))) {
+        if ((this.shortName == null && other.shortName != null) || (this.shortName != null && !this.shortName.equals(other.shortName))) {
             return false;
         }
         return true;
@@ -105,7 +101,7 @@ public class Airport implements Serializable, IAirport {
 
     @Override
     public String toString() {
-        return "hm.edu.swe2.flysoft.entity.Airport[ shortname=" + shortname + " ]";
+        return "hm.edu.swe2.flysoft.entity.Airport[ shortName=" + shortName + " ]";
     }
     
 }

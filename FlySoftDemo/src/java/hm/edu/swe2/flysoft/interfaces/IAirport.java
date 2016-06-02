@@ -17,6 +17,6 @@ public interface IAirport {
 
     void setCityId(Integer cityId);
 
-    void setShortName(String shortname);
+    void setShortName(String shortName);
     
 }

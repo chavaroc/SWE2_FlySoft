@@ -11,12 +11,12 @@ public interface IAirline {
 
     String getName();
 
-    String getShortname();
+    String getShortName();
 
     void setAirlineId(Integer airlineId);
 
     void setName(String name);
 
-    void setShortname(String shortname);
+    void setShortName(String shortName);
     
 }

@@ -114,7 +114,7 @@
 
                     <br>
 
-                    <a id="destinations_link" href="selectdestinations/cities" target="select-destinations" onClick="javascript:open('', 'select-destinations', 'height=400,width=400,resizable=no')">Select Destination(s)</a>
+                    <a id="destinations_link" href="selectdestinations/cities" target="select-destinations" onClick="javascript:return open('', 'select-destinations', 'height=400,width=400,resizable=no')">Select Destination(s)</a>
                 </div>
             </div>
         </div>	

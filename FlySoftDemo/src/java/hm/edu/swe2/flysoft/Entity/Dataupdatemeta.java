@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package hm.edu.swe2.flysoft.entity;
 
 import java.io.Serializable;
@@ -18,49 +13,50 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
+ * Class to update meta data.
  * @author Betina Hientz
+ * @version 02.06.2016
  */
 @Entity
 @Table(name = "dataupdatemeta")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Dataupdatemeta.findAll", query = "SELECT d FROM Dataupdatemeta d"),
-    @NamedQuery(name = "Dataupdatemeta.findByDataupdatemetaId", query = "SELECT d FROM Dataupdatemeta d WHERE d.dataupdatemetaId = :dataupdatemetaId"),
-    @NamedQuery(name = "Dataupdatemeta.findByHash", query = "SELECT d FROM Dataupdatemeta d WHERE d.hash = :hash"),
-    @NamedQuery(name = "Dataupdatemeta.findByDatasourcetypeId", query = "SELECT d FROM Dataupdatemeta d WHERE d.datasourcetypeId = :datasourcetypeId")})
-public class Dataupdatemeta implements Serializable {
+    @NamedQuery(name = "DataUpdateMeta.findAll", query = "SELECT d FROM DataUpdateMeta d"),
+    @NamedQuery(name = "DataUpdateMeta.findByDataUpdateMetaId", query = "SELECT d FROM DataUpdateMeta d WHERE d.dataUpdateMetaId = :dataUpdateMetaId"),
+    @NamedQuery(name = "DataUpdateMeta.findByHash", query = "SELECT d FROM DataUpdateMeta d WHERE d.hash = :hash"),
+    @NamedQuery(name = "DataUpdateMeta.findByDataSourceTypeId", query = "SELECT d FROM DataUpdateMeta d WHERE d.dataSourceTypeId = :dataSourceTypeId")})
+public class DataUpdateMeta implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "dataupdatemeta_id")
-    private Integer dataupdatemetaId;
+    private Integer dataUpdateMetaId;
     @Basic(optional = false)
     @Column(name = "hash")
     private String hash;
     @Column(name = "datasourcetype_id")
-    private Integer datasourcetypeId;
+    private Integer dataSourceTypeId;
 
-    public Dataupdatemeta() {
+    public DataUpdateMeta() {
     }
 
-    public Dataupdatemeta(Integer dataupdatemetaId) {
-        this.dataupdatemetaId = dataupdatemetaId;
+    public DataUpdateMeta(Integer dataUpdateMetaId) {
+        this.dataUpdateMetaId = dataUpdateMetaId;
     }
 
-    public Dataupdatemeta(Integer dataupdatemetaId, String hash) {
-        this.dataupdatemetaId = dataupdatemetaId;
+    public DataUpdateMeta(Integer dataUpdateMetaId, String hash) {
+        this.dataUpdateMetaId = dataUpdateMetaId;
         this.hash = hash;
     }
 
-    public Integer getDataupdatemetaId() {
-        return dataupdatemetaId;
+    public Integer getDataUpdateMetaId() {
+        return dataUpdateMetaId;
     }
 
-    public void setDataupdatemetaId(Integer dataupdatemetaId) {
-        this.dataupdatemetaId = dataupdatemetaId;
+    public void setDataUpdateMetaId(Integer dataUpdateMetaId) {
+        this.dataUpdateMetaId = dataUpdateMetaId;
     }
 
     public String getHash() {
@@ -71,29 +67,29 @@ public class Dataupdatemeta implements Serializable {
         this.hash = hash;
     }
 
-    public Integer getDatasourcetypeId() {
-        return datasourcetypeId;
+    public Integer getDataSourceTypeId() {
+        return dataSourceTypeId;
     }
 
-    public void setDatasourcetypeId(Integer datasourcetypeId) {
-        this.datasourcetypeId = datasourcetypeId;
+    public void setDataSourceTypeId(Integer dataSourceTypeId) {
+        this.dataSourceTypeId = dataSourceTypeId;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (dataupdatemetaId != null ? dataupdatemetaId.hashCode() : 0);
+        hash += (dataUpdateMetaId != null ? dataUpdateMetaId.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Dataupdatemeta)) {
+        if (!(object instanceof DataUpdateMeta)) {
             return false;
         }
-        Dataupdatemeta other = (Dataupdatemeta) object;
-        if ((this.dataupdatemetaId == null && other.dataupdatemetaId != null) || (this.dataupdatemetaId != null && !this.dataupdatemetaId.equals(other.dataupdatemetaId))) {
+        DataUpdateMeta other = (DataUpdateMeta) object;
+        if ((this.dataUpdateMetaId == null && other.dataUpdateMetaId != null) || (this.dataUpdateMetaId != null && !this.dataUpdateMetaId.equals(other.dataUpdateMetaId))) {
             return false;
         }
         return true;
@@ -101,7 +97,7 @@ public class Dataupdatemeta implements Serializable {
 
     @Override
     public String toString() {
-        return "hm.edu.swe2.flysoft.entity.Dataupdatemeta[ dataupdatemetaId=" + dataupdatemetaId + " ]";
+        return "hm.edu.swe2.flysoft.entity.DataUpdateMeta[ dataUpdateMetaId=" + dataUpdateMetaId + " ]";
     }
     
 }
