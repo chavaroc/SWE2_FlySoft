@@ -73,7 +73,7 @@ public class Monthlystat implements Serializable, IMonthlyStat {
     }
 
     public Monthlystat(Integer monthlystatId) {
-        this(monthlystatId, new Date(0),"","",-1);
+        this(monthlystatId, new Date(),"","",-1);
     }
 
     public Monthlystat(Integer monthlystatId, Date yearmonth, String orginairportsn,
@@ -184,12 +184,11 @@ public class Monthlystat implements Serializable, IMonthlyStat {
         return yearMon;
     }
     
-    private void adjustYearMonth(boolean isyear, int value){
-      
-        
+    private void adjustYearMonth(boolean isyear, int value){  
+        try {
         Calendar calendar = Calendar.getInstance();
         String monthString;
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM", Locale.US);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM", Locale.US);
         calendar.setTime(yearmonth);
         int days = calendar.get(Calendar.DAY_OF_MONTH);
         int month = 0;
@@ -205,14 +204,13 @@ public class Monthlystat implements Serializable, IMonthlyStat {
         else{
             monthString = Integer.toString(month);
         }
-        try {
             if(isyear){  
-             this.yearmonth = dateFormat.parse(value+"-"+
+                this.yearmonth = (Date)dateFormat.parse(value+"/"+
                 monthString);
             }
             else{
-             this.yearmonth = dateFormat.parse(calendar.get(Calendar.YEAR)+"-"+
-                monthString);   
+             this.yearmonth = (Date)dateFormat.parse(calendar.get(Calendar.YEAR)+"/"+
+                monthString); 
             }
         } catch (Exception e) {System.err.println(e);
         }
