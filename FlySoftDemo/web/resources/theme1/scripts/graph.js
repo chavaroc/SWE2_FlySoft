@@ -15,7 +15,8 @@ $(function () {
     var x_axis_name = "Time";   // label of x_axis -> Default (when page has loaded at the beginning): Time
     var y_axis_name = "Frequencies";    // label of y_axis -> Default (when page has loaded at the beginning): Frequencies
     var resultFromServer;       // Received Data from Server. Data to Plot in Graph.    
-    var data_serie;             // Data to plot. For more detail, see Highcharts-API-Documentation            
+    var data_serie;             // Data to plot. For more detail, see Highcharts-API-Documentation   
+    var selected_3d_val;
 
     // Hiding of filter-settings, that are not changeable at the beginning, because of the default-constellation of the axis-settings.
     $("#destinations_link").hide();
@@ -121,7 +122,7 @@ $(function () {
      * Hides or shows changeable filter-settings, depending on filter-criteria at the 3rd dimension.
      */
     $("#3d_selector").change(function () {
-        var selected_3d_val;
+        
         $('#xaxis_selector option').filter(function (i, e) {
             return $(e).text() === selected_3d_val;
         }).removeAttr("disabled");
@@ -217,6 +218,11 @@ $(function () {
          * TODO: Betina
          * maybe like at airlines and weekdays
          * @type String
+         */
+        /*
+         var destinations = $('input[name="destination"]:checked').map(function () { //selected destinations
+         return this.value;
+        }).get();
          */
         var destinations = "Las Vegas, NV";
         var timerange = [$('input[name="startDate"]').val(), $('input[name="endDate"]').val()]; //selected timerange
