@@ -1,8 +1,8 @@
 
 import hm.edu.swe2.flysoft.crawler.CrawlTableType;
 import hm.edu.swe2.flysoft.crawler.FileCrawler;
-import hm.edu.swe2.flysoft.entity.Monthlystat;
-import hm.edu.swe2.flysoft.entity.controller.MonthlystatEntityController;
+import hm.edu.swe2.flysoft.entity.MonthlyStat;
+import hm.edu.swe2.flysoft.entity.controller.MonthlyStatEntityController;
 import hm.edu.swe2.flysoft.entity.controller.ParsedFlightController;
 import hm.edu.swe2.flysoft.parser.CsvParser;
 import hm.edu.swe2.flysoft.parser.FlightPreparator;
@@ -60,11 +60,11 @@ public class InsertMarketIntoDb {
             
             marketTableFile = new File(filePath);
             AbstractMapTable config = MarketDomesticMapTable.getInstance();
-            CsvParser<Monthlystat> parser = new CsvParser<>(marketTableFile.getAbsolutePath(), config,
-                ',', Monthlystat.class);
+            CsvParser<MonthlyStat> parser = new CsvParser<>(marketTableFile.getAbsolutePath(), config,
+                ',', MonthlyStat.class);
 
             System.out.println("Start parsing...");
-            List<Monthlystat> parsedStats = parser.parse();
+            List<MonthlyStat> parsedStats = parser.parse();
             System.out.println(parsedStats.size() + " flights parsed.");
             
             System.out.println("Start filtering...");
@@ -73,7 +73,7 @@ public class InsertMarketIntoDb {
             System.out.println("Filtering finished ("+parsedStats.size() +" flights left).");
 
             System.out.println("Start adding to database...");
-            MonthlystatEntityController controller = new MonthlystatEntityController();
+            MonthlyStatEntityController controller = new MonthlyStatEntityController();
             for(int i = 0; i < parsedStats.size(); i++){
                 controller.create(parsedStats.get(i));
             }
