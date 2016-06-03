@@ -23,7 +23,7 @@ public class PassengerQueryBuilder extends AbstractQueryBuilder
         String whereToken;
         // Check which x-axis is given
         if(TIME.equalsIgnoreCase(settings.getXaxis())){
-            final String timeDim = parseTimeDimension(settings);
+            final String timeDim = parseTimeDimension(settings.getTimeDimension());
             selectToken = timeDim + "(MS.yearmonth) as Week\n" +
             ",Count("+timeDim+"(MS.yearmonth)) as Flights";
             whereToken = calcWhereThirdDimToken(settings) + 

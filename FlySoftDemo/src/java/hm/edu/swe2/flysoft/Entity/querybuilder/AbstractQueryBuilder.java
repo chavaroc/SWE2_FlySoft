@@ -89,23 +89,23 @@ public abstract class AbstractQueryBuilder {
         final FilterSetting settings, final EntityManager entityManager) {
         Query query;
         final String fullQuery = String.format(baseQuery, selectToken, whereToken);
-        query = entityManager.createNativeQuery(fullQuery);
+        query = entityManager.createQuery(fullQuery);
         query.setParameter(1, settings.getTimeFrom(), TemporalType.DATE);
         query.setParameter(2, settings.getTimeTo(), TemporalType.DATE);
-        query.setParameter(3, String.join(",", settings.getAirlines()));
-        query.setParameter(4, String.join(",", settings.getDestinations()));
-        query.setParameter(5, String.join(",", settings.getOrigins()));
+        query.setParameter(3, settings.getAirlines());
+        query.setParameter(4, settings.getDestinations());
+        query.setParameter(5, settings.getOrigins());
         return query;
     }
     
     /**
      * Parse the time dimension and deliver a valid time dim back.
      * The time dimension is equal with the sql functions (week, month, ...).
-     * @param settings The current filter settings.
+     * @param timeDim The time dimension that should be parsed. 
      * @return A valid time dimension.
      */
-    protected String parseTimeDimension(final FilterSetting settings){
-        String timeDim = settings.getTimeDimension();
+    protected String parseTimeDimension(final String timeDim){
+        String parsedTimeDim = timeDim;
         // This if condition is a security condition (avoid sql injection).
         // Use only valid values.
         if(!validTimeDimensions.contains(timeDim.toLowerCase(Locale.US))){
@@ -117,9 +117,24 @@ public abstract class AbstractQueryBuilder {
             // The sql function 'day' add all month days together 
             // for example: group 22 = (22.01 + 22.02 + ...).
             // There will be ~ 30 groups.
-            timeDim = "DAYOFYEAR"; 
+            parsedTimeDim = "DAYOFYEAR"; 
         }
-        return timeDim;
+        return parsedTimeDim;
+    }
+    
+    protected String sqlCountFunction(String columnName){
+        return "FUNC('COUNT'," + columnName + ")";
+    }
+    
+    /**
+     * Build the JPQL string for the gvien time dimension sql function.
+     * @param timeDimFunction The name of the sql function.
+     * @param columnName The column name, that should be aggregated via the funciton.
+     * @return The funciton in the JPQL syntax.
+     */
+    protected String sqlTimeDimFunction(String timeDimFunction, String columnName){
+        final String timeDimFuncName = parseTimeDimension(timeDimFunction);
+        return "FUNC('" + timeDimFuncName + "', " + columnName + ")";
     }
 
 }

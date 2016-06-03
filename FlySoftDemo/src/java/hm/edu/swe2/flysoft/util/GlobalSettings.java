@@ -35,13 +35,13 @@ public final class GlobalSettings {
     public static final String BASE_QUERY_ON_TIME = 
         "SELECT \n" +
         "%s\n" +
-        "FROM flight F\n" +
-        "JOIN flightendpoint FE ON FE.flightendpoint_id = F.flightendpoint_id\n" +
-        "JOIN airline AIR ON AIR.airline_id = F.airline_id\n" +
-        "JOIN airport ORIG ON ORIG.shortname = FE.originairportshortname\n" +
-        "JOIN airport DEST ON DEST.shortname = FE.destairportshortname\n" +
-        "JOIN city ORIGC ON ORIGC.city_id = ORIG.city_id\n" +
-        "JOIN city DESTC ON DESTC.city_id = DEST.city_id\n" + 
+        "FROM Flight F " +
+        "JOIN FETCH F.flightEndPointId FE \n" +
+        "JOIN FETCH F.airlineId AIR \n" +
+        "JOIN FETCH FE.originairportshortname ORIG \n" +
+        "JOIN FETCH FE.destairportshortname DEST \n" +
+        "JOIN FETCH ORIG.city_id ORIGC \n" +
+        "JOIN FETCH DEST.city_id DESTC \n" + 
         "%s";
     public static final String BASE_QUERY_MONTHLY_STAT =
         "SELECT \n" + 

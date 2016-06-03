@@ -22,7 +22,7 @@ public class CancellationQueryBuilder extends AbstractQueryBuilder implements IQ
         String groupByToken;
         // Check which x-axis is given
         if(TIME.equalsIgnoreCase(settings.getXaxis())){
-            final String timeDim = parseTimeDimension(settings);
+            final String timeDim = parseTimeDimension(settings.getTimeDimension());
             selectToken = timeDim + "(FE.departuretime) as Week\n";
             whereToken = calcWhereThirdDimToken(settings) + 
                 "AND FE.departuretime BETWEEN ?1 and ?2\n";

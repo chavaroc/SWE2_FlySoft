@@ -23,17 +23,20 @@ public class FrequencyQueryBuilder extends AbstractQueryBuilder
         String whereToken;
         // Check which x-axis is given
         if(TIME.equalsIgnoreCase(settings.getXaxis())){
-            final String timeDim = parseTimeDimension(settings);
-            selectToken = timeDim + "(FE.departuretime) as Week\n" +
-            ",Count("+timeDim+"(FE.departuretime)) as Flights";
+            final String timeDim = parseTimeDimension(settings.getTimeDimension());
+            selectToken =
+                sqlTimeDimFunction(settings.getTimeDimension(), "FE.departuretime") +
+                " as Week\n" + 
+                "," + sqlCountFunction("FE.departuretime") + " as Flights";
             whereToken = calcWhereThirdDimToken(settings) + 
                 "AND FE.departuretime BETWEEN ?1 and ?2\n" +
                 "GROUP BY "+timeDim+"(FE.departuretime)";
         }
         else if (AIRLINE.equalsIgnoreCase(settings.getXaxis())){
             selectToken = "AIR.name\n" +
-                ",Count(AIR.name)";
+                "," + sqlCountFunction("AIR.name");
             whereToken = calcWhereThirdDimToken(settings) + 
+                "AND AIR.name IN (?3)\n" +
                 "GROUP BY AIR.name";
         }
         else if (DESTINATION.equalsIgnoreCase(settings.getXaxis())){
