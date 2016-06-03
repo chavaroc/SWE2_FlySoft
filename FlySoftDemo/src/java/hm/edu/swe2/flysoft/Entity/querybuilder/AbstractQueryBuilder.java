@@ -95,15 +95,37 @@ public abstract class AbstractQueryBuilder {
         query.setParameter(1, settings.getTimeFrom(), TemporalType.DATE);
         query.setParameter(2, settings.getTimeTo(), TemporalType.DATE);
         int currentParaNumber = GlobalSettings.FIRST_DYN_PARA_INDEX;
-        for(int listIndex = 0; listIndex < settings.getAirlines().length; listIndex++){
-            query.setParameter(currentParaNumber, settings.getAirlines()[listIndex]);
-            currentParaNumber++;
+        /* The order of the parameter types must match with the parameter numbers.
+         * Otherwise we mix airlines and destinations.
+         * We know, that the WHERE clausel of the third dimension will
+         * always stand before the x-axis clausel within the query.
+         * So add airlines first, if they are set for the first dimension.
+         * Otherwise add them after the destinations.
+         * Not a so fine solution, but it works for know.
+         */
+        if(GlobalSettings.AIRLINE.equalsIgnoreCase(settings.getThirdDimension())){
+            currentParaNumber = setDynamicQueryParameter(query, settings.getAirlines(), currentParaNumber);
         }
-        for(int listIndex = 0; listIndex < settings.getDestinations().length; listIndex++){
-            query.setParameter(currentParaNumber, settings.getDestinations()[listIndex]);
-            currentParaNumber++;
+        currentParaNumber = setDynamicQueryParameter(query, settings.getDestinations(), currentParaNumber);
+        if(GlobalSettings.AIRLINE.equalsIgnoreCase(settings.getXaxis())){
+            setDynamicQueryParameter(query, settings.getAirlines(), currentParaNumber);
         }
         return query;
+    }
+    
+    /**
+     * Add a list of string parameters to the query.
+     * @param query The query, that get the parameter from the list.
+     * @param valueList The values that should be added as parameter to the query.
+     * @param currentParaNumber The actual parameter number.
+     * @return The new current parameter number.
+     */
+    private int setDynamicQueryParameter(Query query, String[] valueList, int currentParaNumber){
+        for(int listIndex = 0; listIndex < valueList.length; listIndex++){
+            query.setParameter(currentParaNumber, valueList[listIndex]);
+            currentParaNumber++;
+        }
+        return currentParaNumber;
     }
     
     /**
