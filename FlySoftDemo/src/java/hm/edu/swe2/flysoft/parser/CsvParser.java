@@ -183,7 +183,7 @@ public class CsvParser<T> {
             parsedValue = arg;
         }
         else if (targetType.equals(Date.class)){
-            DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
             parsedValue = format.parse(arg);
         }
         else{

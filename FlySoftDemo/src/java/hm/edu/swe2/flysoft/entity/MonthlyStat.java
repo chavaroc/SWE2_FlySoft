@@ -2,7 +2,11 @@ package hm.edu.swe2.flysoft.entity;
 
 import hm.edu.swe2.flysoft.interfaces.IMonthlyStat;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,6 +18,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -54,21 +59,27 @@ public class MonthlyStat implements Serializable, IMonthlyStat {
     @Basic(optional = false)
     @Column(name = "passengercount")
     private Integer passengerCount;
-
+    
+    @Transient
+    private int monthMon;
+    @Transient
+    private int yearMon;
+    
     public MonthlyStat() {
+        this(-1);
     }
 
-    public MonthlyStat(Integer monthlyStatId) {
-        this.monthlyStatId = monthlyStatId;
+    public MonthlyStat(Integer monthlystatId) {
+        this(monthlystatId, new Date(),"","",-1);
     }
 
-    public MonthlyStat(Integer monthlyStatId, Date yearMonth, String orginAirportSn,
-            String destAirportSn, Integer passengerCount) {
-        this.monthlyStatId = monthlyStatId;
-        this.yearMonth = yearMonth;
-        this.orginAirportSn = orginAirportSn;
-        this.passengerCount = passengerCount;
-        this.destAirportSn = destAirportSn;
+    public MonthlyStat(Integer monthlystatId, Date yearmonth, String orginairportsn,
+            String destairportsn, Integer passengercount) {
+        this.monthlyStatId = monthlystatId;
+        this.yearMonth = yearmonth;
+        this.orginAirportSn = orginairportsn;
+        this.passengerCount = passengercount;
+        this.destAirportSn = destairportsn;
     }
     
     @Override
@@ -144,5 +155,59 @@ public class MonthlyStat implements Serializable, IMonthlyStat {
     @Override
     public String toString() {
         return "hm.edu.swe2.flysoft.entity.MonthlyStat[ monthlyStatId=" + monthlyStatId + " ]";
+    }
+
+    @Override
+    public void setMonth(int month) {
+        this.monthMon = month;
+        adjustYearMonth(false, month);
+    }
+
+    @Override
+    public void setYear(int year) {
+        this.yearMon = year;
+        adjustYearMonth(true, year);
+    }
+
+    @Override
+    public int getMonth() {
+        return monthMon;
+    }
+
+    @Override
+    public int getYear() {
+        return yearMon;
+    }
+    
+    private void adjustYearMonth(boolean isyear, int value){  
+        try {
+        Calendar calendar = Calendar.getInstance();
+        String monthString;
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM", Locale.US);
+        calendar.setTime(yearMonth);
+        int days = calendar.get(Calendar.DAY_OF_MONTH);
+        int month = 0;
+        if(!isyear){
+            month = value;
+        }
+        else{
+            month = calendar.get(Calendar.MONTH);
+        }
+        if(month <= 9){
+            monthString = "0"+month;
+        }
+        else{
+            monthString = Integer.toString(month);
+        }
+            if(isyear){  
+                this.yearMonth = (Date)dateFormat.parse(value+"/"+
+                monthString);
+            }
+            else{
+             this.yearMonth = (Date)dateFormat.parse(calendar.get(Calendar.YEAR)+"/"+
+                monthString); 
+            }
+        } catch (Exception e) {System.err.println(e);
+        }
     }
 }

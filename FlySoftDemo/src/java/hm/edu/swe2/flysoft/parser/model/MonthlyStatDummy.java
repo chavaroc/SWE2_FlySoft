@@ -81,7 +81,7 @@ public class MonthlyStatDummy implements IMonthlyStat {
     @Override
     public Date getYearMonth() {
         Date yearMonthdate;
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         try {
             yearMonthdate = dateFormat.parse(getYear() + "-" + getMonth() + "-01");
         } catch (ParseException ex) {
