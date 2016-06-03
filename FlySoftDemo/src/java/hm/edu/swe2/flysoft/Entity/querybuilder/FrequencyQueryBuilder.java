@@ -34,19 +34,19 @@ public class FrequencyQueryBuilder extends AbstractQueryBuilder
             selectToken = "AIR.name\n" +
                 ",Count(AIR.name)";
             whereToken = calcWhereThirdDimToken(settings) + 
+                "AND AIR.name IN " + 
+                generatePlaceholderList(settings.getAirlines().length,
+                    nextFreeParaIndex) +"\n"+
                 "GROUP BY AIR.name";
         }
         else if (DESTINATION.equalsIgnoreCase(settings.getXaxis())){
             selectToken = "DESTC.name\n" +
                 ",Count(DESTC.name)";
             whereToken = calcWhereThirdDimToken(settings) + 
+                "AND DESTC.name IN " + 
+                generatePlaceholderList(settings.getDestinations().length,
+                    nextFreeParaIndex) +"\n"+
                 "GROUP BY DESTC.name";
-        }
-        else if (ORIGIN.equalsIgnoreCase(settings.getXaxis())){
-            selectToken = "ORIGC.name\n" +
-                ",Count(ORIGC.name)";
-            whereToken = calcWhereThirdDimToken(settings) + 
-                "GROUP BY ORIGC.name";
         }
         else{
             throw new UnsupportedOperationException("Not supported yet.");

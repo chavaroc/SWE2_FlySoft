@@ -21,6 +21,7 @@ public abstract class AbstractQueryBuilder {
      */
     protected static List<String> validTimeDimensions;
     private static final String TIME_DIM_DAY = "day";
+    protected int nextFreeParaIndex = GlobalSettings.FIRST_DYN_PARA_INDEX;
 
     /**
      * Construct a new abstract query builder.
@@ -57,13 +58,14 @@ public abstract class AbstractQueryBuilder {
                 }
                 break;
             case GlobalSettings.AIRLINE:
-                thirdDimColumn = "WHERE AIR.name IN (?3)\n";
+                thirdDimColumn = "WHERE AIR.name IN " +
+                generatePlaceholderList(settings.getAirlines().length,
+                    nextFreeParaIndex) +"\n";
                 break;
             case GlobalSettings.DESTINATION:
-                thirdDimColumn = "WHERE DESTC.name IN (?4)\n";
-                break;
-            case GlobalSettings.ORIGIN:
-                thirdDimColumn = "WHERE ORIGC.name IN (?5)\n";
+                thirdDimColumn = "WHERE DESTC.name IN " + 
+                generatePlaceholderList(settings.getDestinations().length,
+                    nextFreeParaIndex) +"\n";
                 break;
             default:
                 // handle as no 3rd dim was selected.
@@ -92,9 +94,15 @@ public abstract class AbstractQueryBuilder {
         query = entityManager.createNativeQuery(fullQuery);
         query.setParameter(1, settings.getTimeFrom(), TemporalType.DATE);
         query.setParameter(2, settings.getTimeTo(), TemporalType.DATE);
-        query.setParameter(3, String.join(",", settings.getAirlines()));
-        query.setParameter(4, String.join(",", settings.getDestinations()));
-        query.setParameter(5, String.join(",", settings.getOrigins()));
+        int currentParaNumber = GlobalSettings.FIRST_DYN_PARA_INDEX;
+        for(int listIndex = 0; listIndex < settings.getAirlines().length; listIndex++){
+            query.setParameter(currentParaNumber, settings.getAirlines()[listIndex]);
+            currentParaNumber++;
+        }
+        for(int listIndex = 0; listIndex < settings.getDestinations().length; listIndex++){
+            query.setParameter(currentParaNumber, settings.getDestinations()[listIndex]);
+            currentParaNumber++;
+        }
         return query;
     }
     
@@ -121,5 +129,28 @@ public abstract class AbstractQueryBuilder {
         }
         return timeDim;
     }
-
+    
+    /**
+     * Build a string in following format:
+     * ((?7), (?8), (?9))
+     * Numbers depends on offset and list size.
+     * @param size The count of placeholders.
+     * @param offset The first placeholder index.
+     * @return A parameter string.
+     */
+    protected String generatePlaceholderList(int size, int offset){
+        StringBuilder builder = new StringBuilder();
+        int max = size+offset;
+        builder.append("(");
+        for(int index = offset; index < max; index++)
+        {
+            builder.append("(?" + index + ")");
+            nextFreeParaIndex++;
+            if(index != max-1){
+                 builder.append(",");
+            }
+        }
+        builder.append(")");
+        return builder.toString();
+    }
 }

@@ -63,6 +63,15 @@ public final class GlobalSettings {
     public static final String ORIGIN = "origin";
     public static final String AIRLINE = "airline";
     
+    /**
+     * Defines the first dynamic parameter index for the query builder.
+     * 1. parameter = from (time range)
+     * 2. parameter = to (time range)
+     * This is needed to build a list of placeholders for the parameters.
+     * See AbstractQueryBuilder.generatePlaceholderList
+     */
+    public static final int FIRST_DYN_PARA_INDEX = 3;
+    
     
 
 
