@@ -42,36 +42,39 @@ public abstract class AbstractQueryBuilder {
      * @return A part of a sql query token, that contains "WHERE <3rd dim> = <x>"
      */
     protected String calcWhereThirdDimToken(final FilterSetting settings) {
-        String thirdDimColumn;
-        // Check if we have a 3rd dimension setting and if yes,
-        // which setting it is.
-        // Attension: The parameter number must be equal with the order number
-        // in method 'createParamizedQuery'
-        switch (settings.getThirdDimension().toLowerCase()) {
-            case GlobalSettings.TIME:
-                // Passenger count have an other field for time
-                if(PASSENGER_COUNT.equalsIgnoreCase(settings.getYaxis())){
-                    thirdDimColumn = "WHERE MS.yearmonth BETWEEN ?1 and ?2\n";
-                }
-                else{
-                    thirdDimColumn = "WHERE FE.departuretime BETWEEN ?1 and ?2\n";
-                }
-                break;
-            case GlobalSettings.AIRLINE:
-                thirdDimColumn = "WHERE AIR.name IN " +
-                generatePlaceholderList(settings.getAirlines().length,
-                    nextFreeParaIndex) +"\n";
-                break;
-            case GlobalSettings.DESTINATION:
-                thirdDimColumn = "WHERE DESTC.name IN " + 
-                generatePlaceholderList(settings.getDestinations().length,
-                    nextFreeParaIndex) +"\n";
-                break;
-            default:
-                // handle as no 3rd dim was selected.
-                // 1=1 is a dummy expression, maybe the query have some
-                // AND conditions after the where.
-                thirdDimColumn = "WHERE 1=1\n";
+        /* set default value to 'WHERE 1=1'
+         handle as no 3rd dim was selected.
+         1=1 is a dummy expression, maybe the query have some
+         AND conditions after the WHERE. So we need always the WHERE. */
+        String thirdDimColumn = "WHERE 1=1\n";
+        /* Check if we have a 3rd dimension setting and if yes,
+         which setting it is.
+         Attension: The parameter number must be equal with the order number
+         in method 'createParamizedQuery' */
+        if(settings.getThirdDimension() != null){
+            switch (settings.getThirdDimension().toLowerCase()) {
+                case GlobalSettings.TIME:
+                    // Passenger count have an other field for time
+                    if(PASSENGER_COUNT.equalsIgnoreCase(settings.getYaxis())){
+                        thirdDimColumn = "WHERE MS.yearmonth BETWEEN ?1 and ?2\n";
+                    }
+                    else{
+                        thirdDimColumn = "WHERE FE.departuretime BETWEEN ?1 and ?2\n";
+                    }
+                    break;
+                case GlobalSettings.AIRLINE:
+                    thirdDimColumn = "WHERE AIR.name IN " +
+                    generatePlaceholderList(settings.getAirlines().length,
+                        nextFreeParaIndex) +"\n";
+                    break;
+                case GlobalSettings.DESTINATION:
+                    thirdDimColumn = "WHERE DESTC.name IN " + 
+                    generatePlaceholderList(settings.getDestinations().length,
+                        nextFreeParaIndex) +"\n";
+                    break;
+                default:
+                    //Use default value
+            }
         }
         return thirdDimColumn;
     }

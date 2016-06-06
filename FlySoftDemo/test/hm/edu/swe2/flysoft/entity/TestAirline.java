@@ -21,7 +21,7 @@ public class TestAirline {
         AirlineEntityController airlineController = new AirlineEntityController();
         int currentAirlineCount = airlineController.getAirlineCount();
         IAirline airline = new Airline();
-        int airlineId = 19978;
+        int airlineId = 19978; // NON auto increment field
         airline.setAirlineId(airlineId);
         airline.setName("Lambada");
         airline.setShortName("LD");

@@ -18,25 +18,28 @@ public class TestMonthlystat {
     @Test
     public void TestCreateMonthlystate() throws NonexistentEntityException{
         MonthlyStatEntityController controller = new MonthlyStatEntityController();
+        // Attension, ID is an auto increment field in db.
         MonthlyStat monthlystat = new MonthlyStat(0);
         MonthlyStat monthlystat2 = new MonthlyStat(1);
+        int previousSize = controller.findMonthlystatEntities().size();
         controller.create(monthlystat);
         controller.create(monthlystat2);
-        assertTrue(2 == controller.findMonthlystatEntities().size());
+        assertTrue(previousSize + 2 == controller.findMonthlystatEntities().size());
         
         
         MonthlyStat monthlystat3 = new MonthlyStat(2);
         controller.create(monthlystat3);
-        assertTrue(3 == controller.findMonthlystatEntities().size());
-        Optional<MonthlyStat> search = controller.findMonthlyStat(3);
-        assertTrue(search.equals(monthlystat2));
+        assertTrue(previousSize + 3 == controller.findMonthlystatEntities().size());
+        Optional<MonthlyStat> search = controller.findMonthlyStat(monthlystat3.getMonthlyStatId());
+        assertTrue(search.isPresent());
+        assertTrue(search.get().equals(monthlystat3));
         
-        controller.destroy(0);
-        search = controller.findMonthlyStat(0);
-        assertTrue(search == null);
-        assertTrue(2 == controller.findMonthlystatEntities().size());
-        controller.destroy(1);
-        controller.destroy(2);
+        controller.destroy(monthlystat.getMonthlyStatId());
+        search = controller.findMonthlyStat(monthlystat.getMonthlyStatId());
+        assertTrue(!search.isPresent());
+        assertTrue(previousSize + 2 == controller.findMonthlystatEntities().size());
+        controller.destroy(monthlystat2.getMonthlyStatId());
+        controller.destroy(monthlystat3.getMonthlyStatId());
     }
     
 }

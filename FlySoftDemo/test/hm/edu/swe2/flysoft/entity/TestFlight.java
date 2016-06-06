@@ -25,7 +25,7 @@ public class TestFlight {
         FlightEndPointEntityController flightEndPointController = new FlightEndPointEntityController();
         int currentFlightEndPointCount = flightEndPointController.getFlightEndPointCount();
         IFlightEndPoints  flightEndPoint = new FlightEndPoint();
-        int flightEndPointId = 1344;
+        int flightEndPointId = 1344; // temp id, database each entry a auto increment id
         flightEndPoint.setFlightEndPointId(flightEndPointId);
         flightEndPoint.setArrivalDelay(2);
         flightEndPoint.setArrivalTime(new Date());
@@ -40,7 +40,7 @@ public class TestFlight {
         FlightEntityController flightController = new FlightEntityController(flightEndPointController);
         int currentFlightCount = flightController.getFlightCount();
         IFlight flight = new Flight();
-        int flightId = 19978;
+        int flightId = 19978; // temp id, database each entry a auto increment id
         flight.setFlightId(flightId);
         flight.setAirlineId(45345);
         flight.setFlightEndPointId(5345);
@@ -48,9 +48,9 @@ public class TestFlight {
         flightController.create(flight, flightEndPoint);
     
         assertTrue(flightController.getFlightCount() == (++currentFlightCount));
-        Optional<IFlight> dbFlight = flightController.findFlight(flightId);
+        Optional<IFlight> dbFlight = flightController.findFlight(flight.getFlightId());
         assertEquals("Flight that should be created and created flight are not equal!", flight, dbFlight.get());
-        flightController.destroy(flightId);
-        flightEndPointController.destroy(flightEndPointId);
+        flightController.destroy(flight.getFlightId());
+        flightEndPointController.destroy(flightEndPoint.getFlightEndPointId());
     }
 }

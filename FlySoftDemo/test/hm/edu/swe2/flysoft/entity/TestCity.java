@@ -21,7 +21,7 @@ public class TestCity {
         CityEntityController cityController = new CityEntityController();
         int currentCityCount = cityController.getCityCount();
         ICity newCity = new City();
-        int cityId = 342343;
+        int cityId = 342343; // NON auto increment field
         newCity.setCityId(342343);
         newCity.setName("New York");
         cityController.create(newCity);
