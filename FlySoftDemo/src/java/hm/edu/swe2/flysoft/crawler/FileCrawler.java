@@ -45,7 +45,7 @@ public class FileCrawler {
 
     private final List<String> crawledFileNames;
     
-    private String year = "2015";
+    private String year = "2006";
     private String month = "1";
 
     /**
@@ -187,9 +187,15 @@ public class FileCrawler {
      */
     private void doRequestAndDownload(String post) {
         
-        //sets the correct paramters for month and year
-        post = post.replaceAll("$$$YYYY$$$", year);
-        post = post.replaceAll("$$$M$$$", month);
+        //sets the correct paramters for month and year    
+        String replacedPost = post.replace("$$$YYYY$$$", year);
+        post = replacedPost.replace("$$$M$$$", month);
+        System.out.println("Info: Setting Year and/or Month in Config with: " + month + " " + year);
+        while(post.contains("$$$")){
+            replacedPost = post.replace("$$$YYYY$$$", year);
+            post = replacedPost.replace("$$$M$$$", month);
+            System.out.println("Info: Setting Year and/or Month in Config with: " + month + " " + year);
+        }
         
         String responsePart;
 
