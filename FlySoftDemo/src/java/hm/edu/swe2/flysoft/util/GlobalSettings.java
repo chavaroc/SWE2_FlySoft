@@ -24,6 +24,9 @@ public final class GlobalSettings {
     // obsolete (fall back solution?)
     public static final String DB_PROD_FLIGHT_COUNT_WEEK = "fly_analytics.FlightCountPerWeek";
     
+    // Used for perfomance unnit tests.
+    public static final String DB_PROD_DELETE_FLIGHTS = "fly_analytics.deleteFlights";
+    
     
     // ================ Query Builder constants ================
     /**
