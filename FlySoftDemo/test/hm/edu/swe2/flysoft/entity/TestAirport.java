@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package hm.edu.swe2.flysoft.entity;
 
 import hm.edu.swe2.flysoft.entity.controller.AirportEntityController;
@@ -13,12 +8,12 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 /**
- *
+ * Tests for the airport entity
  * @author Zwen
  */
 public class TestAirport {
+    
     public TestAirport(){
-        
     }
  
     @Test

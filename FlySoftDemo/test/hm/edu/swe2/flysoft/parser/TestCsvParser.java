@@ -1,9 +1,8 @@
 package hm.edu.swe2.flysoft.parser;
 
-import hm.edu.swe2.flysoft.interfaces.IMonthlyStat;
 import hm.edu.swe2.flysoft.parser.mappings.AbstractMapTable;
 import hm.edu.swe2.flysoft.parser.mappings.OnTimeMapTable;
-import hm.edu.swe2.flysoft.parser.mappings.SegmentDomesticMapTable;
+import hm.edu.swe2.flysoft.parser.mappings.MarketDomesticMapTable;
 import hm.edu.swe2.flysoft.parser.model.ParsedFlight;
 import hm.edu.swe2.flysoft.parser.model.MonthlyStatDummy;
 import java.io.File;
@@ -51,7 +50,7 @@ public class TestCsvParser {
             ',', ParsedFlight.class);
         ParsedFlight parsedFlight = parser.parse().get(0);
         
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
         assertEquals("Flight date is not correctly parsed.", dateFormat.parse("2016-01-29"), parsedFlight.getFlightDate());
         assertEquals("Airline id is not correctly parsed.", 19393, parsedFlight.getAirlineId());
@@ -93,7 +92,7 @@ public class TestCsvParser {
             ',', ParsedFlight.class);
         ParsedFlight parsedFlight = parser.parse().get(0);
         
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
         //TODO set correct expected data
         /*assertEquals("Flight date is not correctly parsed.", dateFormat.parse("2016-01-29"), parsedFlight.getFlightDate());
@@ -131,12 +130,12 @@ public class TestCsvParser {
         File testFile = new File("test/hm/edu/swe2/flysoft/parser/testdata/TestCsvParser_SegmentCase1.csv");
         System.out.println("Test with " + testFile.getAbsolutePath());
         
-        AbstractMapTable config = SegmentDomesticMapTable.getInstance();
+        AbstractMapTable config = MarketDomesticMapTable.getInstance();
         CsvParser<MonthlyStatDummy> parser = new CsvParser<>(testFile.getAbsolutePath(), config,
             ',', MonthlyStatDummy.class);
         MonthlyStatDummy parsedStat = parser.parse().get(0);
         
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
         assertEquals("Passenger count is not correctly parsed.", 129, parsedStat.getPassengerCount());
         assertEquals("Airline id is not correctly parsed.", 19930, parsedStat.getAirlineId());

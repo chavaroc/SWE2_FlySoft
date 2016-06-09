@@ -30,18 +30,19 @@ public class CancellationQueryBuilder extends AbstractQueryBuilder implements IQ
         }
         else if (AIRLINE.equalsIgnoreCase(settings.getXaxis())){
             selectToken = "AIR.name\n";
-            whereToken = calcWhereThirdDimToken(settings);
+            whereToken = calcWhereThirdDimToken(settings) + 
+                "AND AIR.name IN " + 
+                generatePlaceholderList(settings.getAirlines().length,
+                    nextFreeParaIndex) +"\n";
             groupByToken = "GROUP BY AIR.name";
         }
         else if (DESTINATION.equalsIgnoreCase(settings.getXaxis())){
             selectToken = "DESTC.name\n";
-            whereToken = calcWhereThirdDimToken(settings);
+            whereToken = calcWhereThirdDimToken(settings) + 
+                "AND DESTC.name IN " + 
+                generatePlaceholderList(settings.getDestinations().length,
+                    nextFreeParaIndex) +"\n";
             groupByToken = "GROUP BY DESTC.name";
-        }
-        else if (ORIGIN.equalsIgnoreCase(settings.getXaxis())){
-            selectToken = "ORIGC.name\n";
-            whereToken = calcWhereThirdDimToken(settings);
-            groupByToken = "GROUP BY ORIGC.name";
         }
         else{
             throw new UnsupportedOperationException("Not supported yet.");

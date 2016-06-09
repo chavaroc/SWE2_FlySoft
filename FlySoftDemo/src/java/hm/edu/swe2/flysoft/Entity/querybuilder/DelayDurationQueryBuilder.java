@@ -20,33 +20,36 @@ public class DelayDurationQueryBuilder extends AbstractQueryBuilder implements I
         Query query;
         String selectToken;
         String whereToken;
+        String groupByToken;
         // Check which x-axis is given
         if(TIME.equalsIgnoreCase(settings.getXaxis())){
             final String timeDim = parseTimeDimension(settings);
             selectToken = timeDim + "(FE.departuretime) as Week\n";
             whereToken = calcWhereThirdDimToken(settings) + 
-                "AND FE.departuretime BETWEEN ?1 and ?2\n" +
-                "GROUP BY "+timeDim+"(FE.departuretime)";
+                "AND FE.departuretime BETWEEN ?1 and ?2\n";
+            groupByToken = "GROUP BY "+timeDim+"(FE.departuretime)";
         }
         else if (AIRLINE.equalsIgnoreCase(settings.getXaxis())){
             selectToken = "AIR.name\n";
             whereToken = calcWhereThirdDimToken(settings) + 
-                "GROUP BY AIR.name";
+                "AND AIR.name IN " + 
+                generatePlaceholderList(settings.getAirlines().length,
+                    nextFreeParaIndex) +"\n";
+            groupByToken = "GROUP BY AIR.name";
         }
         else if (DESTINATION.equalsIgnoreCase(settings.getXaxis())){
             selectToken = "DESTC.name\n";
             whereToken = calcWhereThirdDimToken(settings) + 
-                "GROUP BY DESTC.name";
-        }
-        else if (ORIGIN.equalsIgnoreCase(settings.getXaxis())){
-            selectToken = "ORIGC.name\n";
-            whereToken = calcWhereThirdDimToken(settings) + 
-                "GROUP BY ORIGC.name";
+                "AND DESTC.name IN " + 
+                generatePlaceholderList(settings.getDestinations().length,
+                    nextFreeParaIndex) +"\n";
+            groupByToken = "GROUP BY DESTC.name";
         }
         else{
             throw new UnsupportedOperationException("Not supported yet.");
         }   
         selectToken += ",SUM(FE.arrivaldelay) as SumDelay";
+        whereToken = whereToken + groupByToken;
         query = createParamizedQuery(GlobalSettings.BASE_QUERY_ON_TIME,
             selectToken, whereToken, settings, entityManager);
         return query;

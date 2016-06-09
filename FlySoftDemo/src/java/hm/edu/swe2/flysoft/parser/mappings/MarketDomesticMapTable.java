@@ -3,20 +3,19 @@ import hm.edu.swe2.flysoft.parser.model.MethodDescriptor;
 import java.util.HashMap;
 
 /**
- * Maping for the T100 Segement US Domestic table.
+ * Maping for the T100 Market US Domestic table.
  * @author Philipp Chavaroche
  * @version 01.05.2016
  */
-public final class SegmentDomesticMapTable extends AbstractMapTable {
+public final class MarketDomesticMapTable extends AbstractMapTable {
     
     private static AbstractMapTable singletonMapTable;
-    
     /**
-     * Construct a mapping for the segment docmestic table.
+     * Construct a mapping for the market docmestic table.
      * Privae because of singleton pattern.
-     */
-    private SegmentDomesticMapTable(){
-        super();
+     */    
+    private MarketDomesticMapTable(){
+           super();
     }
     
      /**
@@ -25,7 +24,7 @@ public final class SegmentDomesticMapTable extends AbstractMapTable {
      */
     public static AbstractMapTable getInstance(){
         if(singletonMapTable== null){
-            singletonMapTable = new SegmentDomesticMapTable();
+            singletonMapTable = new MarketDomesticMapTable();
         }
         return singletonMapTable;
     }

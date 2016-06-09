@@ -2,6 +2,7 @@ package hm.edu.swe2.flysoft.entity.controller;
 
 import hm.edu.swe2.flysoft.entity.exceptions.NonexistentEntityException;
 import hm.edu.swe2.flysoft.entity.MonthlyStat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javax.persistence.EntityManager;
@@ -15,9 +16,21 @@ import javax.persistence.criteria.CriteriaQuery;
  * @version 02.6.16
  */
 public class MonthlyStatEntityController extends AbstractEntityController{
+
+    private ArrayList<MonthlyStat> monthlystatsList;
     
     public MonthlyStatEntityController(){
         super();
+        monthlystatsList = new ArrayList<>();
+    }
+    
+    public void createAll(List<MonthlyStat> stats) {
+       boolean finish = false;
+       for(int i = 0; i < stats.size(); i++){
+           if(i == stats.size()-1){
+               finish = true;
+           }
+       }
     }
     
     public void createIfNotExist(MonthlyStat newMonthlyStat){
@@ -38,7 +51,7 @@ public class MonthlyStatEntityController extends AbstractEntityController{
             em.getTransaction().begin();
             em.persist(monthlyStat);
             em.getTransaction().commit();
-            System.out.println(monthlyStat.toString() + " created.");
+            System.out.println(monthlyStat.toString() + " created."+ monthlyStat.getYearMonth());
         } finally {
             if (em != null && em.isOpen()) {
                 em.close();

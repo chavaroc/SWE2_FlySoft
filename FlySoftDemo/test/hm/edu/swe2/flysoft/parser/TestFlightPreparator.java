@@ -24,8 +24,8 @@ public class TestFlightPreparator {
         FlightPreparator prep = new FlightPreparator();
         // Create a dummy flight
         ParsedFlight testFlight = new ParsedFlight();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-        DateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.ENGLISH);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        DateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.US);
         testFlight.setFlightDate(dateFormat.parse("2015-06-15"));
         testFlight.setDepartureTime(1230);
         testFlight.setArrivalTime(1959);
@@ -53,8 +53,8 @@ public class TestFlightPreparator {
         FlightPreparator prep = new FlightPreparator();
         // Create a dummy flight
         ParsedFlight testFlight = new ParsedFlight();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-        DateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.ENGLISH);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        DateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.US);
         testFlight.setFlightDate(dateFormat.parse("2015-06-15"));
         testFlight.setDepartureTime(2300);
         testFlight.setArrivalTime(100);
@@ -88,8 +88,8 @@ public class TestFlightPreparator {
         FlightPreparator prep = new FlightPreparator();
         // Create a dummy flight
         ParsedFlight testFlight = new ParsedFlight();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-        DateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.ENGLISH);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        DateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.US);
         testFlight.setFlightDate(dateFormat.parse("2015-06-15"));
         testFlight.setDepartureTime(2300);
         testFlight.setArrivalTime(100);

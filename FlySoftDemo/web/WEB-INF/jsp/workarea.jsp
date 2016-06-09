@@ -47,7 +47,7 @@
                         <br>
                         <div id="timeDimension_selector">
                             <br> Set Time dimension<br>
-                            <form:radiobuttons id="time_dimension" path="timeDimension" items="${timeDimensionList}" />
+                            <form:radiobuttons delimiter="<br/>" id="time_dimension" path="timeDimension" items="${timeDimensionList}" />
                         </div>
                         <br>
                         <input id="submit_button" type="button" value="Get Results!"/>        
@@ -84,9 +84,24 @@
                             </table>  
                         </fieldset>
                     </form:form>
-
                     <br>
-
+                    <form:form id="destinations_selector" method="POST" action="/FlySoftDemo/workarea" commandName="cityForm">
+                        <fieldset>
+                            <legend>Destination Citys</legend>                            
+                            <div style="height:200px;overflow:auto;padding:5px;">
+                                <table style="text-align:center">
+                                    <tr><label> <input type="checkbox" id="check_all_destinations" value="all"> all </label><br/></tr>
+                                    <c:forEach items="${cityNameList}" var="current">
+                                    <tr>
+                                        <td> <input type="checkbox" name="destination" value="${current}">${current}<br/></td>
+                                    </tr>
+                                    </c:forEach>
+                                </table> 
+                            </div>
+                        </fieldset>
+                    </form:form> 
+                    <br>
+                   
                     <form:form id="timerange_selector">
                         <fieldset>
                             <legend>Timerange</legend>
@@ -111,10 +126,7 @@
                             <label> <input type="checkbox" name="weekday" value="Sunday"> Sunday </label>
                         </fieldset>
                     </form:form>
-
-                    <br>
-
-                    <a id="destinations_link" href="selectdestinations/cities" target="select-destinations" onClick="javascript:return open('', 'select-destinations', 'height=400,width=400,resizable=no')">Select Destination(s)</a>
+                    
                 </div>
             </div>
         </div>	

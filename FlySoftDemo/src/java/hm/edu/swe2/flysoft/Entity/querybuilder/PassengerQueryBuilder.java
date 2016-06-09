@@ -24,29 +24,29 @@ public class PassengerQueryBuilder extends AbstractQueryBuilder
         // Check which x-axis is given
         if(TIME.equalsIgnoreCase(settings.getXaxis())){
             final String timeDim = parseTimeDimension(settings);
-            selectToken = timeDim + "(FE.departuretime) as Week\n" +
-            ",Count("+timeDim+"(FE.departuretime)) as Flights";
+            selectToken = timeDim + "(MS.yearmonth) as Week\n" +
+            ",Count("+timeDim+"(MS.yearmonth)) as Flights";
             whereToken = calcWhereThirdDimToken(settings) + 
-                "AND FE.departuretime BETWEEN ?1 and ?2\n" +
-                "GROUP BY "+timeDim+"(FE.departuretime)";
+                "AND MS.yearmonth BETWEEN ?1 and ?2\n" +
+                "GROUP BY "+timeDim+"(MS.yearmonth)";
         }
         else if (AIRLINE.equalsIgnoreCase(settings.getXaxis())){
             selectToken = "AIR.name\n" +
                 ",Count(AIR.name)";
             whereToken = calcWhereThirdDimToken(settings) + 
+                "AND AIR.name IN " + 
+                generatePlaceholderList(settings.getAirlines().length,
+                    nextFreeParaIndex) +"\n"+
                 "GROUP BY AIR.name";
         }
         else if (DESTINATION.equalsIgnoreCase(settings.getXaxis())){
             selectToken = "DESTC.name\n" +
                 ",Count(DESTC.name)";
             whereToken = calcWhereThirdDimToken(settings) + 
+                "AND DESTC.name IN " + 
+                generatePlaceholderList(settings.getDestinations().length,
+                    nextFreeParaIndex) +"\n"+
                 "GROUP BY DESTC.name";
-        }
-        else if (ORIGIN.equalsIgnoreCase(settings.getXaxis())){
-            selectToken = "ORIGC.name\n" +
-                ",Count(ORIGC.name)";
-            whereToken = calcWhereThirdDimToken(settings) + 
-                "GROUP BY ORIGC.name";
         }
         else{
             throw new UnsupportedOperationException("Not supported yet.");

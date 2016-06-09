@@ -1,15 +1,19 @@
 package hm.edu.swe2.flysoft.ui.controller;
 
+import hm.edu.swe2.flysoft.entity.City;
 import hm.edu.swe2.flysoft.entity.controller.AirlineEntityController;
+import hm.edu.swe2.flysoft.entity.controller.CityEntityController;
 import hm.edu.swe2.flysoft.ui.FilterSetting;
 import hm.edu.swe2.flysoft.entity.controller.QueryController;
 import hm.edu.swe2.flysoft.interfaces.IAirline;
+import hm.edu.swe2.flysoft.ui.CityFilter;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
 import org.springframework.stereotype.Controller;
@@ -34,7 +38,6 @@ public class WorkareaController {
      */
    @RequestMapping(value = "/workarea", method = RequestMethod.GET)
    public String init(Model model) {
-       
        // Link object to form
        FilterSetting setting = new FilterSetting();  
        model.addAttribute("settingForm", setting);
@@ -53,6 +56,20 @@ public class WorkareaController {
            airlineNames.add(airline.getName());
        }
        model.addAttribute("airlinenewNameList", airlineNames);
+       
+       // Link object to form
+       final CityFilter setting2 = new CityFilter();
+       model.addAttribute("cityForm", setting2);
+       
+       // Fill lists
+       final CityEntityController cityEntityController = new CityEntityController();
+       final List<City> cities = cityEntityController.findCityEntities();
+       final List<String> cityNames = cities.stream()
+           .map(city -> city.getName())
+           .collect(Collectors.toList());
+       model.addAttribute("cityNameList", cityNames);
+       
+       
        // we load the wep page "workarea.jsp"
        return "workarea"; 
    }
@@ -61,8 +78,9 @@ public class WorkareaController {
     * Request the graph data for the given setting.
     * @param xaxis The choosen x-axis.
     * @param yaxis The choosen y-axis.
-    * @param timedim The choosen time dimension.
     * @param thirddim The choosen third dimension.
+    * @param timedim The choosen time dimension.
+    * @param airlines The choosen airlines.
     * @param dest The choosen destination.
     * @param timerange the time range for the request.
     * @return The response body in form of json string.
@@ -73,10 +91,11 @@ public class WorkareaController {
    public @ResponseBody String getGraphData(
         @RequestParam("xaxis") String xaxis
        ,@RequestParam("yaxis") String yaxis
-       ,@RequestParam("timedim") String timedim
        ,@RequestParam("thirddim") String thirddim
-       ,@RequestParam("destinations") String dest // TODO should be an array
-       ,@RequestParam("timerange[]") String[] timerange
+       ,@RequestParam(value="timedim",required=false) String timedim
+       ,@RequestParam(value="airlines[]", required=false) String[] airlines
+       ,@RequestParam(value="destinations[]", required=false) String[] dest
+       ,@RequestParam(value="timerange[]", required=false) String[] timerange
         ) throws IOException {
        QueryController controller = new QueryController();
        FilterSetting setting = new FilterSetting();  
@@ -85,16 +104,13 @@ public class WorkareaController {
            setting.setYaxis(yaxis);
            setting.setTimeDimension(timedim);
            setting.setThirdDimension(thirddim);
-           setting.setDestinations(new String[]{dest});
-           setting.setAirlines(new String[]{});
+           setting.setDestinations(dest == null? new String[]{} : dest);
+           setting.setAirlines((airlines == null? new String[]{} : airlines));
            setting.setOrigins(new String[]{});
            DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.US);
            if(timerange.length > 1){
                setting.setTimeFrom(dateFormat.parse(timerange[0]));
                setting.setTimeTo(dateFormat.parse(timerange[1]));
-           }
-           else{
-               System.err.println("Error: Time range not given.");
            }
        }
        catch(Exception ex){
