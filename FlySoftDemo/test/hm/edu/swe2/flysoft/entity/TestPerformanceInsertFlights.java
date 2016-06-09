@@ -1,27 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package hm.edu.swe2.flysoft.entity;
 
-import hm.edu.swe2.flysoft.entity.controller.FlightEndPointEntityController;
-import hm.edu.swe2.flysoft.entity.controller.FlightEntityController;
 import hm.edu.swe2.flysoft.entity.controller.ParsedFlightController;
 import hm.edu.swe2.flysoft.entity.exceptions.NonexistentEntityException;
-import hm.edu.swe2.flysoft.interfaces.IFlight;
-import hm.edu.swe2.flysoft.interfaces.IFlightEndPoints;
 import hm.edu.swe2.flysoft.parser.CsvParser;
-import hm.edu.swe2.flysoft.parser.FlightPreparator;
+import hm.edu.swe2.flysoft.parser.FlightOnTimePreparator;
 import hm.edu.swe2.flysoft.parser.mappings.AbstractMapTable;
 import hm.edu.swe2.flysoft.parser.mappings.OnTimeMapTable;
 import hm.edu.swe2.flysoft.parser.model.ParsedFlight;
 import java.io.File;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  * Test how long it takes to insert 10 flights (and bounding flightendpoints).
@@ -45,7 +33,7 @@ public class TestPerformanceInsertFlights {
         // Parse
         List<ParsedFlight> flights = parser.parse();
         // Data correction / preparation
-        FlightPreparator preparator = new FlightPreparator();
+        FlightOnTimePreparator preparator = new FlightOnTimePreparator();
         preparator.prepareAll(flights);
         System.out.println(toSeconds(System.nanoTime() - startTime) + " sec for parsing and preparation.");
         

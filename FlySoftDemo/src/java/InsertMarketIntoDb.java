@@ -1,22 +1,14 @@
 
-import hm.edu.swe2.flysoft.crawler.CrawlTableType;
-import hm.edu.swe2.flysoft.crawler.FileCrawler;
 import hm.edu.swe2.flysoft.entity.MonthlyStat;
 import hm.edu.swe2.flysoft.entity.controller.MonthlyStatEntityController;
-import hm.edu.swe2.flysoft.entity.controller.ParsedFlightController;
 import hm.edu.swe2.flysoft.parser.CsvParser;
 import hm.edu.swe2.flysoft.parser.FlightMarketPrepartor;
-import hm.edu.swe2.flysoft.parser.FlightOnTimePreparator;
-import hm.edu.swe2.flysoft.parser.NewYorkFlightFilter;
 import hm.edu.swe2.flysoft.parser.NewYorkMonthlyStatFilter;
 import hm.edu.swe2.flysoft.parser.mappings.AbstractMapTable;
 import hm.edu.swe2.flysoft.parser.mappings.MarketDomesticMapTable;
-import hm.edu.swe2.flysoft.parser.mappings.OnTimeMapTable;
-import hm.edu.swe2.flysoft.parser.model.ParsedFlight;
 import hm.edu.swe2.flysoft.util.GlobalSettings;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.EnumSet;
 import java.util.List;
 
 /*
