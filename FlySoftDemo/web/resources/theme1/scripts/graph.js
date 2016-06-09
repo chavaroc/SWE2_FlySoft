@@ -294,6 +294,7 @@ $(function () {
 //        } else {
         var dim_3 = $("#3d_selector option:selected").text();
         var number_of_graphs = 0;
+        var line_names = [];
         if (dim_3 === "Airline") {
             number_of_graphs = airlines.length;
         } else if (selected_3d_val === "Time") {
@@ -308,7 +309,7 @@ $(function () {
                 var airline_separated = [];
                 airline_separated.push(airlines[i]);
                 console.log(airline_separated.toString());
-                var testname = airline_separated.toString();
+                line_names.push(airline_separated.toString());
             } else if (selected_3d_val === "Time") {
                 //differenciation between days/month/years
             } else if (selected_3d_val === "Destination") {
@@ -320,9 +321,8 @@ $(function () {
                 console.log("jsonrequest started");
                 console.log("current json");
                 console.log(json);
-                console.log("current json");
-                console.log(testname);
-                drawChart(json, testname);
+                
+                drawChart(json, line_names.pop());
                 multi_result.push(json);
                 console.log("current multiresult")
                 console.log(multi_result);
