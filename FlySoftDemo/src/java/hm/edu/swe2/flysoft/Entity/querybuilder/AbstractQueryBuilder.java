@@ -39,9 +39,11 @@ public abstract class AbstractQueryBuilder {
     /**
      * Create the where query token for the third dimension.
      * @param settings The filter settings that are currently used.
+     * @param selector 
      * @return A part of a sql query token, that contains "WHERE <3rd dim> = <x>"
      */
-    protected String calcWhereThirdDimToken(final FilterSetting settings) {
+    protected String calcWhereThirdDimToken(final FilterSetting settings,
+        DataCategorySelector selector) {
         /* set default value to 'WHERE 1=1'
          handle as no 3rd dim was selected.
          1=1 is a dummy expression, maybe the query have some
@@ -61,16 +63,19 @@ public abstract class AbstractQueryBuilder {
                     else{
                         thirdDimColumn = "WHERE FE.departuretime BETWEEN ?1 and ?2\n";
                     }
+                    selector.setEndpointsNeeded(true);
                     break;
                 case GlobalSettings.AIRLINE:
                     thirdDimColumn = "WHERE AIR.name IN " +
                     generatePlaceholderList(settings.getAirlines().length,
                         nextFreeParaIndex) +"\n";
+                    selector.setAirlineNeeded(true);
                     break;
                 case GlobalSettings.DESTINATION:
                     thirdDimColumn = "WHERE DESTC.name IN " + 
                     generatePlaceholderList(settings.getDestinations().length,
                         nextFreeParaIndex) +"\n";
+                    selector.setDestNeeded(true);
                     break;
                 default:
                     //Use default value
@@ -177,5 +182,37 @@ public abstract class AbstractQueryBuilder {
         }
         builder.append(")");
         return builder.toString();
+    }
+    
+    /**
+     * 
+     * @param isOnTime
+     * @param endpointsNeeded
+     * @param destNeeded
+     * @param airlineNeeded
+     * @return 
+     */
+    protected String buildBaseQuery(boolean isOnTime, DataCategorySelector selector){
+        StringBuilder queryStrBuilder = new StringBuilder();
+        queryStrBuilder.append("SELECT \n" +
+                               "%s\n");
+        if(isOnTime){
+            queryStrBuilder.append("FROM flight F\n");
+        }
+        else{ //Market base query
+            queryStrBuilder.append("FROM monthlystat MS\n");
+        }
+        if(selector.isEndpointsNeeded()){
+            queryStrBuilder.append("JOIN flightendpoint FE ON FE.flightendpoint_id = F.flightendpoint_id\n");
+        }
+        if(selector.isAirlineNeeded()){
+            queryStrBuilder.append("RIGHT JOIN airline AIR ON AIR.airline_id = F.airline_id\n");
+        }
+        if(selector.isDestNeeded()){
+            queryStrBuilder.append("JOIN airport DEST ON DEST.shortname = FE.destairportshortname\n");
+            queryStrBuilder.append("JOIN city DESTC ON DESTC.city_id = DEST.city_id\n");
+        }
+        queryStrBuilder.append("%s");
+        return queryStrBuilder.toString();
     }
 }

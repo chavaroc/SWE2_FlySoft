@@ -40,7 +40,7 @@ public final class GlobalSettings {
         "%s\n" +
         "FROM flight F\n" +
         "JOIN flightendpoint FE ON FE.flightendpoint_id = F.flightendpoint_id\n" +
-        "JOIN airline AIR ON AIR.airline_id = F.airline_id\n" +
+        "RIGHT JOIN airline AIR ON AIR.airline_id = F.airline_id\n" +
         "JOIN airport ORIG ON ORIG.shortname = FE.originairportshortname\n" +
         "JOIN airport DEST ON DEST.shortname = FE.destairportshortname\n" +
         "JOIN city ORIGC ON ORIGC.city_id = ORIG.city_id\n" +
