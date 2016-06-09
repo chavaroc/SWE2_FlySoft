@@ -23,6 +23,10 @@ public interface IMonthlyStat {
     
     int getYear();
     
+    String getCarrierName();
+    
+    String getCarrierNameShort();
+    
     /**
      * Get the time aligment of the monthly stat.
      * The day is always set to the 1st of the month.
@@ -41,5 +45,9 @@ public interface IMonthlyStat {
     void setMonth(int month);
     
     void setYear(int year);
+    
+    void setCarrierName(String name);
+    
+    void setCarrierNameShort(String name);
     
 }

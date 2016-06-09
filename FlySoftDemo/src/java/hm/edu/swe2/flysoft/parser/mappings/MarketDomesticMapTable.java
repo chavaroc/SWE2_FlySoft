@@ -35,6 +35,7 @@ public final class MarketDomesticMapTable extends AbstractMapTable {
         //          <CSV-Header>,<Method setter name>, <Parameter data type>
         mapping.put("PASSENGERS", new MethodDescriptor("setPassengerCount", int.class));
         mapping.put("AIRLINE_ID", new MethodDescriptor("setAirlineId", int.class));
+        mapping.put("UNIQUE_CARRIER", new MethodDescriptor("setCarrierNameShort", String.class));
         mapping.put("ORIGIN", new MethodDescriptor("setOriginAirportShortName", String.class));
         mapping.put("DEST", new MethodDescriptor("setDestAirportShortName", String.class));
         mapping.put("YEAR", new MethodDescriptor("setYear", int.class));      

@@ -1,7 +1,9 @@
 package hm.edu.swe2.flysoft.entity.controller;
 
+import hm.edu.swe2.flysoft.entity.Airline;
 import hm.edu.swe2.flysoft.entity.exceptions.NonexistentEntityException;
 import hm.edu.swe2.flysoft.entity.MonthlyStat;
+import hm.edu.swe2.flysoft.interfaces.IAirline;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -15,13 +17,19 @@ import javax.persistence.criteria.CriteriaQuery;
  * @author Zwen
  * @version 02.6.16
  */
-public class MonthlyStatEntityController extends AbstractEntityController{
-
-    private ArrayList<MonthlyStat> monthlystatsList;
+public class MonthlystatEntityController extends AbstractEntityController{
+    
+    private ArrayList<Monthlystat> monthlystatsList;
+    private AirlineEntityController airlineController;
+    private AirportEntityController airportController;
+    private CityEntityController cityController;
     
     public MonthlyStatEntityController(){
         super();
-        monthlystatsList = new ArrayList<>();
+       monthlystatsList = new ArrayList<>();
+       airlineController = new AirlineEntityController();
+       airportController = new AirportEntityController();
+       cityController = new CityEntityController();
     }
     
     public void createAll(List<MonthlyStat> stats) {
@@ -45,7 +53,9 @@ public class MonthlyStatEntityController extends AbstractEntityController{
         }
     }
 
-    public void create(MonthlyStat monthlyStat) {
+    public void create(Monthlystat monthlystat) {
+        airlineController.createIfNotExist(new Airline(monthlystat.getAirlineId()
+                ,monthlystat.getCarrierName(),monthlystat.getCarrierNameShort()));
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
