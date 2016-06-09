@@ -44,6 +44,9 @@ public class FileCrawler {
     private final Set<CrawlTableType> tableTypesTocrawl;
 
     private final List<String> crawledFileNames;
+    
+    private String year = "2006";
+    private String month = "1";
 
     /**
      * Creates a new FileCrawler an starts the FileCrawler.
@@ -183,6 +186,17 @@ public class FileCrawler {
      * headerinformation for a request for a certain table-type
      */
     private void doRequestAndDownload(String post) {
+        
+        //sets the correct paramters for month and year    
+        String replacedPost = post.replace("$$$YYYY$$$", year);
+        post = replacedPost.replace("$$$M$$$", month);
+        System.out.println("Info: Setting Year and/or Month in Config with: " + month + " " + year);
+        while(post.contains("$$$")){
+            replacedPost = post.replace("$$$YYYY$$$", year);
+            post = replacedPost.replace("$$$M$$$", month);
+            System.out.println("Info: Setting Year and/or Month in Config with: " + month + " " + year);
+        }
+        
         String responsePart;
 
         // name of required zip-file
