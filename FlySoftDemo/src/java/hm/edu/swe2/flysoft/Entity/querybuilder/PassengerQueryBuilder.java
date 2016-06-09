@@ -24,15 +24,15 @@ public class PassengerQueryBuilder extends AbstractQueryBuilder
         // Check which x-axis is given
         if(TIME.equalsIgnoreCase(settings.getXaxis())){
             final String timeDim = parseTimeDimension(settings);
-            selectToken = timeDim + "(MS.yearmonth) as Week\n" +
-            ",Count("+timeDim+"(MS.yearmonth)) as Flights";
+            selectToken = timeDim + "(MS.yearmonth)\n" +
+            ",SUM(MS.passengercount) as PassengerCount";
             whereToken = calcWhereThirdDimToken(settings) + 
                 "AND MS.yearmonth BETWEEN ?1 and ?2\n" +
                 "GROUP BY "+timeDim+"(MS.yearmonth)";
         }
         else if (AIRLINE.equalsIgnoreCase(settings.getXaxis())){
             selectToken = "AIR.name\n" +
-                ",Count(AIR.name)";
+                ",SUM(MS.passengercount) as PassengerCount";
             whereToken = calcWhereThirdDimToken(settings) + 
                 "AND AIR.name IN " + 
                 generatePlaceholderList(settings.getAirlines().length,
@@ -41,7 +41,7 @@ public class PassengerQueryBuilder extends AbstractQueryBuilder
         }
         else if (DESTINATION.equalsIgnoreCase(settings.getXaxis())){
             selectToken = "DESTC.name\n" +
-                ",Count(DESTC.name)";
+                ",SUM(MS.passengercount) as PassengerCount";
             whereToken = calcWhereThirdDimToken(settings) + 
                 "AND DESTC.name IN " + 
                 generatePlaceholderList(settings.getDestinations().length,
