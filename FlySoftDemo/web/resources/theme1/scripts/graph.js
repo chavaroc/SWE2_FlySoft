@@ -19,7 +19,7 @@ $(function () {
     var selected_3d_val;
 
     // Hiding of filter-settings, that are not changeable at the beginning, because of the default-constellation of the axis-settings.
-    $("#destinations_link").hide();
+    $("#destinations_selector").hide();
     $("#timeDimension_selector").hide();
     $("#weekday_selector").hide();
     $('#3d_selector option').filter(":eq( 1 )").attr("disabled", "");
@@ -76,6 +76,13 @@ $(function () {
     $.redraw(); //always at the beginning with default values -> crates empty graph
 
     /**
+     * Checks / Unchecks all destinations.
+     */
+    $("#check_all_destinations").change(function () {
+        $("input:checkbox[name='destination']").prop('checked', $(this).prop("checked"));
+    });
+
+    /**
      * Checks / Unchecks all airlines.
      */
     $("#check_all_airlines").change(function () {
@@ -99,16 +106,16 @@ $(function () {
         $('#3d_selector option').filter(":eq( 1 )").removeAttr("disabled");
         x_axis_name = $("#xaxis_selector option:selected").text();
         if (x_axis_name === "Time") {
-            $("#destinations_link").hide();
+            $("#destinations_selector").hide();
             $("#airlines_selector").hide();
             $("#timeDimension_selector").show();
         } else if (x_axis_name === "Destination") {
-            $("#destinations_link").show();
+            $("#destinations_selector").show();
             $("#airlines_selector").hide();
             $("#timeDimension_selector").hide();
             $("#weekday_selector").hide();
         } else if (x_axis_name === "Airline") {
-            $("#destinations_link").hide();
+            $("#destinations_selector").hide();
             $("#airlines_selector").show();
             $("#timeDimension_selector").hide();
             $("#weekday_selector").hide();
@@ -132,7 +139,7 @@ $(function () {
             $("#timeDimension_selector").hide();
             $("#weekday_selector").hide();
         } else if (selected_3d_val === "Destination") {
-            $("#destinations_link").hide();
+            $("#destinations_selector").hide();
         }
         selected_3d_val = $("#3d_selector option:selected").text();
         if (selected_3d_val === "Airline") {
@@ -140,7 +147,7 @@ $(function () {
         } else if (selected_3d_val === "Time") {
             $("#timeDimension_selector").show();
         } else if (selected_3d_val === "Destination") {
-            $("#destinations_link").show();
+            $("#destinations_selector").show();
         }
         $('#xaxis_selector option').filter(function (i, e) {
             return $(e).text() === selected_3d_val;
@@ -214,17 +221,9 @@ $(function () {
         var yaxis = $("#y_qualifier option:selected").text();           // selected filter for y-axis
         var timedim = $('input[name="timeDimension"]:checked').val();   // selected timedimension
         var thirddim = $("#3d_selector option:selected").text();     // selected third dimension
-        /**
-         * TODO: Betina
-         * maybe like at airlines and weekdays
-         * @type String
-         */
-        /*
-         var destinations = $('input[name="destination"]:checked').map(function () { //selected destinations
+        var destinations = $('input[name="destination"]:checked').map(function () { //selected destinations
          return this.value;
         }).get();
-         */
-        var destinations = "Las Vegas, NV";
         var timerange = [$('input[name="startDate"]').val(), $('input[name="endDate"]').val()]; //selected timerange
         var airlines = $('input[name="airline"]:checked').map(function () { //selected airlines
             return this.value;
