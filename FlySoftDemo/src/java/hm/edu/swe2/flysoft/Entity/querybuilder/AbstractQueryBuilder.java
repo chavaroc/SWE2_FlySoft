@@ -75,6 +75,7 @@ public abstract class AbstractQueryBuilder {
                     thirdDimColumn = "WHERE DESTC.name IN " + 
                     generatePlaceholderList(settings.getDestinations().length,
                         nextFreeParaIndex) +"\n";
+                    selector.setEndpointsNeeded(true);
                     selector.setDestNeeded(true);
                     break;
                 default:
@@ -187,30 +188,33 @@ public abstract class AbstractQueryBuilder {
     /**
      * 
      * @param isOnTime
-     * @param endpointsNeeded
-     * @param destNeeded
-     * @param airlineNeeded
+     * @param selector 
      * @return 
      */
     protected String buildBaseQuery(boolean isOnTime, DataCategorySelector selector){
         StringBuilder queryStrBuilder = new StringBuilder();
+        final String aliasMainTable;
         queryStrBuilder.append("SELECT \n" +
                                "%s\n");
         if(isOnTime){
-            queryStrBuilder.append("FROM flight F\n");
+            aliasMainTable = "F";
+            queryStrBuilder.append("FROM flight "+aliasMainTable+"\n");
         }
         else{ //Market base query
-            queryStrBuilder.append("FROM monthlystat MS\n");
+            aliasMainTable = "MS";
+            queryStrBuilder.append("FROM monthlystat "+aliasMainTable+"\n");
         }
         if(selector.isEndpointsNeeded()){
-            queryStrBuilder.append("JOIN flightendpoint FE ON FE.flightendpoint_id = F.flightendpoint_id\n");
+            queryStrBuilder.append("LEFT JOIN flightendpoint FE ON FE.flightendpoint_id = F.flightendpoint_id\n");
         }
         if(selector.isAirlineNeeded()){
-            queryStrBuilder.append("RIGHT JOIN airline AIR ON AIR.airline_id = F.airline_id\n");
+            queryStrBuilder.append("RIGHT JOIN airline AIR ON AIR.airline_id = "+aliasMainTable+".airline_id\n");
         }
         if(selector.isDestNeeded()){
-            queryStrBuilder.append("JOIN airport DEST ON DEST.shortname = FE.destairportshortname\n");
-            queryStrBuilder.append("JOIN city DESTC ON DESTC.city_id = DEST.city_id\n");
+            final String equalColumn = ((isOnTime)? "FE.destairportshortname" : "MS.destairportsn") + "\n";
+            queryStrBuilder.append("LEFT JOIN airport DEST ON DEST.shortname = ");
+            queryStrBuilder.append(equalColumn);
+            queryStrBuilder.append("LEFT JOIN city DESTC ON DESTC.city_id = DEST.city_id\n");
         }
         queryStrBuilder.append("%s");
         return queryStrBuilder.toString();

@@ -22,6 +22,7 @@ public class DelayDurationQueryBuilder extends AbstractQueryBuilder implements I
         String whereToken;
         String groupByToken;
         final DataCategorySelector selector = new DataCategorySelector();
+        selector.setEndpointsNeeded(true);
         // Check which x-axis is given
         if(TIME.equalsIgnoreCase(settings.getXaxis())){
             final String timeDim = parseTimeDimension(settings);
@@ -29,7 +30,6 @@ public class DelayDurationQueryBuilder extends AbstractQueryBuilder implements I
             whereToken = calcWhereThirdDimToken(settings, selector) + 
                 "AND FE.departuretime BETWEEN ?1 and ?2\n";
             groupByToken = "GROUP BY "+timeDim+"(FE.departuretime)";
-            selector.setEndpointsNeeded(true);
         }
         else if (AIRLINE.equalsIgnoreCase(settings.getXaxis())){
             selectToken = "AIR.name\n";
@@ -47,7 +47,6 @@ public class DelayDurationQueryBuilder extends AbstractQueryBuilder implements I
                 generatePlaceholderList(settings.getDestinations().length,
                     nextFreeParaIndex) +"\n";
             groupByToken = "GROUP BY DESTC.name";
-            selector.setEndpointsNeeded(true);
             selector.setDestNeeded(true);
         }
         else{

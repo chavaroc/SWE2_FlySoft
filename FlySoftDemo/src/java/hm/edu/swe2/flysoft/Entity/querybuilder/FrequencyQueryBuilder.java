@@ -34,7 +34,7 @@ public class FrequencyQueryBuilder extends AbstractQueryBuilder
         }
         else if (AIRLINE.equalsIgnoreCase(settings.getXaxis())){
             selectToken = "AIR.name\n" +
-                ",Count(AIR.name)";
+                ",Count(AIR.name)-1";
             whereToken = calcWhereThirdDimToken(settings, selector) + 
                 "AND AIR.name IN " + 
                 generatePlaceholderList(settings.getAirlines().length,
