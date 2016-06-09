@@ -5,7 +5,8 @@ import hm.edu.swe2.flysoft.entity.Monthlystat;
 import hm.edu.swe2.flysoft.entity.controller.MonthlystatEntityController;
 import hm.edu.swe2.flysoft.entity.controller.ParsedFlightController;
 import hm.edu.swe2.flysoft.parser.CsvParser;
-import hm.edu.swe2.flysoft.parser.FlightPreparator;
+import hm.edu.swe2.flysoft.parser.FlightMarketPrepartor;
+import hm.edu.swe2.flysoft.parser.FlightOnTimePreparator;
 import hm.edu.swe2.flysoft.parser.NewYorkFlightFilter;
 import hm.edu.swe2.flysoft.parser.NewYorkMonthlyStatFilter;
 import hm.edu.swe2.flysoft.parser.mappings.AbstractMapTable;
@@ -72,6 +73,9 @@ public class InsertMarketIntoDb {
             parsedStats = newYorkFilter.filter(parsedStats);
             System.out.println("Filtering finished ("+parsedStats.size() +" flights left).");
 
+            FlightMarketPrepartor marketPrepartor = new FlightMarketPrepartor();
+            marketPrepartor.prepareAll(parsedStats);
+            
             System.out.println("Start adding to database...");
             MonthlystatEntityController controller = new MonthlystatEntityController();
             for(int i = 0; i < parsedStats.size(); i++){

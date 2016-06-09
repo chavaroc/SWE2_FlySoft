@@ -9,7 +9,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * Test the functinality of the class 'FlightPreparator'
+ * Test the functinality of the class 'FlightOnTimePreparator'
  * @author Philipp Chavaroche
  * @version 29.04.2016
  */
@@ -21,7 +21,7 @@ public class TestFlightPreparator {
      */
     @Test
     public void TestCombineTimeCase1() throws ParseException{
-        FlightPreparator prep = new FlightPreparator();
+        FlightOnTimePreparator prep = new FlightOnTimePreparator();
         // Create a dummy flight
         ParsedFlight testFlight = new ParsedFlight();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
@@ -50,7 +50,7 @@ public class TestFlightPreparator {
      */
     @Test
     public void TestCombineTimeNextDay() throws ParseException{
-        FlightPreparator prep = new FlightPreparator();
+        FlightOnTimePreparator prep = new FlightOnTimePreparator();
         // Create a dummy flight
         ParsedFlight testFlight = new ParsedFlight();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
@@ -85,7 +85,7 @@ public class TestFlightPreparator {
      */
     @Test
     public void TestSolveAirlineName() throws ParseException{
-        FlightPreparator prep = new FlightPreparator();
+        FlightOnTimePreparator prep = new FlightOnTimePreparator();
         // Create a dummy flight
         ParsedFlight testFlight = new ParsedFlight();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);

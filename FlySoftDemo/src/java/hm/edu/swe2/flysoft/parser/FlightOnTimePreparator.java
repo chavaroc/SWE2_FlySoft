@@ -19,9 +19,7 @@ import java.util.Optional;
  * @author Philipp Chavaroche
  * @version 29.04.2916
  */
-public class FlightPreparator {
-    
-    private static List<Airline> lookupAirlines;
+public class FlightOnTimePreparator extends AbstractFlightPrepartor{
     
     /**
      * Performs the preparation for the all given flights.
@@ -41,43 +39,11 @@ public class FlightPreparator {
      */
     public ParsedFlight prepare(ParsedFlight flight){
         flight = solveArrivalDepature(flight);
-        flight.setAirlineName(solveAirlineName(flight));
+        flight.setAirlineName(solveAirlineName(flight.getAirlineId()));
         return flight;
     }    
     
-    /**
-     * Solve the airline name of the flight via airline id.
-     * @param flight The given flight.
-     * @return The name of the airline of the flight.
-     */
-    private String solveAirlineName(final ParsedFlight flight){
-        String airlineName ="";
-        // check if the lookup table is loaded
-        if(lookupAirlines == null){
-            // Load loopup table
-            File testFile = new File(GlobalSettings.AIRLINE_FILE_NAME);
-            AbstractMapTable config = AirlineLookUpMapTable.getInstance();
-            CsvParser<Airline> parser = new CsvParser<>(testFile.getAbsolutePath(), config,
-                ',', Airline.class);
-            try {
-                lookupAirlines = parser.parse();
-            } catch (Exception ex) {
-                System.out.println("Error while try to parse lookup table 'Airlines'");
-                System.out.println(ex);
-            }
-        }
-        // find matching airline for flight
-        Optional<Airline> foundAirline = lookupAirlines.stream()
-               .filter(airline -> airline.getAirlineId() == flight.getAirlineId())
-               .findFirst();
-           if(foundAirline.isPresent()){
-               airlineName = foundAirline.get().getName();
-           }
-           else{
-               airlineName = "";
-           }
-        return airlineName;
-    }
+    
     
     /**
      * Combine the date and the time for arrival and departure 
@@ -99,25 +65,5 @@ public class FlightPreparator {
             flight.setArrivalDateTime(calendar.getTime());
         }
         return flight;
-    }
-    
-    /**
-     * Combine a date and a time (int fromat) to a date that contains both.
-     * @param date the date without time.
-     * @param time the time in format hhmm
-     * @return Combined date.
-     */
-    private Date combineDateTime(final Date date, final int time){
-        long milliseconds; // ms since 1.1.1970
-        // date should be the same as before
-        milliseconds = date.getTime();
-        // cut up minutes
-        final int hours = time / 100; 
-        // subtract hours from original time -> get minutes
-        int minues = time - (hours * 100); 
-        // calc total minutes
-        minues += hours*60;
-        // add date and time together and build new date
-        return new Date(milliseconds + minues*60*1000);
     }
 }

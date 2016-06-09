@@ -4,7 +4,7 @@ import hm.edu.swe2.flysoft.crawler.FileCrawler;
 import hm.edu.swe2.flysoft.entity.controller.ParsedFlightController;
 import hm.edu.swe2.flysoft.parser.CsvParser;
 import hm.edu.swe2.flysoft.parser.NewYorkFlightFilter;
-import hm.edu.swe2.flysoft.parser.FlightPreparator;
+import hm.edu.swe2.flysoft.parser.FlightOnTimePreparator;
 import hm.edu.swe2.flysoft.parser.mappings.AbstractMapTable;
 import hm.edu.swe2.flysoft.parser.mappings.OnTimeMapTable;
 import hm.edu.swe2.flysoft.parser.model.ParsedFlight;
@@ -77,7 +77,7 @@ public class TestInsertIntoDb {
             System.out.println("Filtering finished ("+parsedFlights.size() +" flights left).");
 
             System.out.println("Prepare flights.");
-            FlightPreparator preparator = new FlightPreparator();
+            FlightOnTimePreparator preparator = new FlightOnTimePreparator();
             preparator.prepareAll(parsedFlights);
             System.out.println("Preparation finished.");
 
