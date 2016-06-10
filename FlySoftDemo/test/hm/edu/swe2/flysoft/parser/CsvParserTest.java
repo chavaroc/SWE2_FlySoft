@@ -1,5 +1,6 @@
 package hm.edu.swe2.flysoft.parser;
 
+import hm.edu.swe2.flysoft.entity.MonthlyStat;
 import hm.edu.swe2.flysoft.parser.mappings.AbstractMapTable;
 import hm.edu.swe2.flysoft.parser.mappings.OnTimeMapTable;
 import hm.edu.swe2.flysoft.parser.mappings.MarketDomesticMapTable;
@@ -20,7 +21,7 @@ import org.springframework.util.Assert;
  * Test the csv parser.
  * @author Philipp Chavaroche
  */
-public class TestCsvParser {
+public class CsvParserTest {
     
     /**
      * Read out all
@@ -131,9 +132,9 @@ public class TestCsvParser {
         System.out.println("Test with " + testFile.getAbsolutePath());
         
         AbstractMapTable config = MarketDomesticMapTable.getInstance();
-        CsvParser<MonthlyStatDummy> parser = new CsvParser<>(testFile.getAbsolutePath(), config,
-            ',', MonthlyStatDummy.class);
-        MonthlyStatDummy parsedStat = parser.parse().get(0);
+        CsvParser<MonthlyStat> parser = new CsvParser<>(testFile.getAbsolutePath(), config,
+            ',', MonthlyStat.class);
+        MonthlyStat parsedStat = parser.parse().get(0);
         
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 

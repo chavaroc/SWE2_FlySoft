@@ -11,9 +11,9 @@ import static org.junit.Assert.*;
  * Tests for the airline entity
  * @author Betina Hientz
  */
-public class TestAirline {
+public class AirlineTest {
     
-    public TestAirline() {
+    public AirlineTest() {
     }
      
     @Test
