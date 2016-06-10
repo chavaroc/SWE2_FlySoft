@@ -115,7 +115,10 @@ public abstract class AbstractQueryBuilder {
         if(GlobalSettings.AIRLINE.equalsIgnoreCase(settings.getThirdDimension())){
             currentParaNumber = setDynamicQueryParameter(query, settings.getAirlines(), currentParaNumber);
         }
-        currentParaNumber = setDynamicQueryParameter(query, settings.getDestinations(), currentParaNumber);
+        if(GlobalSettings.DESTINATION.equalsIgnoreCase(settings.getThirdDimension())
+            || GlobalSettings.DESTINATION.equalsIgnoreCase(settings.getXaxis())){
+            currentParaNumber = setDynamicQueryParameter(query, settings.getDestinations(), currentParaNumber);
+        }
         if(GlobalSettings.AIRLINE.equalsIgnoreCase(settings.getXaxis())){
             setDynamicQueryParameter(query, settings.getAirlines(), currentParaNumber);
         }

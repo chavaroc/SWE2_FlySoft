@@ -22,7 +22,6 @@ public class PassengerQueryBuilder extends AbstractQueryBuilder
         String selectToken;
         String whereToken;
         final DataCategorySelector selector = new DataCategorySelector();
-        selector.setEndpointsNeeded(false);
         // Check which x-axis is given
         if(TIME.equalsIgnoreCase(settings.getXaxis())){
             final String timeDim = parseTimeDimension(settings);
@@ -55,6 +54,7 @@ public class PassengerQueryBuilder extends AbstractQueryBuilder
         else{
             throw new UnsupportedOperationException("Not supported yet.");
         }   
+        selector.setEndpointsNeeded(false);
         query = createParamizedQuery(buildBaseQuery(false, selector),
             selectToken, whereToken, settings, entityManager);
         return query;

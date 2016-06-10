@@ -50,6 +50,7 @@ public class FrequencyQueryBuilder extends AbstractQueryBuilder
                 generatePlaceholderList(settings.getDestinations().length,
                     nextFreeParaIndex) +"\n"+
                 "GROUP BY DESTC.name";
+            selector.setEndpointsNeeded(true);
             selector.setDestNeeded(true);
         }
         else{
