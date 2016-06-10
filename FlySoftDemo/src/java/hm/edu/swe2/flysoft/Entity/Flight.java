@@ -1,17 +1,23 @@
 package hm.edu.swe2.flysoft.entity;
 
 import hm.edu.swe2.flysoft.interfaces.IFlight;
+import hm.edu.swe2.flysoft.interfaces.IFlightEndPoints;
 import java.io.Serializable;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.eclipse.persistence.annotations.ExistenceChecking;
+import org.eclipse.persistence.annotations.ExistenceType;
 
 /**
  * Class who represents the table flight in the database with all attributes.
@@ -21,11 +27,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "flight")
 @XmlRootElement
+@ExistenceChecking(ExistenceType.ASSUME_NON_EXISTENCE)
 @NamedQueries({
     @NamedQuery(name = "Flight.findAll", query = "SELECT f FROM Flight f"),
     @NamedQuery(name = "Flight.findByFlightId", query = "SELECT f FROM Flight f WHERE f.flightId = :flightId"),
     @NamedQuery(name = "Flight.findByCancelled", query = "SELECT f FROM Flight f WHERE f.cancelled = :cancelled"),
-    @NamedQuery(name = "Flight.findByFlightEndPointId", query = "SELECT f FROM Flight f WHERE f.flightEndPointId = :flightEndPointId"),
     @NamedQuery(name = "Flight.findByAirlineId", query = "SELECT f FROM Flight f WHERE f.airlineId = :airlineId")})
 public class Flight implements Serializable, IFlight {
 
@@ -38,21 +44,25 @@ public class Flight implements Serializable, IFlight {
     @Basic(optional = false)
     @Column(name = "cancelled")
     private boolean cancelled;
-    @Column(name = "flightendpoint_id")
-    private Integer flightEndPointId;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "flightendpoint_id")
+    FlightEndPoint flightEndPoint;
+    
     @Column(name = "airline_id")
     private Integer airlineId;
 
     public Flight() {
+        this(0);
     }
 
     public Flight(Integer flightId) {
-        this.flightId = flightId;
+        this(flightId,false);
     }
 
     public Flight(Integer flightId, boolean cancelled) {
         this.flightId = flightId;
         this.cancelled = cancelled;
+        flightEndPoint = new FlightEndPoint();
     }
 
     @Override
@@ -74,15 +84,10 @@ public class Flight implements Serializable, IFlight {
     public void setCancelled(boolean cancelled) {
         this.cancelled = cancelled;
     }
-
+    
     @Override
-    public Integer getFlightEndPointId() {
-        return flightEndPointId;
-    }
-
-    @Override
-    public void setFlightEndPointId(Integer flightEndPointId) {
-        this.flightEndPointId = flightEndPointId;
+    public IFlightEndPoints getFlightEndPoint(){
+        return flightEndPoint;
     }
 
     @Override

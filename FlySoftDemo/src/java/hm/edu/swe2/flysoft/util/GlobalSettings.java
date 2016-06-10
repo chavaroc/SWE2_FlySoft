@@ -12,15 +12,20 @@ public final class GlobalSettings {
     private GlobalSettings() {
     }
     
+    // ================ Parser ================    
     /**
      * The path to the file, that contains all airlines
      * (lookup table from trans stats).
      */
     public static final String AIRLINE_FILE_NAME = "resource/L_AIRLINE_ID.csv";
     
+    
+    // ================ Crawler ================    
     public static final String CRAWLER_CONFIG_FILE_NAME = "crawler_config.txt";
     public static final String CRAWLER_DOWNLOAD_DIR = "downloaded" + File.separatorChar;
     
+    
+    // ================ Database procedures ================
     // obsolete (fall back solution?)
     public static final String DB_PROD_FLIGHT_COUNT_WEEK = "fly_analytics.FlightCountPerWeek";
     
@@ -30,32 +35,9 @@ public final class GlobalSettings {
     
     // ================ Query Builder constants ================
     /**
-     * The base query, to request all flights (based on the on time table).
-     * This query needs two parameter:
-     *  - selected columns
-     *  - where clausal
+     * The constants that are used in the query builder to evaluate
+     * what setting is choosen.
      */
-    public static final String BASE_QUERY_ON_TIME = 
-        "SELECT \n" +
-        "%s\n" +
-        "FROM flight F\n" +
-        "JOIN flightendpoint FE ON FE.flightendpoint_id = F.flightendpoint_id\n" +
-        "RIGHT JOIN airline AIR ON AIR.airline_id = F.airline_id\n" +
-        "JOIN airport ORIG ON ORIG.shortname = FE.originairportshortname\n" +
-        "JOIN airport DEST ON DEST.shortname = FE.destairportshortname\n" +
-        "JOIN city ORIGC ON ORIGC.city_id = ORIG.city_id\n" +
-        "JOIN city DESTC ON DESTC.city_id = DEST.city_id\n" + 
-        "%s";
-    public static final String BASE_QUERY_MONTHLY_STAT =
-        "SELECT \n" + 
-        "%s\n" +
-        "FROM monthlystat MS\n" +
-        "JOIN airline AIR ON AIR.airline_id = MS.airline_id\n" +
-        "JOIN airport ORIG ON ORIG.shortname = MS.orginairportsn\n" +
-        "JOIN airport DEST ON DEST.shortname = MS.destairportsn\n" +
-        "JOIN city ORIGC ON ORIGC.city_id = ORIG.city_id\n" +
-        "JOIN city DESTC ON DESTC.city_id = DEST.city_id\n" +
-        "%s";
     public static final String FREQUENCIES = "frequencies";
     public static final String DELAY_DURATION = "delay durations";
     public static final String DELAY_FREQ = "delay frequencies";
@@ -74,6 +56,13 @@ public final class GlobalSettings {
      * See AbstractQueryBuilder.generatePlaceholderList
      */
     public static final int FIRST_DYN_PARA_INDEX = 3;
+    
+    // ================ Entity controller constants ================
+    /**
+     * The size of the buffer, that is used while the ParsedFlightController
+     * write on time flights into database.
+     */
+    public static final int FLIGHT_INSERTION_BUFFER_SIZE = 200;
     
     
 
