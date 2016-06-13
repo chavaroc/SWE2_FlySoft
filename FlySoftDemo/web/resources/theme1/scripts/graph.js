@@ -270,7 +270,6 @@ $(function () {
 //    });
 
     $("#submit_button").click(function () {
-        spinner.spin(target);
         
         mySeries = []; //clean
         var xaxis = $("#xaxis_selector option:selected").text();        // selected filter for x-axis
@@ -301,6 +300,18 @@ $(function () {
         console.log("Thirddim ja nein:");
         console.log(thirddim.length);
         console.log(thirddim);
+        
+        var destinationGiven = xaxis === "Destination" && destinations.length !== 0;
+        var airlineGiven = xaxis === "Airline" && airlines.length !== 0;
+        var timeGiven = xaxis === "Time" && timerange.length !== 0;
+        
+        if (destinationGiven || airlineGiven || timeGiven) {
+            spinner.spin(target);
+        }
+         
+        
+        
+        
 
         var thirddimAvailable = (thirddim.length !== 16);
 //        console.log(thirddimAvailable);
