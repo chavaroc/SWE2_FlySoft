@@ -1,21 +1,14 @@
 
-import hm.edu.swe2.flysoft.crawler.CrawlTableType;
-import hm.edu.swe2.flysoft.crawler.FileCrawler;
 import hm.edu.swe2.flysoft.entity.MonthlyStat;
 import hm.edu.swe2.flysoft.entity.controller.MonthlyStatEntityController;
-import hm.edu.swe2.flysoft.entity.controller.ParsedFlightController;
 import hm.edu.swe2.flysoft.parser.CsvParser;
-import hm.edu.swe2.flysoft.parser.FlightPreparator;
-import hm.edu.swe2.flysoft.parser.NewYorkFlightFilter;
+import hm.edu.swe2.flysoft.parser.FlightMarketPrepartor;
 import hm.edu.swe2.flysoft.parser.NewYorkMonthlyStatFilter;
 import hm.edu.swe2.flysoft.parser.mappings.AbstractMapTable;
 import hm.edu.swe2.flysoft.parser.mappings.MarketDomesticMapTable;
-import hm.edu.swe2.flysoft.parser.mappings.OnTimeMapTable;
-import hm.edu.swe2.flysoft.parser.model.ParsedFlight;
 import hm.edu.swe2.flysoft.util.GlobalSettings;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.EnumSet;
 import java.util.List;
 
 /*
@@ -72,6 +65,9 @@ public class InsertMarketIntoDb {
             parsedStats = newYorkFilter.filter(parsedStats);
             System.out.println("Filtering finished ("+parsedStats.size() +" flights left).");
 
+            FlightMarketPrepartor marketPrepartor = new FlightMarketPrepartor();
+            marketPrepartor.prepareAll(parsedStats);
+            
             System.out.println("Start adding to database...");
             MonthlyStatEntityController controller = new MonthlyStatEntityController();
             for(int i = 0; i < parsedStats.size(); i++){

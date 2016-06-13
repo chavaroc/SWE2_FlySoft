@@ -1,5 +1,6 @@
 package hm.edu.swe2.flysoft.entity.controller;
 
+import hm.edu.swe2.flysoft.entity.Airline;
 import hm.edu.swe2.flysoft.entity.exceptions.NonexistentEntityException;
 import hm.edu.swe2.flysoft.entity.MonthlyStat;
 import java.util.ArrayList;
@@ -16,12 +17,18 @@ import javax.persistence.criteria.CriteriaQuery;
  * @version 02.6.16
  */
 public class MonthlyStatEntityController extends AbstractEntityController{
-
+    
     private ArrayList<MonthlyStat> monthlystatsList;
+    private AirlineEntityController airlineController;
+    private AirportEntityController airportController;
+    private CityEntityController cityController;
     
     public MonthlyStatEntityController(){
         super();
-        monthlystatsList = new ArrayList<>();
+       monthlystatsList = new ArrayList<>();
+       airlineController = new AirlineEntityController();
+       airportController = new AirportEntityController();
+       cityController = new CityEntityController();
     }
     
     public void createAll(List<MonthlyStat> stats) {
@@ -46,6 +53,8 @@ public class MonthlyStatEntityController extends AbstractEntityController{
     }
 
     public void create(MonthlyStat monthlyStat) {
+        airlineController.createIfNotExist(new Airline(monthlyStat.getAirlineId()
+                ,monthlyStat.getCarrierName(),monthlyStat.getCarrierNameShort()));
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();

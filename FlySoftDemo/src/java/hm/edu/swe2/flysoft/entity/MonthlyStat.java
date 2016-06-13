@@ -64,6 +64,10 @@ public class MonthlyStat implements Serializable, IMonthlyStat {
     private int monthMon;
     @Transient
     private int yearMon;
+    @Transient
+    private String carrierName;
+    @Transient
+    private String carrierNameShort;
     
     public MonthlyStat() {
         this(-1);
@@ -209,5 +213,25 @@ public class MonthlyStat implements Serializable, IMonthlyStat {
             }
         } catch (Exception e) {System.err.println(e);
         }
+    }
+
+    @Override
+    public void setCarrierName(String name) {
+        this.carrierName = name;
+    }
+
+    @Override
+    public String getCarrierName() {
+        return carrierName;
+        }
+
+    @Override
+    public String getCarrierNameShort() {
+        return carrierNameShort;
+    }
+
+    @Override
+    public void setCarrierNameShort(String name) {
+        this.carrierNameShort = name;
     }
 }
