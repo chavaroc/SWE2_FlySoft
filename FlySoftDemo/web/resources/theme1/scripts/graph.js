@@ -38,11 +38,6 @@ $(function () {
                 text: subtitle_text
             },
             xAxis: {
-                /*type: 'text',
-                 dateTimeLabelFormats: {// don't display the dummy year
-                 month: '%e. %b',
-                 year: '%b'
-                 },*/
                 title: {
                     text: x_axis_name
                 }
@@ -69,7 +64,7 @@ $(function () {
     };
 
 
-    var drawChart = function (data, name) {
+    var drawChart = function (data, name, color) {
         // 'series' is an array of objects with keys: 
         //     - 'name' (string)
         //     - 'data' (array)
@@ -77,17 +72,16 @@ $(function () {
 //            name: name,
 //            data: data
 //        };
-
         // Add the new data to the series array
-        mySeries.push({name: name, data: data});
+        mySeries.push({name: name, data: data, color: color});
         $.redraw();
         // If you want to remove old series data, you can do that here too
 
         // Render the chart
         //var chart = new Highcharts.Chart(options1);
     };
-    
-     var drawChartWithoutNames = function (data) {
+
+    var drawChartWithoutNames = function (data) {
         // 'series' is an array of objects with keys: 
         //     - 'name' (string)
         //     - 'data' (array)
@@ -287,7 +281,7 @@ $(function () {
         console.log(thirddim);
 
         var thirddimAvailable = (thirddim.length !== 16);
-        console.log(thirddimAvailable);
+//        console.log(thirddimAvailable);
 
 
         // sending information to querybuilder and receiving plotable data from server
@@ -297,7 +291,7 @@ $(function () {
             destinations.push(""); //workaround for comma-problem
             airlines.push(""); //workaround for comma-problem
             $.getJSON(url, {xaxis: escape(xaxis), yaxis: yaxis, timedim: timedim, thirddim: thirddim, destinations: destinations, timerange: timerange, airlines: airlines}, function (json) {
-                console.log(json);
+                //console.log(json);
                 resultFromServer = json;
 
                 //update axis-/labelnames for graph
@@ -321,13 +315,17 @@ $(function () {
             } else if (selected_3d_val === "Destination") {
                 number_of_graphs = destinations.length;
             }
-            console.log(number_of_graphs);
-            
-            if(number_of_graphs > 15){
+            //console.log(number_of_graphs);
+
+            if (number_of_graphs > 15) {
                 number_of_graphs = 15;
             }
+            
+            var colors = ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9',
+                        '#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1', '#0d233a', '#8bbc21', '#910000', '#1aadce',
+                        '#492970', '#f28f43', '#77a1e5', '#c42525', '#a6c96a'];
 
-            for (i = 0; i < number_of_graphs; i++) {
+            for (var i = 0; i < number_of_graphs; i++) {
                 if (dim_3 === "Airline") {
                     var airline_separated = [];
                     airline_separated.push(airlines[i]);
@@ -355,7 +353,7 @@ $(function () {
                 json_airline.push(""); //workaround for commaproblem
                 $.getJSON(url, {xaxis: escape(xaxis), yaxis: yaxis, timedim: timedim, thirddim: thirddim, destinations: json_destination, timerange: timerange, airlines: json_airline}, function (json) {
 
-                //update axis-/labelnames for graph
+                    //update axis-/labelnames for graph
                     if (xaxis === "Time") {
                         x_axis_name = "Time in " + timedim + "s";
                     } else {
@@ -363,10 +361,11 @@ $(function () {
                     }
                     y_axis_name = yaxis;
 
-                    drawChart(json, line_names.shift());
+                    var color = colors.pop();
+                    drawChart(json, line_names.shift(), color);
                     multi_result.push(json);
-                    console.log("current multiresult")
-                    console.log(multi_result);
+                    //console.log("current multiresult")
+                    //console.log(multi_result);
                 });
 
 
