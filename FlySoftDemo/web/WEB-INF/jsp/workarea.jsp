@@ -14,6 +14,7 @@
         <script src='<c:url value="/resources/scripts/jquery-1.12.3.js" />'></script>
         <script src='<c:url value="/resources/scripts/highcharts.js" />'></script>
         <script src='<c:url value="/resources/scripts/graph.js" />'></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/spin.js/2.3.2/spin.min.js"></script>
 
         <title>FlyAmerica | Statistics</title>
 
@@ -50,7 +51,9 @@
                             <form:radiobuttons delimiter="<br/>" id="time_dimension" path="timeDimension" items="${timeDimensionList}" />
                         </div>
                         <br>
-                        <input id="submit_button" type="button" value="Get Results!"/>        
+                        <div id="spinner">
+                            <input id="submit_button" type="button" value="Get Results!"/>     
+                        </div>
                     </div>
                 </form:form>
             </div>

@@ -2,13 +2,32 @@
  * JavaScript File for GUI on Client-Site.
  * Using JQuery- and Highcharts- API.
  */
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 $(function () {
 
+    var opts = {
+        lines: 17 // The number of lines to draw
+      , length: 56 // The length of each line
+      , width: 19 // The line thickness
+      , radius: 41 // The radius of the inner circle
+      , scale: 0.4 // Scales overall size of the spinner
+      , corners: 1 // Corner roundness (0..1)
+      , color: '#000' // #rgb or #rrggbb or array of colors
+      , opacity: 0.2 // Opacity of the lines
+      , rotate: 0 // The rotation offset
+      , direction: 1 // 1: clockwise, -1: counterclockwise
+      , speed: 0.7 // Rounds per second
+      , trail: 60 // Afterglow percentage
+      , fps: 20 // Frames per second when using setTimeout() as a fallback for CSS
+      , zIndex: 2e9 // The z-index (defaults to 2000000000)
+      , className: 'spinner' // The CSS class to assign to the spinner
+      , top: '40%' // Top position relative to parent
+      , shadow: false // Whether to render a shadow
+      , hwaccel: false // Whether to use hardware acceleration
+      };
+      
+    var target = document.getElementById('content');
+    var spinner = new Spinner(opts);
+    
     var title_text = "";        // title of the highcharts-graph -> currently none
     var subtitle_text = "";     // subtitle of the highcharts-graph -> currently none
     var graph_type = "spline";  // for more detail, see Highcharts-API-Documentation
@@ -61,6 +80,7 @@ $(function () {
             },
             series: mySeries
         });
+        spinner.stop();
     };
 
 
@@ -250,6 +270,8 @@ $(function () {
 //    });
 
     $("#submit_button").click(function () {
+        spinner.spin(target);
+        
         mySeries = []; //clean
         var xaxis = $("#xaxis_selector option:selected").text();        // selected filter for x-axis
         var yaxis = $("#y_qualifier option:selected").text();           // selected filter for y-axis
@@ -351,6 +373,9 @@ $(function () {
                 }
                 json_destination.push(""); //workaround for commaproblem
                 json_airline.push(""); //workaround for commaproblem
+                
+               
+                
                 $.getJSON(url, {xaxis: escape(xaxis), yaxis: yaxis, timedim: timedim, thirddim: thirddim, destinations: json_destination, timerange: timerange, airlines: json_airline}, function (json) {
 
                     //update axis-/labelnames for graph
@@ -371,5 +396,6 @@ $(function () {
 
             }
         }
+        //spinner.stop();
     });
 });
