@@ -15,6 +15,8 @@ $(function () {
     var x_axis_name = "Time";   // label of x_axis -> Default (when page has loaded at the beginning): Time
     var y_axis_name = "Frequencies";    // label of y_axis -> Default (when page has loaded at the beginning): Frequencies
     var resultFromServer;       // Received Data from Server. Data to Plot in Graph.    
+    var multi_result = [];
+    var mySeries = [];
     var data_serie;             // Data to plot. For more detail, see Highcharts-API-Documentation   
     var selected_3d_val;
 
@@ -36,11 +38,6 @@ $(function () {
                 text: subtitle_text
             },
             xAxis: {
-                /*type: 'text',
-                 dateTimeLabelFormats: {// don't display the dummy year
-                 month: '%e. %b',
-                 year: '%b'
-                 },*/
                 title: {
                     text: x_axis_name
                 }
@@ -62,8 +59,44 @@ $(function () {
                     }
                 }
             },
-            series: data_serie
+            series: mySeries
         });
+    };
+
+
+    var drawChart = function (data, name, color) {
+        // 'series' is an array of objects with keys: 
+        //     - 'name' (string)
+        //     - 'data' (array)
+//        var newSeriesData = {
+//            name: name,
+//            data: data
+//        };
+        // Add the new data to the series array
+        mySeries.push({name: name, data: data, color: color});
+        $.redraw();
+        // If you want to remove old series data, you can do that here too
+
+        // Render the chart
+        //var chart = new Highcharts.Chart(options1);
+    };
+
+    var drawChartWithoutNames = function (data) {
+        // 'series' is an array of objects with keys: 
+        //     - 'name' (string)
+        //     - 'data' (array)
+//        var newSeriesData = {
+//            name: name,
+//            data: data
+//        };
+
+        // Add the new data to the series array
+        mySeries.push({data: data});
+        $.redraw();
+        // If you want to remove old series data, you can do that here too
+
+        // Render the chart
+        //var chart = new Highcharts.Chart(options1);
     };
 
     $.updateDataToPlot = function () {
@@ -129,7 +162,7 @@ $(function () {
      * Hides or shows changeable filter-settings, depending on filter-criteria at the 3rd dimension.
      */
     $("#3d_selector").change(function () {
-        
+
         $('#xaxis_selector option').filter(function (i, e) {
             return $(e).text() === selected_3d_val;
         }).removeAttr("disabled");
@@ -217,17 +250,21 @@ $(function () {
 //    });
 
     $("#submit_button").click(function () {
+        mySeries = []; //clean
         var xaxis = $("#xaxis_selector option:selected").text();        // selected filter for x-axis
         var yaxis = $("#y_qualifier option:selected").text();           // selected filter for y-axis
         var timedim = $('input[name="timeDimension"]:checked').val();   // selected timedimension
         var thirddim = $("#3d_selector option:selected").text();     // selected third dimension
         var destinations = $('input[name="destination"]:checked').map(function () { //selected destinations
-         return this.value;
+            return this.value;
         }).get();
         var timerange = [$('input[name="startDate"]').val(), $('input[name="endDate"]').val()]; //selected timerange
         var airlines = $('input[name="airline"]:checked').map(function () { //selected airlines
             return this.value;
         }).get();
+//        if(airlines.length === 1){
+//            escape
+//        }
         var weekdays = $('input[name="weekday"]:checked').map(function () { //selected weekdays
             return this.value;
         }).get();
@@ -239,25 +276,100 @@ $(function () {
         console.log(timerange);
         console.log(airlines);
         console.log(weekdays);
-        
+        console.log("Thirddim ja nein:");
+        console.log(thirddim.length);
+        console.log(thirddim);
+
+        var thirddimAvailable = (thirddim.length !== 16);
+//        console.log(thirddimAvailable);
+
 
         // sending information to querybuilder and receiving plotable data from server
         var url = "/FlySoftDemo/workarea/graphdata";
-        $.getJSON(url, {xaxis: escape(xaxis), yaxis: yaxis, timedim: timedim, thirddim: thirddim, destinations: destinations, timerange: timerange, airlines: airlines}, function (json) {
-            console.log(json);
-            resultFromServer = json;
 
-            //update axis-/labelnames for graph
-            if (xaxis === "Time") {
-                x_axis_name = "Time in " + timedim + "s";
-            } else {
-                x_axis_name = xaxis;
+        if (!thirddimAvailable) {
+            destinations.push(""); //workaround for comma-problem
+            airlines.push(""); //workaround for comma-problem
+            $.getJSON(url, {xaxis: escape(xaxis), yaxis: yaxis, timedim: timedim, thirddim: thirddim, destinations: destinations, timerange: timerange, airlines: airlines}, function (json) {
+                //console.log(json);
+                resultFromServer = json;
+
+                //update axis-/labelnames for graph
+                if (xaxis === "Time") {
+                    x_axis_name = "Time in " + timedim + "s";
+                } else {
+                    x_axis_name = xaxis;
+                }
+                y_axis_name = yaxis;
+
+                drawChartWithoutNames(json);
+            });
+        } else {
+            var dim_3 = $("#3d_selector option:selected").text();
+            var number_of_graphs = 0;
+            var line_names = [];
+            if (dim_3 === "Airline") {
+                number_of_graphs = airlines.length;
+            } else if (selected_3d_val === "Time") {
+                //differenciation between days/month/years
+            } else if (selected_3d_val === "Destination") {
+                number_of_graphs = destinations.length;
             }
-            y_axis_name = yaxis;
+            //console.log(number_of_graphs);
 
-            // updates data to plot and updates graph
-            $.updateDataToPlot();
-        });
+            if (number_of_graphs > 15) {
+                number_of_graphs = 15;
+            }
+            
+            var colors = ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9',
+                        '#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1', '#0d233a', '#8bbc21', '#910000', '#1aadce',
+                        '#492970', '#f28f43', '#77a1e5', '#c42525', '#a6c96a'];
+
+            for (var i = 0; i < number_of_graphs; i++) {
+                if (dim_3 === "Airline") {
+                    var airline_separated = [];
+                    airline_separated.push(airlines[i]);
+                    //console.log(airline_separated.toString());
+                    line_names.push(airline_separated.toString());
+                } else if (selected_3d_val === "Time") {
+                    //differenciation between days/month/years
+                } else if (selected_3d_val === "Destination") {
+                    var destination_separated = [];
+                    destination_separated.push(destinations[i]);
+                    line_names.push(destination_separated.toString());
+                }
+
+                var json_airline = airlines;
+                var json_destination = destinations;
+                var json_time;
+                if (dim_3 === "Airline") {
+                    json_airline = airline_separated;
+                } else if (dim_3 === "Time") {
+                    //TODO
+                } else if (dim_3 === "Destination") {
+                    json_destination = destination_separated;
+                }
+                json_destination.push(""); //workaround for commaproblem
+                json_airline.push(""); //workaround for commaproblem
+                $.getJSON(url, {xaxis: escape(xaxis), yaxis: yaxis, timedim: timedim, thirddim: thirddim, destinations: json_destination, timerange: timerange, airlines: json_airline}, function (json) {
+
+                    //update axis-/labelnames for graph
+                    if (xaxis === "Time") {
+                        x_axis_name = "Time in " + timedim + "s";
+                    } else {
+                        x_axis_name = xaxis;
+                    }
+                    y_axis_name = yaxis;
+
+                    var color = colors.pop();
+                    drawChart(json, line_names.shift(), color);
+                    multi_result.push(json);
+                    //console.log("current multiresult")
+                    //console.log(multi_result);
+                });
+
+
+            }
+        }
     });
-
 });
