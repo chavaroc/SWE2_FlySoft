@@ -294,6 +294,8 @@ $(function () {
         var url = "/FlySoftDemo/workarea/graphdata";
 
         if (!thirddimAvailable) {
+            destinations.push(""); //workaround for comma-problem
+            airlines.push(""); //workaround for comma-problem
             $.getJSON(url, {xaxis: escape(xaxis), yaxis: yaxis, timedim: timedim, thirddim: thirddim, destinations: destinations, timerange: timerange, airlines: airlines}, function (json) {
                 console.log(json);
                 resultFromServer = json;
@@ -320,6 +322,10 @@ $(function () {
                 number_of_graphs = destinations.length;
             }
             console.log(number_of_graphs);
+            
+            if(number_of_graphs > 15){
+                number_of_graphs = 15;
+            }
 
             for (i = 0; i < number_of_graphs; i++) {
                 if (dim_3 === "Airline") {
@@ -331,7 +337,7 @@ $(function () {
                     //differenciation between days/month/years
                 } else if (selected_3d_val === "Destination") {
                     var destination_separated = [];
-                    destination_separated.push(destinations[i].substring(0, 9));
+                    destination_separated.push(destinations[i]);
                     line_names.push(destination_separated.toString());
                 }
 
@@ -345,6 +351,8 @@ $(function () {
                 } else if (dim_3 === "Destination") {
                     json_destination = destination_separated;
                 }
+                json_destination.push(""); //workaround for commaproblem
+                json_airline.push(""); //workaround for commaproblem
                 $.getJSON(url, {xaxis: escape(xaxis), yaxis: yaxis, timedim: timedim, thirddim: thirddim, destinations: json_destination, timerange: timerange, airlines: json_airline}, function (json) {
 
                 //update axis-/labelnames for graph
