@@ -6,35 +6,34 @@ $(function () {
 
     var opts = {
         lines: 17 // The number of lines to draw
-      , length: 56 // The length of each line
-      , width: 19 // The line thickness
-      , radius: 41 // The radius of the inner circle
-      , scale: 0.4 // Scales overall size of the spinner
-      , corners: 1 // Corner roundness (0..1)
-      , color: '#000' // #rgb or #rrggbb or array of colors
-      , opacity: 0.2 // Opacity of the lines
-      , rotate: 0 // The rotation offset
-      , direction: 1 // 1: clockwise, -1: counterclockwise
-      , speed: 0.7 // Rounds per second
-      , trail: 60 // Afterglow percentage
-      , fps: 20 // Frames per second when using setTimeout() as a fallback for CSS
-      , zIndex: 2e9 // The z-index (defaults to 2000000000)
-      , className: 'spinner' // The CSS class to assign to the spinner
-      , top: '40%' // Top position relative to parent
-      , shadow: false // Whether to render a shadow
-      , hwaccel: false // Whether to use hardware acceleration
-      };
-      
+        , length: 56 // The length of each line
+        , width: 19 // The line thickness
+        , radius: 41 // The radius of the inner circle
+        , scale: 0.4 // Scales overall size of the spinner
+        , corners: 1 // Corner roundness (0..1)
+        , color: '#000' // #rgb or #rrggbb or array of colors
+        , opacity: 0.2 // Opacity of the lines
+        , rotate: 0 // The rotation offset
+        , direction: 1 // 1: clockwise, -1: counterclockwise
+        , speed: 0.7 // Rounds per second
+        , trail: 60 // Afterglow percentage
+        , fps: 20 // Frames per second when using setTimeout() as a fallback for CSS
+        , zIndex: 2e9 // The z-index (defaults to 2000000000)
+        , className: 'spinner' // The CSS class to assign to the spinner
+        , top: '40%' // Top position relative to parent
+        , shadow: false // Whether to render a shadow
+        , hwaccel: false // Whether to use hardware acceleration
+    };
+
     var target = document.getElementById('content');
     var spinner = new Spinner(opts);
-    
+
     var title_text = "";        // title of the highcharts-graph -> currently none
     var subtitle_text = "";     // subtitle of the highcharts-graph -> currently none
     var graph_type = "spline";  // for more detail, see Highcharts-API-Documentation
     var x_axis_name = "Time";   // label of x_axis -> Default (when page has loaded at the beginning): Time
     var y_axis_name = "Frequencies";    // label of y_axis -> Default (when page has loaded at the beginning): Frequencies
-    var resultFromServer;       // Received Data from Server. Data to Plot in Graph.    
-    var multi_result = [];
+    var resultFromServer;       // Received Data from Server. Data to Plot in Graph.
     var mySeries = [];
     var data_serie;             // Data to plot. For more detail, see Highcharts-API-Documentation   
     var selected_3d_val;
@@ -270,7 +269,7 @@ $(function () {
 //    });
 
     $("#submit_button").click(function () {
-        
+
         mySeries = []; //clean
         var xaxis = $("#xaxis_selector option:selected").text();        // selected filter for x-axis
         var yaxis = $("#y_qualifier option:selected").text();           // selected filter for y-axis
@@ -296,22 +295,23 @@ $(function () {
         console.log(destinations);
         console.log(timerange);
         console.log(airlines);
+        console.log(timedim);
         console.log(weekdays);
         console.log("Thirddim ja nein:");
         console.log(thirddim.length);
         console.log(thirddim);
-        
+
         var destinationGiven = xaxis === "Destination" && destinations.length !== 0;
         var airlineGiven = xaxis === "Airline" && airlines.length !== 0;
         var timeGiven = xaxis === "Time" && timerange.length !== 0;
-        
+
         if (destinationGiven || airlineGiven || timeGiven) {
             spinner.spin(target);
         }
-         
-        
-        
-        
+
+
+
+
 
         var thirddimAvailable = (thirddim.length !== 16);
 //        console.log(thirddimAvailable);
@@ -323,7 +323,7 @@ $(function () {
         if (!thirddimAvailable) {
             destinations.push(""); //workaround for comma-problem
             airlines.push(""); //workaround for comma-problem
-            $.getJSON(url, {xaxis: escape(xaxis), yaxis: yaxis, timedim: timedim, thirddim: thirddim, destinations: destinations, timerange: timerange, airlines: airlines}, function (json) {
+            $.getJSON(url, {xaxis: escape(xaxis), yaxis: yaxis, timedim: timedim, weekdays: weekdays, thirddim: thirddim, destinations: destinations, timerange: timerange, airlines: airlines}, function (json) {
                 //console.log(json);
                 resultFromServer = json;
 
@@ -344,7 +344,12 @@ $(function () {
             if (dim_3 === "Airline") {
                 number_of_graphs = airlines.length;
             } else if (selected_3d_val === "Time") {
+                //TODO
                 //differenciation between days/month/years
+                if (timedim === "Weekday(s)") {
+                    number_of_graphs = weekdays.length;
+                }
+                //TODO else if
             } else if (selected_3d_val === "Destination") {
                 number_of_graphs = destinations.length;
             }
@@ -353,58 +358,81 @@ $(function () {
             if (number_of_graphs > 15) {
                 number_of_graphs = 15;
             }
-            
+
             var colors = ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9',
-                        '#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1', '#0d233a', '#8bbc21', '#910000', '#1aadce',
-                        '#492970', '#f28f43', '#77a1e5', '#c42525', '#a6c96a'];
+                '#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1', '#0d233a', '#8bbc21', '#910000', '#1aadce',
+                '#492970', '#f28f43', '#77a1e5', '#c42525', '#a6c96a'];
 
             for (var i = 0; i < number_of_graphs; i++) {
-                if (dim_3 === "Airline") {
-                    var airline_separated = [];
-                    airline_separated.push(airlines[i]);
-                    //console.log(airline_separated.toString());
-                    line_names.push(airline_separated.toString());
-                } else if (selected_3d_val === "Time") {
-                    //differenciation between days/month/years
-                } else if (selected_3d_val === "Destination") {
-                    var destination_separated = [];
-                    destination_separated.push(destinations[i]);
-                    line_names.push(destination_separated.toString());
-                }
-
-                var json_airline = airlines;
-                var json_destination = destinations;
-                var json_time;
-                if (dim_3 === "Airline") {
-                    json_airline = airline_separated;
-                } else if (dim_3 === "Time") {
-                    //TODO
-                } else if (dim_3 === "Destination") {
-                    json_destination = destination_separated;
-                }
-                json_destination.push(""); //workaround for commaproblem
-                json_airline.push(""); //workaround for commaproblem
-                
-               
-                
-                $.getJSON(url, {xaxis: escape(xaxis), yaxis: yaxis, timedim: timedim, thirddim: thirddim, destinations: json_destination, timerange: timerange, airlines: json_airline}, function (json) {
-
-                    //update axis-/labelnames for graph
-                    if (xaxis === "Time") {
-                        x_axis_name = "Time in " + timedim + "s";
-                    } else {
-                        x_axis_name = xaxis;
+                (function (i) { // protects i in an immediately called function
+                    if (dim_3 === "Airline") {
+                        var airline_separated = [];
+                        airline_separated.push(airlines[i]);
+                        line_names.push(airline_separated.toString());
+                    } else if (selected_3d_val === "Time") {
+                        if (timedim === "Day") {
+                            //TODO
+                        } else if (timedim === "Week") {
+                            //TODO
+                        } else if (timedim === "Year") {
+                            //TODO
+                        } else if (timedim === "Month") {
+                            //TODO
+                        } else if (timedim === "Weekday(s)") {
+                            var weekdays_separated = [];
+                            weekdays_separated.push(weekdays[i]);
+                        }
+                    } else if (selected_3d_val === "Destination") {
+                        var destination_separated = [];
+                        destination_separated.push(destinations[i]);
+                        line_names.push(destination_separated.toString());
                     }
-                    y_axis_name = yaxis;
 
-                    var color = colors.pop();
-                    drawChart(json, line_names.shift(), color);
-                    multi_result.push(json);
-                    //console.log("current multiresult")
-                    //console.log(multi_result);
-                });
+                    var json_airline = airlines;
+                    var json_destination = destinations;
+                    var json_weekdays = weekdays;
+                    if (dim_3 === "Airline") {
+                        json_airline = airline_separated;
+                    } else if (dim_3 === "Time") {
+                        //TODO
+                        if (timedim === "Day") {
+                            //TODO
+                        } else if (timedim === "Week") {
+                            //TODO
+                        } else if (timedim === "Year") {
+                            //TODO
+                        } else if (timedim === "Month") {
+                            //TODO
+                        } else if (timedim === "Weekday(s)") {
+                            json_weekdays = weekdays_separated;
+                        }
+                    } else if (dim_3 === "Destination") {
+                        json_destination = destination_separated;
+                    }
+                    if (json_destination.length === 1) {
+                        json_destination.push(""); //workaround for commaproblem
+                    }
+                    if (json_airline.length === 1) {
+                        json_airline.push(""); //workaround for commaproblem
+                    }
 
+                    $.getJSON(url, {xaxis: escape(xaxis), yaxis: yaxis, timedim: timedim, weekdays: json_weekdays, thirddim: thirddim, destinations: json_destination, timerange: timerange, airlines: json_airline}, function (json) {
 
+                        //update axis-/labelnames for graph
+                        if (xaxis === "Time") {
+                            x_axis_name = "Time in " + timedim + "s";
+                        } else {
+                            x_axis_name = xaxis;
+                        }
+                        
+                        y_axis_name = yaxis;
+
+                        var color = colors.pop();
+                                         
+                        drawChart(json, line_names[i], color);
+                    });
+
+                })(i);
             }
         }
         //spinner.stop();
