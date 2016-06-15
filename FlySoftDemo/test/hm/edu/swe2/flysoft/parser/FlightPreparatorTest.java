@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
  * @author Philipp Chavaroche
  * @version 29.04.2016
  */
-public class TestFlightPreparator {
+public class FlightPreparatorTest {
     
     /**
      * Test if the date convertions works correct in common.

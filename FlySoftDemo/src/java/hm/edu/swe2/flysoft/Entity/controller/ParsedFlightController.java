@@ -1,10 +1,12 @@
 package hm.edu.swe2.flysoft.entity.controller;
 
 import hm.edu.swe2.flysoft.Entity.FlightIntoDB;
+import hm.edu.swe2.flysoft.entity.Flight;
 import hm.edu.swe2.flysoft.interfaces.IFlight;
 import hm.edu.swe2.flysoft.interfaces.IFlightEndPoints;
 import hm.edu.swe2.flysoft.parser.model.ParsedFlight;
 import static hm.edu.swe2.flysoft.util.GlobalSettings.DB_PROD_DELETE_FLIGHTS;
+import static hm.edu.swe2.flysoft.util.GlobalSettings.FLIGHT_INSERTION_BUFFER_SIZE;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -28,7 +30,7 @@ public class ParsedFlightController extends AbstractEntityController{
     private final CityEntityController cityController;
     private final AirlineEntityController airlineController;
     private final AirportEntityController airportController;
-    private ArrayList<FlightIntoDB> flights; 
+    private ArrayList<IFlight> flights; 
     
 
     public ParsedFlightController() {
@@ -62,8 +64,8 @@ public class ParsedFlightController extends AbstractEntityController{
        airportController.createIfNotExist(flight.getOriginAirport());
        airportController.createIfNotExist(flight.getDestAirport());
        
-       flights.add(new FlightIntoDB(flight.getFlight(),flight.getEndpoints()));
-       if(flights.size()>= 200){
+       flights.add(flight.getFlight());
+       if(flights.size()>= FLIGHT_INSERTION_BUFFER_SIZE){
            flightController.createAll(flights);
            flights.clear();
        }
@@ -75,10 +77,15 @@ public class ParsedFlightController extends AbstractEntityController{
        //flightController.create(flight.getFlight(), flight.getEndpoints());
     }
     
-    public void destroy(Date fromRange, Date tillRange){
-        EntityManager entity = getEntityManager();
-
-        StoredProcedureQuery query = entity.createStoredProcedureQuery(DB_PROD_DELETE_FLIGHTS);
+    /**
+     * Delete all flight and flight endpoint data entries in the database
+     * that are within given time range.
+     * @param fromRange Start of the time range.
+     * @param tillRange Stop of the time range.
+     */
+    public void destroy(final Date fromRange, final Date tillRange){
+        final EntityManager entity = getEntityManager();
+        final StoredProcedureQuery query = entity.createStoredProcedureQuery(DB_PROD_DELETE_FLIGHTS);
 
         query.registerStoredProcedureParameter(1, Date.class, ParameterMode.IN);
         query.registerStoredProcedureParameter(2, Date.class, ParameterMode.IN);

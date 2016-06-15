@@ -11,9 +11,9 @@ import org.junit.Test;
  * Tests for the airport entity
  * @author Zwen
  */
-public class TestAirport {
+public class AirportTest {
     
-    public TestAirport(){
+    public AirportTest(){
     }
  
     @Test

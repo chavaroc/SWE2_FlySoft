@@ -11,9 +11,9 @@ import static org.junit.Assert.*;
  * Tests for the city entity
  * @author Philipp Chavaroche
  */
-public class TestCity {
+public class CityTest {
     
-    public TestCity() {
+    public CityTest() {
     }
     
     @Test

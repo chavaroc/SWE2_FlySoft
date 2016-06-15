@@ -7,8 +7,7 @@ package hm.edu.swe2.flysoft.interfaces;
  */
 public interface IFlight {
     
-    Integer getFlightEndPointId();
-    void setFlightEndPointId(Integer flightEndPointId);
+    IFlightEndPoints getFlightEndPoint();
 
     Integer getAirlineId();
 
@@ -21,5 +20,4 @@ public interface IFlight {
     void setCancelled(boolean cancelled);
 
     void setFlightId(Integer flightId);
-    
 }

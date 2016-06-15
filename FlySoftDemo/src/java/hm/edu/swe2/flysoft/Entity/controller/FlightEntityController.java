@@ -8,6 +8,7 @@ import hm.edu.swe2.flysoft.interfaces.IFlight;
 import hm.edu.swe2.flysoft.interfaces.IFlightEndPoints;
 import hm.edu.swe2.flysoft.parser.model.ParsedFlight;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import javax.persistence.EntityManager;
@@ -15,6 +16,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import org.eclipse.persistence.jpa.jpql.tools.model.IListChangeEvent;
 
 /**
  * Represents the flight entity controller to handle flights in the database.
@@ -35,42 +37,23 @@ public class FlightEntityController extends AbstractEntityController {
         counter = 0;
     }
     
-    public void createAll(final ArrayList<FlightIntoDB> flights) {
+    public void createAll(final List<IFlight> flights) {
         EntityManager em = getEntityManager();
-        try {
-            em.getTransaction().begin();
-            for(int i= 0; i < flights.size(); i++){
-                IFlightEndPoints endpoint = flights.get(i).getEndpoint();
-                IFlight flight = flights.get(i).getFlight();
-                
-                em.persist(endpoint);
-                em.flush();
-                flight.setFlightEndPointId(endpoint.getFlightEndPointId());
-                em.persist(flight);
-                System.out.println(counter);
-                counter++;
-            }
-            em.getTransaction().commit();
-        } finally {
+        em.getTransaction().begin();
+        for(int i= 0; i < flights.size(); i++){
+            IFlight flight = flights.get(i);
+            em.persist(flight);
+            counter++;
         }
+        em.getTransaction().commit();
     }    
     
-    public void create(IFlight flight, IFlightEndPoints endPoints) {
+    public void create(IFlight flight) {
         EntityManager em = getEntityManager();
-        try {
-            em.getTransaction().begin();
-            em.persist(endPoints);
-            em.flush();
-            flight.setFlightEndPointId(endPoints.getFlightEndPointId());
-            em.persist(flight);
-            em.getTransaction().commit();
-            //System.out.println(flight.toString() + " with endpoint "
-            //    + endpoints.toString() + " created.");
-        } finally {
-            /*if (em != null && em.isOpen()) {
-                em.close();
-            }*/
-        }
+        
+        em.getTransaction().begin();
+        em.persist(flight);
+        em.getTransaction().commit();        
     }
 
     public void edit(IFlight city) throws NonexistentEntityException, Exception {
