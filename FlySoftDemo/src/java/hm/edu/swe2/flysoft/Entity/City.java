@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package hm.edu.swe2.flysoft.entity;
 
 import hm.edu.swe2.flysoft.interfaces.ICity;
@@ -17,8 +12,9 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
+ * Class who represents the table city in the database with all attributes.
  * @author Betina Hientz
+ * @version 02.06.2016
  */
 @Entity
 @Table(name = "city")
@@ -26,8 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "City.findAll", query = "SELECT c FROM City c"),
     @NamedQuery(name = "City.findByCityId", query = "SELECT c FROM City c WHERE c.cityId = :cityId"),
-    @NamedQuery(name = "City.findByName", query = "SELECT c FROM City c WHERE c.name = :name"),
-    @NamedQuery(name = "City.findByShortnamestate", query = "SELECT c FROM City c WHERE c.shortnamestate = :shortnamestate")})
+    @NamedQuery(name = "City.findByName", query = "SELECT c FROM City c WHERE c.name = :name")})
 public class City implements Serializable, ICity {
 
     private static final long serialVersionUID = 1L;
@@ -38,8 +33,6 @@ public class City implements Serializable, ICity {
     @Basic(optional = false)
     @Column(name = "name")
     private String name;
-    @Column(name = "shortnamestate")
-    private String shortnamestate;
 
     public City() {
     }
@@ -71,16 +64,6 @@ public class City implements Serializable, ICity {
     @Override
     public void setName(String name) {
         this.name = name;
-    }
-
-    @Override
-    public String getShortNameState() {
-        return shortnamestate;
-    }
-
-    @Override
-    public void setShortNameState(String shortnamestate) {
-        this.shortnamestate = shortnamestate;
     }
 
     @Override

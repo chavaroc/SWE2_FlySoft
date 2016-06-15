@@ -14,6 +14,7 @@
         <script src='<c:url value="/resources/scripts/jquery-1.12.3.js" />'></script>
         <script src='<c:url value="/resources/scripts/highcharts.js" />'></script>
         <script src='<c:url value="/resources/scripts/graph.js" />'></script>
+        <script src='<c:url value="/resources/scripts/spin.min.js" />'></script>
 
         <title>FlyAmerica | Statistics</title>
 
@@ -47,10 +48,12 @@
                         <br>
                         <div id="timeDimension_selector">
                             <br> Set Time dimension<br>
-                            <form:radiobuttons id="time_dimension" path="timeDimension" items="${timeDimensionList}" />
+                            <form:radiobuttons delimiter="<br/>" id="time_dimension" path="timeDimension" items="${timeDimensionList}" />
                         </div>
                         <br>
-                        <input id="submit_button" type="button" value="Get Results!"/>        
+                        <div id="spinner">
+                            <input id="submit_button" type="button" value="Get Results!"/>     
+                        </div>
                     </div>
                 </form:form>
             </div>
@@ -71,22 +74,39 @@
                     <form:form id="airlines_selector" method="POST" action="/FlySoftDemo/workarea" commandName="airlineForm">
                         <fieldset>
                             <legend>Airlines</legend>
-                            <table style="text-align:center">
-                                <tr><label> <input type="checkbox" id="check_all_airlines" value="all"> all </label></tr>
-                                    <c:forEach begin="0" end="${fn:length(airlinenewNameList) - 1}" step="2" varStatus="loop"> 
-                                    <tr>
-                                        <td style="text-align: right"><input type="checkbox" name="airline" value="${airlinenewNameList[loop.index]}"></td> 
-                                        <td style="width:450px">${airlinenewNameList[loop.index]}</td>
-                                        <td style="text-align: right"><input type="checkbox" name="airline" value="${airlinenewNameList[loop.index + 1]}"></td>
-                                        <td style="width:450px">${airlinenewNameList[loop.index + 1]}</td>
-                                    </tr>
-                                </c:forEach>
-                            </table>  
+                            <div style="height:200px;overflow:auto;padding:5px;">
+                                <table style="text-align:center">
+                                    <tr><label> <input type="checkbox" id="check_all_airlines" value="all"> all </label></tr>
+                                        <c:forEach begin="0" end="${fn:length(airlinenewNameList) - 1}" step="2" varStatus="loop"> 
+                                        <tr>
+                                            <td style="text-align: right"><input type="checkbox" name="airline" value="${airlinenewNameList[loop.index]}"></td> 
+                                            <td style="width:450px">${airlinenewNameList[loop.index]}</td>
+                                            <td style="text-align: right"><input type="checkbox" name="airline" value="${airlinenewNameList[loop.index + 1]}"></td>
+                                            <td style="width:450px">${airlinenewNameList[loop.index + 1]}</td>
+                                        </tr>
+                                    </c:forEach>
+                                </table>  
+                            </div>
                         </fieldset>
                     </form:form>
-
                     <br>
-
+                    <form:form id="destinations_selector" method="POST" action="/FlySoftDemo/workarea" commandName="cityForm">
+                        <fieldset>
+                            <legend>Destination Citys</legend>                            
+                            <div style="height:200px;overflow:auto;padding:5px;">
+                                <table style="text-align:center">
+                                    <tr><label> <input type="checkbox" id="check_all_destinations" value="all"> all </label><br/></tr>
+                                    <c:forEach items="${cityNameList}" var="current">
+                                    <tr>
+                                        <td> <input type="checkbox" name="destination" value="${current}">${current}<br/></td>
+                                    </tr>
+                                    </c:forEach>
+                                </table> 
+                            </div>
+                        </fieldset>
+                    </form:form> 
+                    <br>
+                   
                     <form:form id="timerange_selector">
                         <fieldset>
                             <legend>Timerange</legend>
@@ -111,10 +131,7 @@
                             <label> <input type="checkbox" name="weekday" value="Sunday"> Sunday </label>
                         </fieldset>
                     </form:form>
-
-                    <br>
-
-                    <a id="destinations_link" href="selectdestinations/cities" target="select-destinations" onClick="javascript:open('', 'select-destinations', 'height=400,width=400,resizable=no')">Select Destination(s)</a>
+                    
                 </div>
             </div>
         </div>	

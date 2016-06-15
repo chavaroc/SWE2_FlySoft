@@ -2,6 +2,7 @@ package hm.edu.swe2.flysoft.entity.querybuilder;
 
 import hm.edu.swe2.flysoft.ui.FilterSetting;
 import hm.edu.swe2.flysoft.util.GlobalSettings;
+import static hm.edu.swe2.flysoft.util.GlobalSettings.PASSENGER_COUNT;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -20,6 +21,7 @@ public abstract class AbstractQueryBuilder {
      */
     protected static List<String> validTimeDimensions;
     private static final String TIME_DIM_DAY = "day";
+    protected int nextFreeParaIndex = GlobalSettings.FIRST_DYN_PARA_INDEX;
 
     /**
      * Construct a new abstract query builder.
@@ -40,53 +42,93 @@ public abstract class AbstractQueryBuilder {
      * @return A part of a sql query token, that contains "WHERE <3rd dim> = <x>"
      */
     protected String calcWhereThirdDimToken(final FilterSetting settings) {
-        String thirdDimColumn;
-        // Check if we have a 3rd dimension setting and if yes,
-        // which setting it is.
-        // Attension: The parameter number must be equal with the order number
-        // in method 'createParamizedQuery'
-        switch (settings.getThirdDimension().toLowerCase()) {
-            case GlobalSettings.TIME:
-                thirdDimColumn = "WHERE FE.departuretime BETWEEN ?1 and ?2\n";
-                break;
-            case GlobalSettings.AIRLINE:
-                thirdDimColumn = "WHERE AIR.name IN (?3)\n";
-                break;
-            case GlobalSettings.DESTINATION:
-                thirdDimColumn = "WHERE DESTC.name IN (?4)\n";
-                break;
-            case GlobalSettings.ORIGIN:
-                thirdDimColumn = "WHERE ORIGC.name IN (?5)\n";
-                break;
-            default:
-                // handle as no 3rd dim was selected.
-                // 1=1 is a dummy expression, maybe the query have some
-                // AND conditions after the where.
-                thirdDimColumn = "WHERE 1=1\n";
+        /* set default value to 'WHERE 1=1'
+         handle as no 3rd dim was selected.
+         1=1 is a dummy expression, maybe the query have some
+         AND conditions after the WHERE. So we need always the WHERE. */
+        String thirdDimColumn = "WHERE 1=1\n";
+        /* Check if we have a 3rd dimension setting and if yes,
+         which setting it is.
+         Attension: The parameter number must be equal with the order number
+         in method 'createParamizedQuery' */
+        if(settings.getThirdDimension() != null){
+            switch (settings.getThirdDimension().toLowerCase()) {
+                case GlobalSettings.TIME:
+                    // Passenger count have an other field for time
+                    if(PASSENGER_COUNT.equalsIgnoreCase(settings.getYaxis())){
+                        thirdDimColumn = "WHERE MS.yearmonth BETWEEN ?1 and ?2\n";
+                    }
+                    else{
+                        thirdDimColumn = "WHERE FE.departuretime BETWEEN ?1 and ?2\n";
+                    }
+                    break;
+                case GlobalSettings.AIRLINE:
+                    thirdDimColumn = "WHERE AIR.name IN " +
+                    generatePlaceholderList(settings.getAirlines().length,
+                        nextFreeParaIndex) +"\n";
+                    break;
+                case GlobalSettings.DESTINATION:
+                    thirdDimColumn = "WHERE DESTC.name IN " + 
+                    generatePlaceholderList(settings.getDestinations().length,
+                        nextFreeParaIndex) +"\n";
+                    break;
+                default:
+                    //Use default value
+            }
         }
         return thirdDimColumn;
     }
 
     /**
      * Create the query with its parameters itelf.
+     * @param baseQuery The base query (query part without select and where),
+     *                  that should be used.
      * @param selectToken The select oken of the query.
      * @param whereToken The where token of the query.
      * @param settings The current filter settings (used for values).
      * @param entityManager The entity manager, that will create the query.
      * @return A query object with all its parameters
      */
-    protected Query createParamizedQuery(final String selectToken,
-        final String whereToken, final FilterSetting settings,
-        final EntityManager entityManager) {
+    protected Query createParamizedQuery(final String baseQuery, 
+        final String selectToken, final String whereToken,
+        final FilterSetting settings, final EntityManager entityManager) {
         Query query;
-        final String fullQuery = String.format(GlobalSettings.BASE_QUERY, selectToken, whereToken);
+        final String fullQuery = String.format(baseQuery, selectToken, whereToken);
         query = entityManager.createNativeQuery(fullQuery);
         query.setParameter(1, settings.getTimeFrom(), TemporalType.DATE);
         query.setParameter(2, settings.getTimeTo(), TemporalType.DATE);
-        query.setParameter(3, String.join(",", settings.getAirlines()));
-        query.setParameter(4, String.join(",", settings.getDestinations()));
-        query.setParameter(5, String.join(",", settings.getOrigins()));
+        int currentParaNumber = GlobalSettings.FIRST_DYN_PARA_INDEX;
+        /* The order of the parameter types must match with the parameter numbers.
+         * Otherwise we mix airlines and destinations.
+         * We know, that the WHERE clausel of the third dimension will
+         * always stand before the x-axis clausel within the query.
+         * So add airlines first, if they are set for the first dimension.
+         * Otherwise add them after the destinations.
+         * Not a so fine solution, but it works for know.
+         */
+        if(GlobalSettings.AIRLINE.equalsIgnoreCase(settings.getThirdDimension())){
+            currentParaNumber = setDynamicQueryParameter(query, settings.getAirlines(), currentParaNumber);
+        }
+        currentParaNumber = setDynamicQueryParameter(query, settings.getDestinations(), currentParaNumber);
+        if(GlobalSettings.AIRLINE.equalsIgnoreCase(settings.getXaxis())){
+            setDynamicQueryParameter(query, settings.getAirlines(), currentParaNumber);
+        }
         return query;
+    }
+    
+    /**
+     * Add a list of string parameters to the query.
+     * @param query The query, that get the parameter from the list.
+     * @param valueList The values that should be added as parameter to the query.
+     * @param currentParaNumber The actual parameter number.
+     * @return The new current parameter number.
+     */
+    private int setDynamicQueryParameter(Query query, String[] valueList, int currentParaNumber){
+        for(int listIndex = 0; listIndex < valueList.length; listIndex++){
+            query.setParameter(currentParaNumber, valueList[listIndex]);
+            currentParaNumber++;
+        }
+        return currentParaNumber;
     }
     
     /**
@@ -112,5 +154,28 @@ public abstract class AbstractQueryBuilder {
         }
         return timeDim;
     }
-
+    
+    /**
+     * Build a string in following format:
+     * ((?7), (?8), (?9))
+     * Numbers depends on offset and list size.
+     * @param size The count of placeholders.
+     * @param offset The first placeholder index.
+     * @return A parameter string.
+     */
+    protected String generatePlaceholderList(int size, int offset){
+        StringBuilder builder = new StringBuilder();
+        int max = size+offset;
+        builder.append("(");
+        for(int index = offset; index < max; index++)
+        {
+            builder.append("(?" + index + ")");
+            nextFreeParaIndex++;
+            if(index != max-1){
+                 builder.append(",");
+            }
+        }
+        builder.append(")");
+        return builder.toString();
+    }
 }

@@ -4,10 +4,17 @@ import hm.edu.swe2.flysoft.Entity.FlightIntoDB;
 import hm.edu.swe2.flysoft.interfaces.IFlight;
 import hm.edu.swe2.flysoft.interfaces.IFlightEndPoints;
 import hm.edu.swe2.flysoft.parser.model.ParsedFlight;
+import static hm.edu.swe2.flysoft.util.GlobalSettings.DB_PROD_DELETE_FLIGHTS;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Date;
+
 import java.util.List;
-import java.util.Map;
+import static java.util.Locale.filter;
+import javax.persistence.EntityManager;
+import javax.persistence.ParameterMode;
+import javax.persistence.StoredProcedureQuery;
+import javax.persistence.TemporalType;
+
 
 /**
  * Represents a controller, that handle 
@@ -16,7 +23,7 @@ import java.util.Map;
  * @version 05.05.2016
  */
 public class ParsedFlightController extends AbstractEntityController{
-    private final FlightEndpointEntityController endpointController;
+    private final FlightEndPointEntityController endpointController;
     private final FlightEntityController flightController;
     private final CityEntityController cityController;
     private final AirlineEntityController airlineController;
@@ -25,7 +32,7 @@ public class ParsedFlightController extends AbstractEntityController{
     
 
     public ParsedFlightController() {
-       endpointController = new FlightEndpointEntityController();
+       endpointController = new FlightEndPointEntityController();
        flightController = new FlightEntityController(endpointController);
        
        cityController = new CityEntityController();
@@ -48,7 +55,6 @@ public class ParsedFlightController extends AbstractEntityController{
     }
     
     public void create(ParsedFlight flight, boolean finish) {
-       
        // fill lookup tables
        airlineController.createIfNotExist(flight.getAirline());
        cityController.createIfNotExist(flight.getOriginCity());
@@ -67,5 +73,19 @@ public class ParsedFlightController extends AbstractEntityController{
        }
        // fill data tables
        //flightController.create(flight.getFlight(), flight.getEndpoints());
+    }
+    
+    public void destroy(Date fromRange, Date tillRange){
+        EntityManager entity = getEntityManager();
+
+        StoredProcedureQuery query = entity.createStoredProcedureQuery(DB_PROD_DELETE_FLIGHTS);
+
+        query.registerStoredProcedureParameter(1, Date.class, ParameterMode.IN);
+        query.registerStoredProcedureParameter(2, Date.class, ParameterMode.IN);
+
+        query.setParameter(1, fromRange, TemporalType.DATE);
+        query.setParameter(2, tillRange, TemporalType.DATE);
+
+        query.execute();
     }
 }

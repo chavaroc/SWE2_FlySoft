@@ -11,9 +11,11 @@ import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 
 /**
+ * Represents the airport entity controller to handle airports in the database.
  * @author Zwen
+ * @version 02.6.16
  */
-public class AirportEntityController extends AbstractEntityController{
+public class AirportEntityController extends AbstractEntityController {
     
     public AirportEntityController(){
         super();

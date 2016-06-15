@@ -1,6 +1,6 @@
 package hm.edu.swe2.flysoft.crawler;
 
-import hm.edu.swe2.flysoft.util.GlobalSettings;
+//import hm.edu.swe2.flysoft.util.GlobalSettings;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -34,6 +34,14 @@ import java.util.Set;
  */
 public class FileCrawler {
 
+    public static final String AIRLINE_FILE_NAME = "resource/L_AIRLINE_ID.csv";
+    
+    public static final String CRAWLER_CONFIG_FILE_NAME = "crawler_config.txt";
+    public static final String CRAWLER_DOWNLOAD_DIR = "downloaded" + File.separatorChar;
+    
+    // obsolete (fall back solution?)
+    public static final String DB_PROD_FLIGHT_COUNT_WEEK = "fly_analytics.FlightCountPerWeek";
+    
     // location of this file/class
     private String projectDirectory;
 
@@ -44,6 +52,9 @@ public class FileCrawler {
     private final Set<CrawlTableType> tableTypesTocrawl;
 
     private final List<String> crawledFileNames;
+    
+    private String year = "2006";
+    private String month = "1";
 
     /**
      * Creates a new FileCrawler an starts the FileCrawler.
@@ -118,7 +129,7 @@ public class FileCrawler {
             conn.setDoInput(true);
             conn.setRequestProperty("content-type", "binary/data");
             InputStream in = conn.getInputStream();
-            String absoluteFileName = projectDirectory + SEPARATOR + GlobalSettings.CRAWLER_DOWNLOAD_DIR + zipName;
+            String absoluteFileName = projectDirectory + SEPARATOR + CRAWLER_DOWNLOAD_DIR + zipName;
             FileOutputStream out = new FileOutputStream(absoluteFileName);
 
             byte[] b = new byte[1024];
@@ -151,7 +162,7 @@ public class FileCrawler {
         String resultPart = "";
 
         // file, which contains the needed data, parameters, ... for sending a correct request
-        URI configUri = FileCrawler.class.getResource(GlobalSettings.CRAWLER_CONFIG_FILE_NAME).toURI();
+        URI configUri = FileCrawler.class.getResource(CRAWLER_CONFIG_FILE_NAME).toURI();
         File config = new File(configUri.getPath());
 
         try {
@@ -183,6 +194,17 @@ public class FileCrawler {
      * headerinformation for a request for a certain table-type
      */
     private void doRequestAndDownload(String post) {
+        
+        //sets the correct paramters for month and year    
+        String replacedPost = post.replace("$$$YYYY$$$", year);
+        post = replacedPost.replace("$$$M$$$", month);
+        System.out.println("Info: Setting Year and/or Month in Config with: " + month + " " + year);
+        while(post.contains("$$$")){
+            replacedPost = post.replace("$$$YYYY$$$", year);
+            post = replacedPost.replace("$$$M$$$", month);
+            System.out.println("Info: Setting Year and/or Month in Config with: " + month + " " + year);
+        }
+        
         String responsePart;
 
         // name of required zip-file
@@ -223,7 +245,7 @@ public class FileCrawler {
     }
 
     private String getProjectDirectory() throws URISyntaxException {
-        URI uri = FileCrawler.class.getResource(GlobalSettings.CRAWLER_CONFIG_FILE_NAME).toURI();
+        URI uri = FileCrawler.class.getResource(CRAWLER_CONFIG_FILE_NAME).toURI();
         projectDirectory = uri.toString();
         projectDirectory = projectDirectory.substring(6); // remove prefix "file:/"
         int endIndex = projectDirectory.indexOf("build");
@@ -238,7 +260,7 @@ public class FileCrawler {
      * @throws IOException 
      */
     private void unzipFile(String fileName) throws FileNotFoundException, IOException {
-        String downloadPath = projectDirectory + SEPARATOR + GlobalSettings.CRAWLER_DOWNLOAD_DIR;
+        String downloadPath = projectDirectory + SEPARATOR + CRAWLER_DOWNLOAD_DIR;
 
         ZipInputStream zis = new ZipInputStream(new FileInputStream(downloadPath + fileName));
         ZipEntry entry = zis.getNextEntry();
@@ -246,6 +268,7 @@ public class FileCrawler {
         byte[] buffer = new byte[1024];
 
         String unzippedfileName = entry.getName();
+        //unzippedfileName = month + "_" + year + "_" + unzippedfileName.substring(unzippedfileName.indexOf("_"), unzippedfileName.length());
         File newFile = new File(downloadPath + unzippedfileName);
         crawledFileNames.add(newFile.getAbsolutePath());
         new File(newFile.getParent()).mkdirs();

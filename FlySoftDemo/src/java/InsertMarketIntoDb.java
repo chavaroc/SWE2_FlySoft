@@ -1,22 +1,14 @@
 
-import hm.edu.swe2.flysoft.crawler.CrawlTableType;
-import hm.edu.swe2.flysoft.crawler.FileCrawler;
-import hm.edu.swe2.flysoft.entity.Monthlystat;
-import hm.edu.swe2.flysoft.entity.controller.MonthlystatEntityController;
-import hm.edu.swe2.flysoft.entity.controller.ParsedFlightController;
+import hm.edu.swe2.flysoft.entity.MonthlyStat;
+import hm.edu.swe2.flysoft.entity.controller.MonthlyStatEntityController;
 import hm.edu.swe2.flysoft.parser.CsvParser;
 import hm.edu.swe2.flysoft.parser.FlightMarketPrepartor;
-import hm.edu.swe2.flysoft.parser.FlightOnTimePreparator;
-import hm.edu.swe2.flysoft.parser.NewYorkFlightFilter;
 import hm.edu.swe2.flysoft.parser.NewYorkMonthlyStatFilter;
 import hm.edu.swe2.flysoft.parser.mappings.AbstractMapTable;
 import hm.edu.swe2.flysoft.parser.mappings.MarketDomesticMapTable;
-import hm.edu.swe2.flysoft.parser.mappings.OnTimeMapTable;
-import hm.edu.swe2.flysoft.parser.model.ParsedFlight;
 import hm.edu.swe2.flysoft.util.GlobalSettings;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.EnumSet;
 import java.util.List;
 
 /*
@@ -61,11 +53,11 @@ public class InsertMarketIntoDb {
             
             marketTableFile = new File(filePath);
             AbstractMapTable config = MarketDomesticMapTable.getInstance();
-            CsvParser<Monthlystat> parser = new CsvParser<>(marketTableFile.getAbsolutePath(), config,
-                ',', Monthlystat.class);
+            CsvParser<MonthlyStat> parser = new CsvParser<>(marketTableFile.getAbsolutePath(), config,
+                ',', MonthlyStat.class);
 
             System.out.println("Start parsing...");
-            List<Monthlystat> parsedStats = parser.parse();
+            List<MonthlyStat> parsedStats = parser.parse();
             System.out.println(parsedStats.size() + " flights parsed.");
             
             System.out.println("Start filtering...");
@@ -77,7 +69,7 @@ public class InsertMarketIntoDb {
             marketPrepartor.prepareAll(parsedStats);
             
             System.out.println("Start adding to database...");
-            MonthlystatEntityController controller = new MonthlystatEntityController();
+            MonthlyStatEntityController controller = new MonthlyStatEntityController();
             for(int i = 0; i < parsedStats.size(); i++){
                 controller.create(parsedStats.get(i));
             }

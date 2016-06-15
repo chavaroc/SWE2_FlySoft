@@ -12,8 +12,9 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 /**
- *
+ * Represents the city entity controller to handle cities in the database.
  * @author Betina Hientz
+ * @version 02.6.16
  */
 public class CityEntityController extends AbstractEntityController {
 

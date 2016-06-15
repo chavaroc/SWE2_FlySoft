@@ -7,8 +7,8 @@ package hm.edu.swe2.flysoft.interfaces;
  */
 public interface IFlight {
     
-    Integer getFlightendpointId();
-    void setFlightendpointId(Integer flightendpointId);
+    Integer getFlightEndPointId();
+    void setFlightEndPointId(Integer flightEndPointId);
 
     Integer getAirlineId();
 

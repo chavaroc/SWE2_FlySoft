@@ -5,17 +5,10 @@
  */
 package hm.edu.swe2.flysoft.parser;
 
-import hm.edu.swe2.flysoft.entity.Airline;
-import hm.edu.swe2.flysoft.entity.Monthlystat;
-import hm.edu.swe2.flysoft.parser.mappings.AbstractMapTable;
-import hm.edu.swe2.flysoft.parser.mappings.AirlineLookUpMapTable;
+import hm.edu.swe2.flysoft.entity.MonthlyStat;
 import hm.edu.swe2.flysoft.parser.model.ParsedFlight;
-import hm.edu.swe2.flysoft.util.GlobalSettings;
-import java.io.File;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 /**
  *
@@ -33,7 +26,7 @@ public class FlightMarketPrepartor extends AbstractFlightPrepartor{
      * @param stats A list of flights
      * @return  A list of preparated flights.
      */
-    public List<Monthlystat> prepareAll(List<Monthlystat> stats){
+    public List<MonthlyStat> prepareAll(List<MonthlyStat> stats){
         stats.stream()
             .forEach(flight -> prepare(flight));
         return stats;
@@ -41,10 +34,10 @@ public class FlightMarketPrepartor extends AbstractFlightPrepartor{
     
     /**
      * Performs a preparation for the given flight.
-     * @param flight
+     * @param stat
      * @return 
      */
-    public Monthlystat prepare(Monthlystat stat){
+    public MonthlyStat prepare(MonthlyStat stat){
         stat.setCarrierName(solveAirlineName(stat.getAirlineId()));
         return stat;
     }    

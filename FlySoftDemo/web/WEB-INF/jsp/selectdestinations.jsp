@@ -15,9 +15,11 @@
         <form:form method="POST" action="/FlySoftDemo/selectdestinations/cities" commandName="cityForm">
             <fieldset>
                 <legend>Destination Citys</legend>
-                <form:checkboxes delimiter="<br/>" path="cities" items="${cityNameList}" />   
+                <form:checkboxes delimiter="<br/>" name="destination" path="cities" items="${cityNameList}" />   
             </fieldset>
         </form:form>
-
+        <br>
+        <input style="float: right;" id="submit_destinations" type="button" value="OK" onClick="self.close()"/>    
+        <br>
     </body>
 </html>

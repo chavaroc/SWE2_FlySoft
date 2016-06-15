@@ -11,23 +11,31 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Optional;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 /**
- *
+ * Represents the flight entity controller to handle flights in the database.
  * @author Philipp Chavaroche
+ * @version 02.6.16
  */
 public class FlightEntityController extends AbstractEntityController {
     
-    private final FlightEndpointEntityController endponitController;
+    private final FlightEndPointEntityController endponitController;
     private int counter;
-    public FlightEntityController(FlightEndpointEntityController endponitController) {
+    
+    /**
+     * Consstruct a new flight enitiy controller
+     * @param endponitController 
+     */
+    public FlightEntityController(FlightEndPointEntityController endponitController) {
         this.endponitController = endponitController;
         counter = 0;
     }
-public void createAll(final ArrayList<FlightIntoDB> flights) {
+    
+    public void createAll(final ArrayList<FlightIntoDB> flights) {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
@@ -37,7 +45,7 @@ public void createAll(final ArrayList<FlightIntoDB> flights) {
                 
                 em.persist(endpoint);
                 em.flush();
-                flight.setFlightendpointId(endpoint.getFlightendpointId());
+                flight.setFlightEndPointId(endpoint.getFlightEndPointId());
                 em.persist(flight);
                 System.out.println(counter);
                 counter++;
@@ -47,13 +55,13 @@ public void createAll(final ArrayList<FlightIntoDB> flights) {
         }
     }    
     
-    public void create(IFlight flight, IFlightEndPoints endpoints) {
+    public void create(IFlight flight, IFlightEndPoints endPoints) {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
-            em.persist(endpoints);
+            em.persist(endPoints);
             em.flush();
-            flight.setFlightendpointId(endpoints.getFlightendpointId());
+            flight.setFlightEndPointId(endPoints.getFlightEndPointId());
             em.persist(flight);
             em.getTransaction().commit();
             //System.out.println(flight.toString() + " with endpoint "
@@ -70,7 +78,23 @@ public void createAll(final ArrayList<FlightIntoDB> flights) {
     }
 
     public void destroy(Integer id) throws NonexistentEntityException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        EntityManager em = getEntityManager();
+        try {
+            em.getTransaction().begin();
+            Flight flight;
+            try {
+                flight = em.getReference(Flight.class, id);
+                flight.getFlightId();
+            } catch (EntityNotFoundException enfe) {
+                throw new NonexistentEntityException("The flight with id " + id + " no longer exists.", enfe);
+            }
+            em.remove(flight);
+            em.getTransaction().commit();
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
     }
 
     public Optional<IFlight> findFlight(Integer id) {
@@ -88,10 +112,10 @@ public void createAll(final ArrayList<FlightIntoDB> flights) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<City> rt = cq.from(Flight.class);
-            cq.select(em.getCriteriaBuilder().count(rt));
-            Query q = em.createQuery(cq);
-            return ((Long) q.getSingleResult()).intValue();
+            Root<IFlight> rootTable = cq.from(Flight.class);
+            cq.select(em.getCriteriaBuilder().count(rootTable));
+            Query query = em.createQuery(cq);
+            return ((Long) query.getSingleResult()).intValue();
         } finally {
             em.close();
         }

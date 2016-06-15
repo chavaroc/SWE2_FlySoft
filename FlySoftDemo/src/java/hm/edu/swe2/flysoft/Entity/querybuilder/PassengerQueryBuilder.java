@@ -8,51 +8,51 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 /**
- * Build all querys, that need delay duration at the y-axis.
+ * Build all querys, that need passenger at the y-axis.
  * @author Philipp Chavaroche
- * @version 18.05.2016
+ * @version 17.05.2016
  */
-public class DelayDurationQueryBuilder extends AbstractQueryBuilder implements IQueryBuilder{
+public class PassengerQueryBuilder extends AbstractQueryBuilder
+    implements IQueryBuilder{
 
     @Override
-    public Query build(final FilterSetting settings, 
-        final EntityManager entityManager) {
+    public Query build(final FilterSetting settings,
+        final EntityManager entityManager){
         Query query;
         String selectToken;
         String whereToken;
-        String groupByToken;
         // Check which x-axis is given
         if(TIME.equalsIgnoreCase(settings.getXaxis())){
             final String timeDim = parseTimeDimension(settings);
-            selectToken = timeDim + "(FE.departuretime) as Week\n";
+            selectToken = timeDim + "(MS.yearmonth)\n" +
+            ",SUM(MS.passengercount) as PassengerCount";
             whereToken = calcWhereThirdDimToken(settings) + 
-                "AND FE.departuretime BETWEEN ?1 and ?2\n";
-            groupByToken = "GROUP BY "+timeDim+"(FE.departuretime)";
+                "AND MS.yearmonth BETWEEN ?1 and ?2\n" +
+                "GROUP BY "+timeDim+"(MS.yearmonth)";
         }
         else if (AIRLINE.equalsIgnoreCase(settings.getXaxis())){
-            selectToken = "AIR.name\n";
+            selectToken = "AIR.name\n" +
+                ",SUM(MS.passengercount) as PassengerCount";
             whereToken = calcWhereThirdDimToken(settings) + 
                 "AND AIR.name IN " + 
                 generatePlaceholderList(settings.getAirlines().length,
-                    nextFreeParaIndex) +"\n";
-            groupByToken = "GROUP BY AIR.name";
+                    nextFreeParaIndex) +"\n"+
+                "GROUP BY AIR.name";
         }
         else if (DESTINATION.equalsIgnoreCase(settings.getXaxis())){
-            selectToken = "DESTC.name\n";
+            selectToken = "DESTC.name\n" +
+                ",SUM(MS.passengercount) as PassengerCount";
             whereToken = calcWhereThirdDimToken(settings) + 
                 "AND DESTC.name IN " + 
                 generatePlaceholderList(settings.getDestinations().length,
-                    nextFreeParaIndex) +"\n";
-            groupByToken = "GROUP BY DESTC.name";
+                    nextFreeParaIndex) +"\n"+
+                "GROUP BY DESTC.name";
         }
         else{
             throw new UnsupportedOperationException("Not supported yet.");
         }   
-        selectToken += ",SUM(FE.arrivaldelay) as SumDelay";
-        whereToken = whereToken + groupByToken;
-        query = createParamizedQuery(GlobalSettings.BASE_QUERY_ON_TIME,
+        query = createParamizedQuery(GlobalSettings.BASE_QUERY_MONTHLY_STAT,
             selectToken, whereToken, settings, entityManager);
         return query;
-    }
-
+    }    
 }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package hm.edu.swe2.flysoft.entity;
 
 import hm.edu.swe2.flysoft.interfaces.IMonthlyStat;
@@ -27,41 +22,43 @@ import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
+ * Class who represents the table monthlystat in the database with all attributes.
  * @author Betina Hientz
+ * @version 02.06.2016
  */
 @Entity
 @Table(name = "monthlystat")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Monthlystat.findAll", query = "SELECT m FROM Monthlystat m"),
-    @NamedQuery(name = "Monthlystat.findByMonthlystatId", query = "SELECT m FROM Monthlystat m WHERE m.monthlystatId = :monthlystatId"),
-    @NamedQuery(name = "Monthlystat.findByYearmonth", query = "SELECT m FROM Monthlystat m WHERE m.yearmonth = :yearmonth"),
-    @NamedQuery(name = "Monthlystat.findByOrginairportsn", query = "SELECT m FROM Monthlystat m WHERE m.orginairportsn = :orginairportsn"),
-    @NamedQuery(name = "Monthlystat.findByDestairportsn", query = "SELECT m FROM Monthlystat m WHERE m.destairportsn = :destairportsn"),
-    @NamedQuery(name = "Monthlystat.findByAirlineId", query = "SELECT m FROM Monthlystat m WHERE m.airlineId = :airlineId")})
-public class Monthlystat implements Serializable, IMonthlyStat {
+    @NamedQuery(name = "MonthlyStat.findAll", query = "SELECT m FROM MonthlyStat m"),
+    @NamedQuery(name = "MonthlyStat.findByMonthlyStatId", query = "SELECT m FROM MonthlyStat m WHERE m.monthlyStatId = :monthlyStatId"),
+    @NamedQuery(name = "MonthlyStat.findByYearMonth", query = "SELECT m FROM MonthlyStat m WHERE m.yearMonth = :yearMonth"),
+    @NamedQuery(name = "MonthlyStat.findByOrginAirportSn", query = "SELECT m FROM MonthlyStat m WHERE m.orginAirportSn = :orginAirportSn"),
+    @NamedQuery(name = "MonthlyStat.findByDestAirportSn", query = "SELECT m FROM MonthlyStat m WHERE m.destAirportSn = :destAirportSn"),
+    @NamedQuery(name = "MonthlyStat.findByAirlineId", query = "SELECT m FROM MonthlyStat m WHERE m.airlineId = :airlineId")})
+public class MonthlyStat implements Serializable, IMonthlyStat {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "monthlystat_id")
-    private Integer monthlystatId;
+    private Integer monthlyStatId;
     @Basic(optional = false)
     @Column(name = "yearmonth")
     @Temporal(TemporalType.DATE)
-    private Date yearmonth;
+    private Date yearMonth;
     @Basic(optional = false)
     @Column(name = "orginairportsn")
-    private String orginairportsn;
+    private String orginAirportSn;
     @Basic(optional = false)
     @Column(name = "destairportsn")
-    private String destairportsn;
+    private String destAirportSn;
     @Column(name = "airline_id")
     private Integer airlineId;
     @Basic(optional = false)
     @Column(name = "passengercount")
-    private Integer passengercount;
+    private Integer passengerCount;
     
     @Transient
     private int monthMon;
@@ -72,68 +69,41 @@ public class Monthlystat implements Serializable, IMonthlyStat {
     @Transient
     private String carrierNameShort;
     
-    public Monthlystat() {
+    public MonthlyStat() {
         this(-1);
     }
 
-    public Monthlystat(Integer monthlystatId) {
+    public MonthlyStat(Integer monthlystatId) {
         this(monthlystatId, new Date(),"","",-1);
     }
 
-    public Monthlystat(Integer monthlystatId, Date yearmonth, String orginairportsn,
+    public MonthlyStat(Integer monthlystatId, Date yearmonth, String orginairportsn,
             String destairportsn, Integer passengercount) {
-        this.monthlystatId = monthlystatId;
-        this.yearmonth = yearmonth;
-        this.orginairportsn = orginairportsn;
-        this.passengercount = passengercount;
-        this.destairportsn = destairportsn;
-        
+        this.monthlyStatId = monthlystatId;
+        this.yearMonth = yearmonth;
+        this.orginAirportSn = orginairportsn;
+        this.passengerCount = passengercount;
+        this.destAirportSn = destairportsn;
     }
     
     @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (monthlystatId != null ? monthlystatId.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Monthlystat)) {
-            return false;
-        }
-        Monthlystat other = (Monthlystat) object;
-        if ((this.monthlystatId == null && other.monthlystatId != null) || (this.monthlystatId != null && !this.monthlystatId.equals(other.monthlystatId))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "hm.edu.swe2.flysoft.entity.Monthlystat[ monthlystatId=" + monthlystatId + " ]";
-    }
-
-    @Override
     public String getDestAirportShortName() {
-        return destairportsn;
+        return destAirportSn;
     }
 
     @Override
     public String getOriginAirportShortName() {
-        return orginairportsn;
+        return orginAirportSn;
     }
 
     @Override
     public int getPassengerCount() {
-        return passengercount;
+        return passengerCount;
     }
 
     @Override
     public Date getYearMonth() {
-          
-        return yearmonth;
+        return yearMonth;
     }
 
     @Override
@@ -143,17 +113,17 @@ public class Monthlystat implements Serializable, IMonthlyStat {
 
     @Override
     public void setDestAirportShortName(String destination) {
-        destairportsn = destination;
+        destAirportSn = destination;
    }
 
     @Override
     public void setOriginAirportShortName(String origin) {
-        orginairportsn = origin;
+        orginAirportSn = origin;
     }
 
     @Override
     public void setPassengerCount(int passengerCount) {
-        this.passengercount = passengerCount;
+        this.passengerCount = passengerCount;
     }
 
     @Override
@@ -163,7 +133,32 @@ public class Monthlystat implements Serializable, IMonthlyStat {
 
     @Override
     public int getMonthlyStatId() {
-        return monthlystatId;
+        return monthlyStatId;
+    }
+    
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (monthlyStatId != null ? monthlyStatId.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof MonthlyStat)) {
+            return false;
+        }
+        MonthlyStat other = (MonthlyStat) object;
+        if ((this.monthlyStatId == null && other.monthlyStatId != null) || (this.monthlyStatId != null && !this.monthlyStatId.equals(other.monthlyStatId))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "hm.edu.swe2.flysoft.entity.MonthlyStat[ monthlyStatId=" + monthlyStatId + " ]";
     }
 
     @Override
@@ -193,7 +188,7 @@ public class Monthlystat implements Serializable, IMonthlyStat {
         Calendar calendar = Calendar.getInstance();
         String monthString;
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM", Locale.US);
-        calendar.setTime(yearmonth);
+        calendar.setTime(yearMonth);
         int days = calendar.get(Calendar.DAY_OF_MONTH);
         int month = 0;
         if(!isyear){
@@ -209,11 +204,11 @@ public class Monthlystat implements Serializable, IMonthlyStat {
             monthString = Integer.toString(month);
         }
             if(isyear){  
-                this.yearmonth = (Date)dateFormat.parse(value+"/"+
+                this.yearMonth = (Date)dateFormat.parse(value+"/"+
                 monthString);
             }
             else{
-             this.yearmonth = (Date)dateFormat.parse(calendar.get(Calendar.YEAR)+"/"+
+             this.yearMonth = (Date)dateFormat.parse(calendar.get(Calendar.YEAR)+"/"+
                 monthString); 
             }
         } catch (Exception e) {System.err.println(e);

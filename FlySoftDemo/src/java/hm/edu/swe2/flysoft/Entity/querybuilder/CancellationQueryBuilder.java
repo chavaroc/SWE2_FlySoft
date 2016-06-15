@@ -2,6 +2,7 @@ package hm.edu.swe2.flysoft.entity.querybuilder;
 
 import hm.edu.swe2.flysoft.interfaces.IQueryBuilder;
 import hm.edu.swe2.flysoft.ui.FilterSetting;
+import hm.edu.swe2.flysoft.util.GlobalSettings;
 import static hm.edu.swe2.flysoft.util.GlobalSettings.*;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -29,25 +30,27 @@ public class CancellationQueryBuilder extends AbstractQueryBuilder implements IQ
         }
         else if (AIRLINE.equalsIgnoreCase(settings.getXaxis())){
             selectToken = "AIR.name\n";
-            whereToken = calcWhereThirdDimToken(settings);
+            whereToken = calcWhereThirdDimToken(settings) + 
+                "AND AIR.name IN " + 
+                generatePlaceholderList(settings.getAirlines().length,
+                    nextFreeParaIndex) +"\n";
             groupByToken = "GROUP BY AIR.name";
         }
         else if (DESTINATION.equalsIgnoreCase(settings.getXaxis())){
             selectToken = "DESTC.name\n";
-            whereToken = calcWhereThirdDimToken(settings);
+            whereToken = calcWhereThirdDimToken(settings) + 
+                "AND DESTC.name IN " + 
+                generatePlaceholderList(settings.getDestinations().length,
+                    nextFreeParaIndex) +"\n";
             groupByToken = "GROUP BY DESTC.name";
-        }
-        else if (ORIGIN.equalsIgnoreCase(settings.getXaxis())){
-            selectToken = "ORIGC.name\n";
-            whereToken = calcWhereThirdDimToken(settings);
-            groupByToken = "GROUP BY ORIGC.name";
         }
         else{
             throw new UnsupportedOperationException("Not supported yet.");
         }   
         selectToken += ",COUNT(F.cancelled) as CancelledCount";
         whereToken = whereToken + "AND F.cancelled > 0\n" + groupByToken;
-        query = createParamizedQuery(selectToken, whereToken, settings, entityManager);
+        query = createParamizedQuery(GlobalSettings.BASE_QUERY_ON_TIME,
+            selectToken, whereToken, settings, entityManager);
         return query;
     }
 }
