@@ -1,5 +1,6 @@
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -21,6 +22,8 @@ public class StartIntoDb {
     public StartIntoDb(final String path) {
         intoFile = new File(path);
         fileArray = intoFile.listFiles();
+        intoMarket = new ArrayList<>();
+        intoOnTime = new ArrayList<>();
         sortArray();
         InsertMarketIntoDb market = new InsertMarketIntoDb(intoMarket);
         TestInsertIntoDb onTime = new TestInsertIntoDb(intoOnTime);
