@@ -20,36 +20,41 @@ public class CancellationQueryBuilder extends AbstractQueryBuilder implements IQ
         String selectToken;
         String whereToken;
         String groupByToken;
+        final DataCategorySelector selector = new DataCategorySelector();
         // Check which x-axis is given
         if(TIME.equalsIgnoreCase(settings.getXaxis())){
             final String timeDim = parseTimeDimension(settings);
             selectToken = timeDim + "(FE.departuretime) as Week\n";
-            whereToken = calcWhereThirdDimToken(settings) + 
+            whereToken = calcWhereThirdDimToken(settings, selector) + 
                 "AND FE.departuretime BETWEEN ?1 and ?2\n";
             groupByToken = "GROUP BY "+timeDim+"(FE.departuretime)";
+            selector.setEndpointsNeeded(true);
         }
         else if (AIRLINE.equalsIgnoreCase(settings.getXaxis())){
             selectToken = "AIR.name\n";
-            whereToken = calcWhereThirdDimToken(settings) + 
+            whereToken = calcWhereThirdDimToken(settings, selector) + 
                 "AND AIR.name IN " + 
                 generatePlaceholderList(settings.getAirlines().length,
                     nextFreeParaIndex) +"\n";
             groupByToken = "GROUP BY AIR.name";
+            selector.setAirlineNeeded(true);
         }
         else if (DESTINATION.equalsIgnoreCase(settings.getXaxis())){
             selectToken = "DESTC.name\n";
-            whereToken = calcWhereThirdDimToken(settings) + 
+            whereToken = calcWhereThirdDimToken(settings, selector) + 
                 "AND DESTC.name IN " + 
                 generatePlaceholderList(settings.getDestinations().length,
                     nextFreeParaIndex) +"\n";
             groupByToken = "GROUP BY DESTC.name";
+            selector.setEndpointsNeeded(true);
+            selector.setDestNeeded(true);
         }
         else{
             throw new UnsupportedOperationException("Not supported yet.");
         }   
         selectToken += ",COUNT(F.cancelled) as CancelledCount";
         whereToken = whereToken + "AND F.cancelled > 0\n" + groupByToken;
-        query = createParamizedQuery(GlobalSettings.BASE_QUERY_ON_TIME,
+        query = createParamizedQuery(buildBaseQuery(true, selector),
             selectToken, whereToken, settings, entityManager);
         return query;
     }

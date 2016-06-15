@@ -21,7 +21,6 @@ public class ParsedFlight {
     
     private IFlight flight;
     private IAirline airline;  
-    private IFlightEndPoints endpoints;
     private IAirport originAirport;
     private IAirport destAirport;
     private ICity originCity;
@@ -43,9 +42,6 @@ public class ParsedFlight {
     public ParsedFlight(){
         flight = new Flight();
         airline = new Airline();
-        endpoints = new FlightEndPoint();
-        // Always set id to 1 (auto increment in db)
-        endpoints.setFlightEndPointId(1); 
         originAirport = new Airport();
         destAirport = new Airport();
         originCity = new City();
@@ -106,7 +102,7 @@ public class ParsedFlight {
     }
 
     public void setOriginAirportShortName(String originAirportShortName) {
-        endpoints.setOriginAirportShortName(originAirportShortName);
+        flight.getFlightEndPoint().setOriginAirportShortName(originAirportShortName);
         originAirport.setShortName(originAirportShortName);
     }
 
@@ -129,11 +125,11 @@ public class ParsedFlight {
     }
 
     public double getDepartureDelay() {
-        return endpoints.getDepartureDelay();
+        return flight.getFlightEndPoint().getDepartureDelay();
     }
 
     public void setDepartureDelay(double departureDelay) {
-        endpoints.setDepartureDelay(departureDelay);
+        flight.getFlightEndPoint().setDepartureDelay(departureDelay);
     }
 
     public int getDestAirportId() {
@@ -149,7 +145,7 @@ public class ParsedFlight {
     }
 
     public void setDestAirportShortName(String destAirportShortName) {
-        endpoints.setDestAirportShortName(destAirportShortName);
+        flight.getFlightEndPoint().setDestAirportShortName(destAirportShortName);
         destAirport.setShortName(destAirportShortName);
     }
 
@@ -171,11 +167,11 @@ public class ParsedFlight {
     }
 
     public double getArrivalDelay() {
-        return endpoints.getArrivalDelay();
+        return flight.getFlightEndPoint().getArrivalDelay();
     }
 
     public void setArrivalDelay(double arrivalDelay) {
-        endpoints.setArrivalDelay(arrivalDelay);
+        flight.getFlightEndPoint().setArrivalDelay(arrivalDelay);
     }
 
     public boolean isCancelled() {
@@ -203,19 +199,19 @@ public class ParsedFlight {
     }
 
     public Date getDepartureDateTime() {
-        return endpoints.getDepartureTime();
+        return flight.getFlightEndPoint().getDepartureTime();
     }
 
     public void setDepartureDateTime(Date departureDateTime) {
-        endpoints.setDepartureTime(departureDateTime);
+        flight.getFlightEndPoint().setDepartureTime(departureDateTime);
     }
 
     public Date getArrivalDateTime() {
-        return endpoints.getArrivalTime();
+        return flight.getFlightEndPoint().getArrivalTime();
     }
 
     public void setArrivalDateTime(Date arrivalDateTime) {
-        endpoints.setArrivalTime(arrivalDateTime);
+        flight.getFlightEndPoint().setArrivalTime(arrivalDateTime);
     }
 
     public IFlight getFlight() {
@@ -227,7 +223,7 @@ public class ParsedFlight {
     }
 
     public IFlightEndPoints getEndpoints() {
-        return endpoints;
+        return flight.getFlightEndPoint();
     }
 
     public IAirport getOriginAirport() {
@@ -252,7 +248,7 @@ public class ParsedFlight {
             + ", flightDate=" + flightDate 
             + ", airlineId=" + airline.getAirlineId()
             + ", uniqueCarrierName=" + airline.getShortName()
-            + ", endpoints=" + endpoints.toString()
+            + ", endpoints=" + flight.getFlightEndPoint().toString()
             + ", cancelled=" + flight.getCancelled() + '}';
     }  
 }

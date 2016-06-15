@@ -15,9 +15,9 @@ import org.junit.Test;
  * Tests for the flight entity
  * @author Betina Hientz
  */
-public class TestFlight {
+public class FlightTest {
     
-    public TestFlight() {
+    public FlightTest() {
     }
     
     @Test
@@ -41,12 +41,15 @@ public class TestFlight {
         int currentFlightCount = flightController.getFlightCount();
         IFlight flight = new Flight();
         int flightId = 19978; // temp id, database each entry a auto increment id
+        Date arrivalDate = new Date();
         flight.setFlightId(flightId);
         flight.setAirlineId(45345);
-        flight.setFlightEndPointId(5345);
+        flight.getFlightEndPoint().setFlightEndPointId(5345);
+        flight.getFlightEndPoint().setArrivalTime(new Date());
+        flight.getFlightEndPoint().setDepartureTime(new Date());
         flight.setCancelled(true);
-        flightController.create(flight, flightEndPoint);
-    
+        flightController.create(flight);
+        
         assertTrue(flightController.getFlightCount() == (++currentFlightCount));
         Optional<IFlight> dbFlight = flightController.findFlight(flight.getFlightId());
         assertEquals("Flight that should be created and created flight are not equal!", flight, dbFlight.get());
