@@ -157,20 +157,33 @@ $(function () {
         }).removeAttr("disabled");
         $('#3d_selector option').filter(":eq( 1 )").removeAttr("disabled");
         x_axis_name = $("#xaxis_selector option:selected").text();
+        var selected_3d = $("#3d_selector option:selected").text();
         if (x_axis_name === "Time") {
-            $("#destinations_selector").hide();
-            $("#airlines_selector").hide();
+            if (selected_3d !== "Destination") {
+                $("#destinations_selector").hide();
+            }
+            if (selected_3d !== "Airline") {
+                $("#airlines_selector").hide();
+            }
             $("#timeDimension_selector").show();
         } else if (x_axis_name === "Destination") {
             $("#destinations_selector").show();
-            $("#airlines_selector").hide();
-            $("#timeDimension_selector").hide();
-            $("#weekday_selector").hide();
+            if (selected_3d !== "Airline") {
+                $("#airlines_selector").hide();
+            }
+            if (selected_3d !== "Time") {
+                $("#timeDimension_selector").hide();
+                $("#weekday_selector").hide();
+            }
         } else if (x_axis_name === "Airline") {
-            $("#destinations_selector").hide();
+            if (selected_3d !== "Destination") {
+                $("#destinations_selector").hide();
+            }
             $("#airlines_selector").show();
-            $("#timeDimension_selector").hide();
-            $("#weekday_selector").hide();
+            if (selected_3d !== "Time") {
+                $("#timeDimension_selector").hide();
+                $("#weekday_selector").hide();
+            }
         }
         $('#3d_selector option').filter(function (i, e) {
             return $(e).text() === x_axis_name;
@@ -310,12 +323,7 @@ $(function () {
         }
 
 
-
-
-
         var thirddimAvailable = (thirddim.length !== 16);
-//        console.log(thirddimAvailable);
-
 
         // sending information to querybuilder and receiving plotable data from server
         var url = "/FlySoftDemo/workarea/graphdata";
@@ -424,11 +432,11 @@ $(function () {
                         } else {
                             x_axis_name = xaxis;
                         }
-                        
+
                         y_axis_name = yaxis;
 
                         var color = colors.pop();
-                                         
+
                         drawChart(json, line_names[i], color);
                     });
 
