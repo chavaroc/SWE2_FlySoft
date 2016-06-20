@@ -11,16 +11,15 @@ import java.util.Locale;
 import org.junit.Test;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
  * Tests for the filter controller
  * @author Philipp Chavaroche
  */
-public class TestFilterController {
+public class FilterControllerTest {
     
-    public TestFilterController() {
+    public FilterControllerTest() {
     }
     
     /**

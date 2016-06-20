@@ -20,6 +20,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.eclipse.persistence.annotations.ExistenceChecking;
+import org.eclipse.persistence.annotations.ExistenceType;
 
 /**
  * Class who represents the table flightendpoint in the database with all attributes.
@@ -29,6 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "flightendpoint")
 @XmlRootElement
+@ExistenceChecking(ExistenceType.ASSUME_NON_EXISTENCE)
 @NamedQueries({
     @NamedQuery(name = "FlightEndPoint.findAll", query = "SELECT f FROM FlightEndPoint f"),
     @NamedQuery(name = "FlightEndPoint.findByFlightEndPointId", query = "SELECT f FROM FlightEndPoint f WHERE f.flightEndPointId = :flightEndPointId"),

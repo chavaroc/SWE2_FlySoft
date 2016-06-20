@@ -10,9 +10,9 @@ import static org.junit.Assert.assertTrue;
  * Tests for the monthly stat entity
  * @author Zwen
  */
-public class TestMonthlystat {
+public class MonthlystatTest {
     
-    public TestMonthlystat(){
+    public MonthlystatTest(){
         
     }
     @Test

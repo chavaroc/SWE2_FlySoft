@@ -39,9 +39,11 @@ public abstract class AbstractQueryBuilder {
     /**
      * Create the where query token for the third dimension.
      * @param settings The filter settings that are currently used.
+     * @param selector 
      * @return A part of a sql query token, that contains "WHERE <3rd dim> = <x>"
      */
-    protected String calcWhereThirdDimToken(final FilterSetting settings) {
+    protected String calcWhereThirdDimToken(final FilterSetting settings,
+        DataCategorySelector selector) {
         /* set default value to 'WHERE 1=1'
          handle as no 3rd dim was selected.
          1=1 is a dummy expression, maybe the query have some
@@ -61,16 +63,20 @@ public abstract class AbstractQueryBuilder {
                     else{
                         thirdDimColumn = "WHERE FE.departuretime BETWEEN ?1 and ?2\n";
                     }
+                    selector.setEndpointsNeeded(true);
                     break;
                 case GlobalSettings.AIRLINE:
                     thirdDimColumn = "WHERE AIR.name IN " +
                     generatePlaceholderList(settings.getAirlines().length,
                         nextFreeParaIndex) +"\n";
+                    selector.setAirlineNeeded(true);
                     break;
                 case GlobalSettings.DESTINATION:
                     thirdDimColumn = "WHERE DESTC.name IN " + 
                     generatePlaceholderList(settings.getDestinations().length,
                         nextFreeParaIndex) +"\n";
+                    selector.setEndpointsNeeded(true);
+                    selector.setDestNeeded(true);
                     break;
                 default:
                     //Use default value
@@ -109,7 +115,10 @@ public abstract class AbstractQueryBuilder {
         if(GlobalSettings.AIRLINE.equalsIgnoreCase(settings.getThirdDimension())){
             currentParaNumber = setDynamicQueryParameter(query, settings.getAirlines(), currentParaNumber);
         }
-        currentParaNumber = setDynamicQueryParameter(query, settings.getDestinations(), currentParaNumber);
+        if(GlobalSettings.DESTINATION.equalsIgnoreCase(settings.getThirdDimension())
+            || GlobalSettings.DESTINATION.equalsIgnoreCase(settings.getXaxis())){
+            currentParaNumber = setDynamicQueryParameter(query, settings.getDestinations(), currentParaNumber);
+        }
         if(GlobalSettings.AIRLINE.equalsIgnoreCase(settings.getXaxis())){
             setDynamicQueryParameter(query, settings.getAirlines(), currentParaNumber);
         }
@@ -177,5 +186,40 @@ public abstract class AbstractQueryBuilder {
         }
         builder.append(")");
         return builder.toString();
+    }
+    
+    /**
+     * 
+     * @param isOnTime
+     * @param selector 
+     * @return 
+     */
+    protected String buildBaseQuery(boolean isOnTime, DataCategorySelector selector){
+        StringBuilder queryStrBuilder = new StringBuilder();
+        final String aliasMainTable;
+        queryStrBuilder.append("SELECT \n" +
+                               "%s\n");
+        if(isOnTime){
+            aliasMainTable = "F";
+            queryStrBuilder.append("FROM flight "+aliasMainTable+"\n");
+        }
+        else{ //Market base query
+            aliasMainTable = "MS";
+            queryStrBuilder.append("FROM monthlystat "+aliasMainTable+"\n");
+        }
+        if(selector.isEndpointsNeeded()){
+            queryStrBuilder.append("LEFT JOIN flightendpoint FE ON FE.flightendpoint_id = F.flightendpoint_id\n");
+        }
+        if(selector.isAirlineNeeded()){
+            queryStrBuilder.append("RIGHT JOIN airline AIR ON AIR.airline_id = "+aliasMainTable+".airline_id\n");
+        }
+        if(selector.isDestNeeded()){
+            final String equalColumn = ((isOnTime)? "FE.destairportshortname" : "MS.destairportsn") + "\n";
+            queryStrBuilder.append("LEFT JOIN airport DEST ON DEST.shortname = ");
+            queryStrBuilder.append(equalColumn);
+            queryStrBuilder.append("LEFT JOIN city DESTC ON DESTC.city_id = DEST.city_id\n");
+        }
+        queryStrBuilder.append("%s");
+        return queryStrBuilder.toString();
     }
 }
