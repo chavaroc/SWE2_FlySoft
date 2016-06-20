@@ -34,6 +34,7 @@ $(function () {
     var x_axis_name = "Time";   // label of x_axis -> Default (when page has loaded at the beginning): Time
     var y_axis_name = "Frequencies";    // label of y_axis -> Default (when page has loaded at the beginning): Frequencies
     var resultFromServer;       // Received Data from Server. Data to Plot in Graph.
+    var plotDataSize = 0;       //For warningdialog "There is no data in your selection."
     var mySeries = [];
     var data_serie;             // Data to plot. For more detail, see Highcharts-API-Documentation   
     var selected_3d_val;
@@ -284,6 +285,7 @@ $(function () {
     $("#submit_button").click(function () {
 
         mySeries = []; //clean
+        plotDataSize = 0; //reset
         var xaxis = $("#xaxis_selector option:selected").text();        // selected filter for x-axis
         var yaxis = $("#y_qualifier option:selected").text();           // selected filter for y-axis
         var timedim = $('input[name="timeDimension"]:checked').val();   // selected timedimension
@@ -334,7 +336,10 @@ $(function () {
             $.getJSON(url, {xaxis: escape(xaxis), yaxis: yaxis, timedim: timedim, weekdays: weekdays, thirddim: thirddim, destinations: destinations, timerange: timerange, airlines: airlines}, function (json) {
                 //console.log(json);
                 resultFromServer = json;
-
+                var length = json.length;
+                if (length === 0) {
+                    alert("Sorry, no Data in your selection." + json.length);
+                }
                 //update axis-/labelnames for graph
                 if (xaxis === "Time") {
                     x_axis_name = "Time in " + timedim;
@@ -342,7 +347,6 @@ $(function () {
                     x_axis_name = xaxis;
                 }
                 y_axis_name = yaxis;
-
                 drawChartWithoutNames(json);
             });
         } else {
@@ -433,6 +437,8 @@ $(function () {
                             x_axis_name = xaxis;
                         }
 
+                        plotDataSize += json.length;
+
                         y_axis_name = yaxis;
 
                         var color = colors.pop();
@@ -441,6 +447,9 @@ $(function () {
                     });
 
                 })(i);
+            }
+            if (plotDataSize === 0) {
+                alert("Sorry, no Data in your selection.");
             }
         }
         //spinner.stop();
