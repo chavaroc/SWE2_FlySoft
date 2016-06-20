@@ -1,5 +1,6 @@
 package hm.edu.swe2.flysoft.entity.querybuilder;
 
+import static hm.edu.swe2.flysoft.entity.querybuilder.AbstractQueryBuilder.SQL_FUNC_DAY_NAME;
 import hm.edu.swe2.flysoft.interfaces.IQueryBuilder;
 import hm.edu.swe2.flysoft.ui.FilterSetting;
 import hm.edu.swe2.flysoft.util.GlobalSettings;
@@ -30,6 +31,10 @@ public class DelayDurationQueryBuilder extends AbstractQueryBuilder implements I
             whereToken = calcWhereThirdDimToken(settings, selector) + 
                 "AND FE.departuretime BETWEEN ?1 and ?2\n";
             groupByToken = "GROUP BY "+timeDim+"(FE.departuretime)";
+            if(SQL_FUNC_DAY_NAME.equalsIgnoreCase(timeDim)){
+                groupByToken +=
+                "\nORDER BY "+SQL_FUNC_DAY_OF_WEEK+"(FE.departuretime)";
+            }
         }
         else if (AIRLINE.equalsIgnoreCase(settings.getXaxis())){
             selectToken = "AIR.name\n";
