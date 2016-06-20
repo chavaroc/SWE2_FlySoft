@@ -16,7 +16,7 @@ public class FilterSetting {
     private String[] airlinesnew;
     private String[] origins;
     private String[] destinations;
-    private String timeDimension; //day, week or year
+    private String timeDimension; //day, week, weekdays or year
     private Date timeFrom;
     private Date timeTo;
 

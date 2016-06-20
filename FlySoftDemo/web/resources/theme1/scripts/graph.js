@@ -337,7 +337,7 @@ $(function () {
 
                 //update axis-/labelnames for graph
                 if (xaxis === "Time") {
-                    x_axis_name = "Time in " + timedim + "s";
+                    x_axis_name = "Time in " + timedim;
                 } else {
                     x_axis_name = xaxis;
                 }
@@ -354,7 +354,7 @@ $(function () {
             } else if (selected_3d_val === "Time") {
                 //TODO
                 //differenciation between days/month/years
-                if (timedim === "Weekday(s)") {
+                if (timedim === "Weekdays") {
                     number_of_graphs = weekdays.length;
                 }
                 //TODO else if
@@ -386,7 +386,7 @@ $(function () {
                             //TODO
                         } else if (timedim === "Month") {
                             //TODO
-                        } else if (timedim === "Weekday(s)") {
+                        } else if (timedim === "Weekdays") {
                             var weekdays_separated = [];
                             weekdays_separated.push(weekdays[i]);
                         }
@@ -411,7 +411,7 @@ $(function () {
                             //TODO
                         } else if (timedim === "Month") {
                             //TODO
-                        } else if (timedim === "Weekday(s)") {
+                        } else if (timedim === "Weekdays") {
                             json_weekdays = weekdays_separated;
                         }
                     } else if (dim_3 === "Destination") {
@@ -428,7 +428,7 @@ $(function () {
 
                         //update axis-/labelnames for graph
                         if (xaxis === "Time") {
-                            x_axis_name = "Time in " + timedim + "s";
+                            x_axis_name = "Time in " + timedim;
                         } else {
                             x_axis_name = xaxis;
                         }

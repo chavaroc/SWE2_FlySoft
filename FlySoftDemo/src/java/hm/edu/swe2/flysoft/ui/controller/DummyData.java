@@ -33,7 +33,7 @@ public class DummyData {
         if (thirdDimensionOptions.size() <= 0) {
             thirdDimensionOptions.add("nothing selected");
             thirdDimensionOptions.add("Airline");
-            thirdDimensionOptions.add("Time");
+            //thirdDimensionOptions.add("Time");
             thirdDimensionOptions.add("Destination");
         }
         return thirdDimensionOptions;
@@ -42,7 +42,7 @@ public class DummyData {
     public static List<String> getTimeDimensionOptions() {
         if (timeDimensionOptions.size() <= 0) {
             timeDimensionOptions.add("Day");
-            timeDimensionOptions.add("Weekday(s)");
+            timeDimensionOptions.add("Weekdays");
             timeDimensionOptions.add("Week");
             timeDimensionOptions.add("Month");
             timeDimensionOptions.add("Year");

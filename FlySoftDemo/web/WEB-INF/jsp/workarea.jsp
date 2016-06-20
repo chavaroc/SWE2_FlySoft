@@ -117,7 +117,7 @@
 
                     <br>
 
-                    <form:form id="weekday_selector">
+                   <!-- <form:form id="weekday_selector">
                         <fieldset>
                             <legend>Weekdays</legend>
                             <label> <input type="checkbox" id="check_all_weekdays" value="all"> all </label>
@@ -130,7 +130,7 @@
                             <label> <input type="checkbox" name="weekday" value="Saturday"> Saturday </label>
                             <label> <input type="checkbox" name="weekday" value="Sunday"> Sunday </label>
                         </fieldset>
-                    </form:form>
+                    </form:form> -->
                     
                 </div>
             </div>

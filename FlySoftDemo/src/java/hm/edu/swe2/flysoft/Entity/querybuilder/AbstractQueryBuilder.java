@@ -21,6 +21,7 @@ public abstract class AbstractQueryBuilder {
      */
     protected static List<String> validTimeDimensions;
     private static final String TIME_DIM_DAY = "day";
+    private static final String TIME_DIM_WEEKDAYS = "weekdays";
     protected int nextFreeParaIndex = GlobalSettings.FIRST_DYN_PARA_INDEX;
 
     /**
@@ -30,6 +31,7 @@ public abstract class AbstractQueryBuilder {
         if(validTimeDimensions == null){
             validTimeDimensions = new ArrayList<>();
             validTimeDimensions.add(TIME_DIM_DAY);
+            validTimeDimensions.add(TIME_DIM_WEEKDAYS);
             validTimeDimensions.add("week");
             validTimeDimensions.add("month");
             validTimeDimensions.add("year");
@@ -160,6 +162,9 @@ public abstract class AbstractQueryBuilder {
             // for example: group 22 = (22.01 + 22.02 + ...).
             // There will be ~ 30 groups.
             timeDim = "DAYOFYEAR"; 
+        }
+        if(TIME_DIM_WEEKDAYS.equalsIgnoreCase(timeDim)) {
+            timeDim = "DAYNAME"; 
         }
         return timeDim;
     }
