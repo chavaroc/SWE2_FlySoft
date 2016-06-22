@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -52,9 +54,14 @@ public class WorkareaController {
        List<String> airlineNames = new ArrayList<>();
        AirlineEntityController airlineEntityController = new AirlineEntityController();
        List<IAirline> airlines = airlineEntityController.findAirlineEntities();
+       
+       Collections.sort(airlines, (Object arg0, Object arg1) -> ((IAirline)arg0)
+               .getName().compareTo(((IAirline)arg1).getName()));
+       
        for(IAirline airline : airlines){
            airlineNames.add(airline.getName());
        }
+       //airlineNames.s
        model.addAttribute("airlinenewNameList", airlineNames);
        
        // Link object to form
@@ -64,6 +71,10 @@ public class WorkareaController {
        // Fill lists
        final CityEntityController cityEntityController = new CityEntityController();
        final List<City> cities = cityEntityController.findCityEntities();
+       
+       Collections.sort(cities, (Object arg0, Object arg1) -> ((City)arg0)
+               .getName().compareTo(((City)arg1).getName()));
+       
        final List<String> cityNames = cities.stream()
            .map(city -> city.getName())
            .collect(Collectors.toList());

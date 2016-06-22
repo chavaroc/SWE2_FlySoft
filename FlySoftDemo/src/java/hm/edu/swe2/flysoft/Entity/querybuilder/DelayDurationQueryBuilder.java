@@ -57,7 +57,7 @@ public class DelayDurationQueryBuilder extends AbstractQueryBuilder implements I
         else{
             throw new UnsupportedOperationException("Not supported yet.");
         }   
-        selectToken += ",SUM(FE.arrivaldelay) as SumDelay";
+        selectToken += ",AVG(FE.arrivaldelay) as AvgDelay";
         whereToken = whereToken + groupByToken;
         query = createParamizedQuery(buildBaseQuery(true, selector),
             selectToken, whereToken, settings, entityManager);
