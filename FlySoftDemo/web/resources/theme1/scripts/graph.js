@@ -52,6 +52,7 @@ $(function () {
     var drawingLastGraph;
     var lastGraphThereYet;
     var limit;
+    var plotDataSize;
 
 
     // Hiding of filter-settings, that are not changeable at the beginning, because of the default-constellation of the axis-settings.
