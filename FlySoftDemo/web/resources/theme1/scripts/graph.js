@@ -4,6 +4,15 @@
  */
 $(function () {
 
+    /**
+     * Get and set the username.
+     */
+    document.getElementsByName("username").value;
+    document.getElementById("username").innerHTML = document.baseURI.substring(52, document.baseURI.length).replace('+',' ');
+    
+    /**
+     * Options for the spinner
+     */
     var opts = {
         lines: 17 // The number of lines to draw
         , length: 56 // The length of each line
@@ -42,6 +51,7 @@ $(function () {
     $("#destinations_selector").hide();
     $("#timeDimension_selector").hide();
     $("#weekday_selector").hide();
+    $("#dialog").hide();
     $('#3d_selector option').filter(":eq( 1 )").attr("disabled", "");
 
     $.redraw = function () {
@@ -361,17 +371,24 @@ $(function () {
             } else if (selected_3d_val === "Destination") {
                 number_of_graphs = destinations.length;
             }
-            //console.log(number_of_graphs);
+            console.log(number_of_graphs);
 
             if (number_of_graphs > 15) {
-                number_of_graphs = 15;
+                $( "#dialog" ).dialog({width: 500, height: 200});
             }
 
             var colors = ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9',
                 '#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1', '#0d233a', '#8bbc21', '#910000', '#1aadce',
                 '#492970', '#f28f43', '#77a1e5', '#c42525', '#a6c96a'];
 
-            for (var i = 0; i < number_of_graphs; i++) {
+            var i = 0;
+            var limit = 0;
+
+            while (i < number_of_graphs) {
+                if (limit >= 15) {
+                    console.log("BREAK!");
+                    break;
+                } 
                 (function (i) { // protects i in an immediately called function
                     if (dim_3 === "Airline") {
                         var airline_separated = [];
@@ -436,13 +453,22 @@ $(function () {
                         y_axis_name = yaxis;
 
                         var color = colors.pop();
-
-                        drawChart(json, line_names[i], color);
+                        console.log(json);
+                        if (json.length === 0) {
+                            console.log("NULL!");
+                        } else {
+                            drawChart(json, line_names[i], color);
+                            console.log("DRAW!");
+                            
+                            limit++;
+                            console.log(limit);
+                        }
+                        
                     });
 
                 })(i);
+                i++;
             }
         }
-        //spinner.stop();
     });
 });
