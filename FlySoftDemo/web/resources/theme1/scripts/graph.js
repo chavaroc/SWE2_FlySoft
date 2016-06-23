@@ -8,7 +8,7 @@ $(function () {
      * Get and set the username.
      */
     document.getElementsByName("username").value;
-    document.getElementById("username").innerHTML = document.baseURI.substring(52, document.baseURI.length).replace('+', ' ');
+    document.getElementById("username").innerHTML = document.baseURI.substring(54, document.baseURI.length).replace('+', ' ');
 
     /**
      * Options for the spinner

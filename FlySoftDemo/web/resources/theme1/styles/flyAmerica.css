@@ -8,8 +8,16 @@ body{
 	font-family: verdana;
 }
 
+.backcolor{
+    background-color: white;
+}
+
+.imagetest{
+    background: url('https://wolke205.files.wordpress.com/2013/06/wendelstein3.jpg') no-repeat center center fixed;
+}
+
 html { 
-  background: url('https://wolke205.files.wordpress.com/2013/06/wendelstein3.jpg') no-repeat center center fixed; 
+  /*background: url('https://wolke205.files.wordpress.com/2013/06/wendelstein3.jpg') no-repeat center center fixed; */
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
