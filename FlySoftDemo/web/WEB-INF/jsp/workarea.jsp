@@ -15,7 +15,9 @@
         <script src='<c:url value="/resources/scripts/highcharts.js" />'></script>
         <script src='<c:url value="/resources/scripts/graph.js" />'></script>
         <script src='<c:url value="/resources/scripts/spin.min.js" />'></script>
-
+        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+        
         <title>FlyAmerica | Statistics</title>
 
     </head>
@@ -23,7 +25,7 @@
         <div id="content">
             <div id="header">
                 <img src='<c:url value="/resources/imgs/flyAmerica_logo.PNG" />' alt="FlyAmerica-Logo" id="logo">
-                <div id="username">Max Mustermän</div>
+                <div id="username"></div>
             </div>
 
             <div class="left">
@@ -57,7 +59,6 @@
                     </div>
                 </form:form>
             </div>
-
             <div class="right">
                 <button name="save_setting_button" onclick="myFunction()" type="submit" style="margin-top: 145px">Save setting</button>
                 <button name="load_setting_button" type="submit">Load setting</button>
@@ -69,7 +70,6 @@
                     <br><br>
                     <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
                 </div>
-
                 <div id="filters">
                     <form:form id="airlines_selector" method="POST" action="/FlySoftDemo/workarea" commandName="airlineForm">
                         <fieldset>
@@ -116,8 +116,8 @@
                     </form:form>
 
                     <br>
-
-                    <form:form id="weekday_selector">
+                   
+                   <!-- <form:form id="weekday_selector">
                         <fieldset>
                             <legend>Weekdays</legend>
                             <label> <input type="checkbox" id="check_all_weekdays" value="all"> all </label>
@@ -130,9 +130,12 @@
                             <label> <input type="checkbox" name="weekday" value="Saturday"> Saturday </label>
                             <label> <input type="checkbox" name="weekday" value="Sunday"> Sunday </label>
                         </fieldset>
-                    </form:form>
+                    </form:form> -->
                     
                 </div>
+            </div>
+            <div id="dialog" title="Attention!">
+                <p>Your selection was more than 15, but the maximal number is 15. <br> You will see only 15 graphs and not more now.</p>
             </div>
         </div>	
     </body>

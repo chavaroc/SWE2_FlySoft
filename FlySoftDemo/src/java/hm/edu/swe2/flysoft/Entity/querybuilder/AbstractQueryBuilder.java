@@ -17,10 +17,19 @@ import javax.persistence.TemporalType;
  */
 public abstract class AbstractQueryBuilder {
     /**
-     * Contains all valid time dimensions.
+     * Contains all valid time dimensions (input value).
      */
     protected static List<String> validTimeDimensions;
     private static final String TIME_DIM_DAY = "day";
+    private static final String TIME_DIM_WEEKDAYS = "weekdays";
+    
+    /**
+     * Sql time function names.
+     */
+    protected static final String SQL_FUNC_DAY_NAME = "DAYNAME";
+    protected static final String SQL_FUNC_DAY_OF_YEAR = "DAYOFYEAR";
+    protected static final String SQL_FUNC_DAY_OF_WEEK = "DAYOFWEEK";
+
     protected int nextFreeParaIndex = GlobalSettings.FIRST_DYN_PARA_INDEX;
 
     /**
@@ -30,6 +39,7 @@ public abstract class AbstractQueryBuilder {
         if(validTimeDimensions == null){
             validTimeDimensions = new ArrayList<>();
             validTimeDimensions.add(TIME_DIM_DAY);
+            validTimeDimensions.add(TIME_DIM_WEEKDAYS);
             validTimeDimensions.add("week");
             validTimeDimensions.add("month");
             validTimeDimensions.add("year");
@@ -159,7 +169,10 @@ public abstract class AbstractQueryBuilder {
             // The sql function 'day' add all month days together 
             // for example: group 22 = (22.01 + 22.02 + ...).
             // There will be ~ 30 groups.
-            timeDim = "DAYOFYEAR"; 
+            timeDim = SQL_FUNC_DAY_OF_YEAR; 
+        }
+        if(TIME_DIM_WEEKDAYS.equalsIgnoreCase(timeDim)) {
+            timeDim = SQL_FUNC_DAY_NAME; 
         }
         return timeDim;
     }

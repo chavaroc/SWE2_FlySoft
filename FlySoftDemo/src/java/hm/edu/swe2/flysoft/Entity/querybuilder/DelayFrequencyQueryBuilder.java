@@ -31,6 +31,10 @@ public class DelayFrequencyQueryBuilder extends AbstractQueryBuilder
             whereToken = calcWhereThirdDimToken(settings, selector) + 
                 "AND FE.departuretime BETWEEN ?1 and ?2\n";
             groupByToken = "GROUP BY "+timeDim+"(FE.departuretime)";
+            if(SQL_FUNC_DAY_NAME.equalsIgnoreCase(timeDim)){
+                groupByToken +=
+                "\nORDER BY "+SQL_FUNC_DAY_OF_WEEK+"(FE.departuretime)";
+            }
         }
         else if (AIRLINE.equalsIgnoreCase(settings.getXaxis())){
             selectToken = "AIR.name\n";
