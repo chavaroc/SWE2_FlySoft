@@ -19,7 +19,8 @@ public class NewYorkMonthlyStatFilter {
         if(newYorkAirportSN.isEmpty()){
             newYorkAirportSN.add("JFK");
             newYorkAirportSN.add("LGA");
-            newYorkAirportSN.add("EWR");
+            newYorkAirportSN.add("FLU");
+            newYorkAirportSN.add("NYC");
         }
     }
     

@@ -50,8 +50,25 @@ public class AbstractFlightPrepartor {
         Optional<Airline> foundAirline = lookupAirlines.stream().filter((Airline airline) -> airline.getAirlineId() == airlineId).findFirst();
         if (foundAirline.isPresent()) {
             airlineName = foundAirline.get().getName();
+            // We want short airline names - remove all behind ":"
+            airlineName = cutAirlineName(airlineName);
         } else {
             airlineName = "";
+        }
+        return airlineName;
+    }
+    
+    /**
+     * Cut the given airline name at ":" and return the first part.
+     * @param airlineName The airline name in syntax <name>:<state short name>
+     * @return The first part of the airline name till ":".
+     */
+    private String cutAirlineName(String airlineName){
+        if(airlineName.contains(":")){
+            String[] airlineNameTokens = airlineName.split(":");
+            if(airlineNameTokens.length > 0){
+                airlineName = airlineNameTokens[0];
+            }
         }
         return airlineName;
     }
