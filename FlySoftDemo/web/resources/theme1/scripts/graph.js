@@ -4,6 +4,15 @@
  */
 $(function () {
 
+    /**
+     * Get and set the username.
+     */
+    document.getElementsByName("username").value;
+    document.getElementById("username").innerHTML = document.baseURI.substring(52, document.baseURI.length).replace('+', ' ');
+
+    /**
+     * Options for the spinner
+     */
     var opts = {
         lines: 17 // The number of lines to draw
         , length: 56 // The length of each line
@@ -34,18 +43,22 @@ $(function () {
     var x_axis_name = "Time";   // label of x_axis -> Default (when page has loaded at the beginning): Time
     var y_axis_name = "Frequencies";    // label of y_axis -> Default (when page has loaded at the beginning): Frequencies
     var resultFromServer;       // Received Data from Server. Data to Plot in Graph.
-    var plotDataSize = 0;       //For warningdialog "There is no data in your selection."
     var mySeries = [];
     var data_serie;             // Data to plot. For more detail, see Highcharts-API-Documentation   
     var selected_3d_val;
+
     var currentGraphNumber;
-    var number_of_graphs
+    var number_of_graphs;
     var drawingLastGraph;
+    var lastGraphThereYet;
+    var limit;
+
 
     // Hiding of filter-settings, that are not changeable at the beginning, because of the default-constellation of the axis-settings.
     $("#destinations_selector").hide();
     $("#timeDimension_selector").hide();
     $("#weekday_selector").hide();
+    $("#dialog").hide();
     $('#3d_selector option').filter(":eq( 1 )").attr("disabled", "");
 
     $.redraw = function () {
@@ -88,34 +101,54 @@ $(function () {
 
 
     var drawChart = function (data, name, color) {
-        // 'series' is an array of objects with keys: 
-        //     - 'name' (string)
-        //     - 'data' (array)
-//        var newSeriesData = {
-//            name: name,
-//            data: data
-//        };
-        // Add the new data to the series array
-        currentGraphNumber++; //erhöhen damit ich weiß wann wir das letzte mal hier sind
+
+        currentGraphNumber++;
+        console.log("currentGraphNumber: ");
+        console.log(currentGraphNumber);
+
         if (currentGraphNumber === number_of_graphs) {
             drawingLastGraph = true;
+            console.log("DRAWINGLASTGRAPH = TRUE wegen number_of_graphs");
         }
-        mySeries.push({name: name, data: data, color: color});
-        $.redraw();
 
-        var currentlength = data.length;
-        console.log("currentlength: ");
-        console.log(currentlength);
-        plotDataSize += currentlength;
-        console.log(plotDataSize);
+        if (!lastGraphThereYet) {
 
-        if (drawingLastGraph) { //last request
-            if (plotDataSize < 1) {
-                alert("Sorry, no Data in your (3Dim) selection.");
+            if (data.length === 0) { //wenn Rückgabe keine Daten enthält wird sie ignoriert
+                console.log("NULL!");
+            } else {
+                //drawChart(json, line_names[i], color); //wenn Rückgabe Daten erhält wird sie nicht ignoriert und limit um eins erhöht
+                console.log("DRAW!");
+
+                //currentGraphNumber++; //erhöhen damit ich weiß wann wir das letzte mal hier sind
+                limit++;
+                if (limit === 15) {
+                    drawingLastGraph = true;
+                    console.log("DRAWINGLASTGRAPH = TRUE wegen limit == 15");
+                }
+                mySeries.push({name: name, data: data, color: color});
+                $.redraw();
+
+
+                console.log(limit);
             }
-        }
-        sleep(3000);
 
+            var currentlength = data.length;
+            console.log("currentlength: ");
+            console.log(currentlength);
+            plotDataSize += currentlength;
+            console.log(plotDataSize);
+
+            if (drawingLastGraph) { //last request
+                if (plotDataSize < 1) {
+                    alert("Sorry, no Data in your (3Dim) selection.");
+                }
+                lastGraphThereYet = true;
+            }
+
+        } else {
+
+            console.log("Ignored call of Draw-Function!");
+        }
     };
 
     var drawChartWithoutNames = function (data) {
@@ -302,11 +335,13 @@ $(function () {
     $("#submit_button").click(function () {
 
         mySeries = []; //clean
-        
+
         plotDataSize = 0; //reset
         number_of_graphs = 0;
         currentGraphNumber = 0;
         drawingLastGraph = false;
+        lastGraphThereYet = false;
+        limit = 0;
 
         var xaxis = $("#xaxis_selector option:selected").text();        // selected filter for x-axis
         var yaxis = $("#y_qualifier option:selected").text();           // selected filter for y-axis
@@ -364,7 +399,7 @@ $(function () {
                 }
                 //update axis-/labelnames for graph
                 if (xaxis === "Time") {
-                    x_axis_name = "Time in " + timedim + "s";
+                    x_axis_name = "Time in " + timedim;
                 } else {
                     x_axis_name = xaxis;
                 }
@@ -373,31 +408,70 @@ $(function () {
             });
         } else {
             var dim_3 = $("#3d_selector option:selected").text();
-            number_of_graphs = 0;
             var line_names = [];
             if (dim_3 === "Airline") {
                 number_of_graphs = airlines.length;
             } else if (selected_3d_val === "Time") {
                 //TODO
                 //differenciation between days/month/years
-                if (timedim === "Weekday(s)") {
+                if (timedim === "Weekdays") {
                     number_of_graphs = weekdays.length;
                 }
                 //TODO else if
             } else if (selected_3d_val === "Destination") {
                 number_of_graphs = destinations.length;
             }
-            //console.log(number_of_graphs);
+            console.log(number_of_graphs);
+
+
+            //////////////////////////////////////
+            //////////////////////////////////////
+            //////////////////////////////////////
+
+
+
 
             if (number_of_graphs > 15) {
-                number_of_graphs = 15;
+                $("#dialog").dialog({width: 500, height: 200});
+                // weggenommen: number_of_graphs = 15;
             }
+
+
+            //////////////////////////////////////
+            //////////////////////////////////////
+            //////////////////////////////////////
+
 
             var colors = ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9',
                 '#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1', '#0d233a', '#8bbc21', '#910000', '#1aadce',
-                '#492970', '#f28f43', '#77a1e5', '#c42525', '#a6c96a'];
+                '#492970', '#f28f43', '#77a1e5', '#c42525', '#a6c96a', '#434348', '#90ed7d', '#f7a35c', '#8085e9',
+                '#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1', '#0d233a', '#8bbc21', '#910000', '#434348', '#90ed7d', '#f7a35c', '#8085e9',
+                '#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1', '#0d233a', '#8bbc21', '#910000'];
 
-            for (var i = 0; i < number_of_graphs; i++) {
+
+            //////////////////////////////////////
+            //////////////////////////////////////
+            //////////////////////////////////////
+
+            var i = 0;
+            // limit = 0;
+
+            while (i < number_of_graphs) {
+
+
+
+
+                //if (limit >= 15) {
+                //    console.log("BREAK!");
+                //    break;
+                //} 
+
+                //////////////////////////////////////
+                //////////////////////////////////////
+                //////////////////////////////////////
+
+
+
                 (function (i) { // protects i in an immediately called function
                     if (dim_3 === "Airline") {
                         var airline_separated = [];
@@ -412,7 +486,7 @@ $(function () {
                             //TODO
                         } else if (timedim === "Month") {
                             //TODO
-                        } else if (timedim === "Weekday(s)") {
+                        } else if (timedim === "Weekdays") {
                             var weekdays_separated = [];
                             weekdays_separated.push(weekdays[i]);
                         }
@@ -437,7 +511,7 @@ $(function () {
                             //TODO
                         } else if (timedim === "Month") {
                             //TODO
-                        } else if (timedim === "Weekday(s)") {
+                        } else if (timedim === "Weekdays") {
                             json_weekdays = weekdays_separated;
                         }
                     } else if (dim_3 === "Destination") {
@@ -454,7 +528,7 @@ $(function () {
 
                         //update axis-/labelnames for graph
                         if (xaxis === "Time") {
-                            x_axis_name = "Time in " + timedim + "s";
+                            x_axis_name = "Time in " + timedim;
                         } else {
                             x_axis_name = xaxis;
                         }
@@ -463,12 +537,31 @@ $(function () {
 
                         var color = colors.pop();
 
-                        drawChart(json, line_names[i], color);
+
+                        //////////////////////////////////////
+                        //////////////////////////////////////
+                        //////////////////////////////////////
+
+                        console.log(json);
+                        //if (json.length === 0) { //wenn Rückgabe keine Daten enthält wird sie ignoriert
+                        //    console.log("NULL!");
+                        //} else {
+                        drawChart(json, line_names[i], color); //wenn Rückgabe Daten erhält wird sie nicht ignoriert und limit um eins erhöht
+                        console.log("DRAW!");
+                        //    limit++;
+                        //    console.log(limit);
+                        //}
+
+
+                        //////////////////////////////////////
+                        //////////////////////////////////////
+                        //////////////////////////////////////
+
                     });
 
                 })(i);
+                i++;
             }
         }
-        //spinner.stop();
     });
 });
