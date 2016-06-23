@@ -28,6 +28,10 @@ public class CancellationQueryBuilder extends AbstractQueryBuilder implements IQ
             whereToken = calcWhereThirdDimToken(settings, selector) + 
                 "AND FE.departuretime BETWEEN ?1 and ?2\n";
             groupByToken = "GROUP BY "+timeDim+"(FE.departuretime)";
+            if(SQL_FUNC_DAY_NAME.equalsIgnoreCase(timeDim)){
+                groupByToken +=
+                "\nORDER BY "+SQL_FUNC_DAY_OF_WEEK+"(FE.departuretime)";
+            }
             selector.setEndpointsNeeded(true);
         }
         else if (AIRLINE.equalsIgnoreCase(settings.getXaxis())){
