@@ -48,7 +48,7 @@ $(function () {
     var selected_3d_val;
 
     var currentGraphNumber;
-    var number_of_graphs
+    var number_of_graphs;
     var drawingLastGraph;
     var lastGraphThereYet;
     var limit;
@@ -103,9 +103,12 @@ $(function () {
     var drawChart = function (data, name, color) {
 
         currentGraphNumber++;
+        console.log("currentGraphNumber: ");
+        console.log(currentGraphNumber);
 
         if (currentGraphNumber === number_of_graphs) {
             drawingLastGraph = true;
+            console.log("DRAWINGLASTGRAPH = TRUE wegen number_of_graphs");
         }
 
         if (!lastGraphThereYet) {
@@ -120,6 +123,7 @@ $(function () {
                 limit++;
                 if (limit === 15) {
                     drawingLastGraph = true;
+                    console.log("DRAWINGLASTGRAPH = TRUE wegen limit == 15");
                 }
                 mySeries.push({name: name, data: data, color: color});
                 $.redraw();
@@ -141,9 +145,10 @@ $(function () {
                 lastGraphThereYet = true;
             }
 
-        }
+        } else {
 
-        console.log("Ignored call of Draw-Function!");
+            console.log("Ignored call of Draw-Function!");
+        }
     };
 
     var drawChartWithoutNames = function (data) {
@@ -403,7 +408,6 @@ $(function () {
             });
         } else {
             var dim_3 = $("#3d_selector option:selected").text();
-            number_of_graphs = 0;
             var line_names = [];
             if (dim_3 === "Airline") {
                 number_of_graphs = airlines.length;
