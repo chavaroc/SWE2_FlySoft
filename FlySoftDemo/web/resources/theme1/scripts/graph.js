@@ -38,6 +38,9 @@ $(function () {
     var mySeries = [];
     var data_serie;             // Data to plot. For more detail, see Highcharts-API-Documentation   
     var selected_3d_val;
+    var currentGraphNumber;
+    var number_of_graphs
+    var drawingLastGraph;
 
     // Hiding of filter-settings, that are not changeable at the beginning, because of the default-constellation of the axis-settings.
     $("#destinations_selector").hide();
@@ -93,12 +96,26 @@ $(function () {
 //            data: data
 //        };
         // Add the new data to the series array
+        currentGraphNumber++; //erhöhen damit ich weiß wann wir das letzte mal hier sind
+        if (currentGraphNumber === number_of_graphs) {
+            drawingLastGraph = true;
+        }
         mySeries.push({name: name, data: data, color: color});
         $.redraw();
-        // If you want to remove old series data, you can do that here too
 
-        // Render the chart
-        //var chart = new Highcharts.Chart(options1);
+        var currentlength = data.length;
+        console.log("currentlength: ");
+        console.log(currentlength);
+        plotDataSize += currentlength;
+        console.log(plotDataSize);
+
+        if (drawingLastGraph) { //last request
+            if (plotDataSize < 1) {
+                alert("Sorry, no Data in your (3Dim) selection.");
+            }
+        }
+        sleep(3000);
+
     };
 
     var drawChartWithoutNames = function (data) {
@@ -285,7 +302,12 @@ $(function () {
     $("#submit_button").click(function () {
 
         mySeries = []; //clean
+        
         plotDataSize = 0; //reset
+        number_of_graphs = 0;
+        currentGraphNumber = 0;
+        drawingLastGraph = false;
+
         var xaxis = $("#xaxis_selector option:selected").text();        // selected filter for x-axis
         var yaxis = $("#y_qualifier option:selected").text();           // selected filter for y-axis
         var timedim = $('input[name="timeDimension"]:checked').val();   // selected timedimension
@@ -337,8 +359,8 @@ $(function () {
                 //console.log(json);
                 resultFromServer = json;
                 var length = json.length;
-                if (length === 0) {
-                    alert("Sorry, no Data in your selection." + json.length);
+                if (length < 1) {
+                    alert("Sorry, no Data in your (2Dim) selection.");
                 }
                 //update axis-/labelnames for graph
                 if (xaxis === "Time") {
@@ -351,7 +373,7 @@ $(function () {
             });
         } else {
             var dim_3 = $("#3d_selector option:selected").text();
-            var number_of_graphs = 0;
+            number_of_graphs = 0;
             var line_names = [];
             if (dim_3 === "Airline") {
                 number_of_graphs = airlines.length;
@@ -437,8 +459,6 @@ $(function () {
                             x_axis_name = xaxis;
                         }
 
-                        plotDataSize += json.length;
-
                         y_axis_name = yaxis;
 
                         var color = colors.pop();
@@ -447,9 +467,6 @@ $(function () {
                     });
 
                 })(i);
-            }
-            if (plotDataSize === 0) {
-                alert("Sorry, no Data in your selection.");
             }
         }
         //spinner.stop();
