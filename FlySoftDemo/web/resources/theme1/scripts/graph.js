@@ -8,8 +8,8 @@ $(function () {
      * Get and set the username.
      */
     document.getElementsByName("username").value;
-    document.getElementById("username").innerHTML = document.baseURI.substring(52, document.baseURI.length).replace('+',' ');
-    
+    document.getElementById("username").innerHTML = document.baseURI.substring(52, document.baseURI.length).replace('+', ' ');
+
     /**
      * Options for the spinner
      */
@@ -46,6 +46,13 @@ $(function () {
     var mySeries = [];
     var data_serie;             // Data to plot. For more detail, see Highcharts-API-Documentation   
     var selected_3d_val;
+
+    var currentGraphNumber;
+    var number_of_graphs
+    var drawingLastGraph;
+    var lastGraphThereYet;
+    var limit;
+
 
     // Hiding of filter-settings, that are not changeable at the beginning, because of the default-constellation of the axis-settings.
     $("#destinations_selector").hide();
@@ -94,20 +101,49 @@ $(function () {
 
 
     var drawChart = function (data, name, color) {
-        // 'series' is an array of objects with keys: 
-        //     - 'name' (string)
-        //     - 'data' (array)
-//        var newSeriesData = {
-//            name: name,
-//            data: data
-//        };
-        // Add the new data to the series array
-        mySeries.push({name: name, data: data, color: color});
-        $.redraw();
-        // If you want to remove old series data, you can do that here too
 
-        // Render the chart
-        //var chart = new Highcharts.Chart(options1);
+        currentGraphNumber++;
+
+        if (currentGraphNumber === number_of_graphs) {
+            drawingLastGraph = true;
+        }
+
+        if (!lastGraphThereYet) {
+
+            if (data.length === 0) { //wenn Rückgabe keine Daten enthält wird sie ignoriert
+                console.log("NULL!");
+            } else {
+                //drawChart(json, line_names[i], color); //wenn Rückgabe Daten erhält wird sie nicht ignoriert und limit um eins erhöht
+                console.log("DRAW!");
+
+                //currentGraphNumber++; //erhöhen damit ich weiß wann wir das letzte mal hier sind
+                limit++;
+                if (limit === 15) {
+                    drawingLastGraph = true;
+                }
+                mySeries.push({name: name, data: data, color: color});
+                $.redraw();
+
+
+                console.log(limit);
+            }
+
+            var currentlength = data.length;
+            console.log("currentlength: ");
+            console.log(currentlength);
+            plotDataSize += currentlength;
+            console.log(plotDataSize);
+
+            if (drawingLastGraph) { //last request
+                if (plotDataSize < 1) {
+                    alert("Sorry, no Data in your (3Dim) selection.");
+                }
+                lastGraphThereYet = true;
+            }
+
+        }
+
+        console.log("Ignored call of Draw-Function!");
     };
 
     var drawChartWithoutNames = function (data) {
@@ -294,6 +330,14 @@ $(function () {
     $("#submit_button").click(function () {
 
         mySeries = []; //clean
+
+        plotDataSize = 0; //reset
+        number_of_graphs = 0;
+        currentGraphNumber = 0;
+        drawingLastGraph = false;
+        lastGraphThereYet = false;
+        limit = 0;
+
         var xaxis = $("#xaxis_selector option:selected").text();        // selected filter for x-axis
         var yaxis = $("#y_qualifier option:selected").text();           // selected filter for y-axis
         var timedim = $('input[name="timeDimension"]:checked').val();   // selected timedimension
@@ -344,7 +388,10 @@ $(function () {
             $.getJSON(url, {xaxis: escape(xaxis), yaxis: yaxis, timedim: timedim, weekdays: weekdays, thirddim: thirddim, destinations: destinations, timerange: timerange, airlines: airlines}, function (json) {
                 //console.log(json);
                 resultFromServer = json;
-
+                var length = json.length;
+                if (length < 1) {
+                    alert("Sorry, no Data in your (2Dim) selection.");
+                }
                 //update axis-/labelnames for graph
                 if (xaxis === "Time") {
                     x_axis_name = "Time in " + timedim;
@@ -352,12 +399,11 @@ $(function () {
                     x_axis_name = xaxis;
                 }
                 y_axis_name = yaxis;
-
                 drawChartWithoutNames(json);
             });
         } else {
             var dim_3 = $("#3d_selector option:selected").text();
-            var number_of_graphs = 0;
+            number_of_graphs = 0;
             var line_names = [];
             if (dim_3 === "Airline") {
                 number_of_graphs = airlines.length;
@@ -373,22 +419,55 @@ $(function () {
             }
             console.log(number_of_graphs);
 
+
+            //////////////////////////////////////
+            //////////////////////////////////////
+            //////////////////////////////////////
+
+
+
+
             if (number_of_graphs > 15) {
-                $( "#dialog" ).dialog({width: 500, height: 200});
+                $("#dialog").dialog({width: 500, height: 200});
+                // weggenommen: number_of_graphs = 15;
             }
+
+
+            //////////////////////////////////////
+            //////////////////////////////////////
+            //////////////////////////////////////
+
 
             var colors = ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9',
                 '#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1', '#0d233a', '#8bbc21', '#910000', '#1aadce',
-                '#492970', '#f28f43', '#77a1e5', '#c42525', '#a6c96a'];
+                '#492970', '#f28f43', '#77a1e5', '#c42525', '#a6c96a', '#434348', '#90ed7d', '#f7a35c', '#8085e9',
+                '#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1', '#0d233a', '#8bbc21', '#910000', '#434348', '#90ed7d', '#f7a35c', '#8085e9',
+                '#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1', '#0d233a', '#8bbc21', '#910000'];
+
+
+            //////////////////////////////////////
+            //////////////////////////////////////
+            //////////////////////////////////////
 
             var i = 0;
-            var limit = 0;
+            // limit = 0;
 
             while (i < number_of_graphs) {
-                if (limit >= 15) {
-                    console.log("BREAK!");
-                    break;
-                } 
+
+
+
+
+                //if (limit >= 15) {
+                //    console.log("BREAK!");
+                //    break;
+                //} 
+
+                //////////////////////////////////////
+                //////////////////////////////////////
+                //////////////////////////////////////
+
+
+
                 (function (i) { // protects i in an immediately called function
                     if (dim_3 === "Airline") {
                         var airline_separated = [];
@@ -453,17 +532,27 @@ $(function () {
                         y_axis_name = yaxis;
 
                         var color = colors.pop();
+
+
+                        //////////////////////////////////////
+                        //////////////////////////////////////
+                        //////////////////////////////////////
+
                         console.log(json);
-                        if (json.length === 0) {
-                            console.log("NULL!");
-                        } else {
-                            drawChart(json, line_names[i], color);
-                            console.log("DRAW!");
-                            
-                            limit++;
-                            console.log(limit);
-                        }
-                        
+                        //if (json.length === 0) { //wenn Rückgabe keine Daten enthält wird sie ignoriert
+                        //    console.log("NULL!");
+                        //} else {
+                        drawChart(json, line_names[i], color); //wenn Rückgabe Daten erhält wird sie nicht ignoriert und limit um eins erhöht
+                        console.log("DRAW!");
+                        //    limit++;
+                        //    console.log(limit);
+                        //}
+
+
+                        //////////////////////////////////////
+                        //////////////////////////////////////
+                        //////////////////////////////////////
+
                     });
 
                 })(i);
