@@ -68,28 +68,6 @@ public class MonthlyStatEntityController extends AbstractEntityController{
         }
     }
 
-    public void edit(MonthlyStat monthlyStat) throws NonexistentEntityException, Exception {
-        EntityManager em = getEntityManager();
-        try {
-            em.getTransaction().begin();
-            monthlyStat = em.merge(monthlyStat);
-            em.getTransaction().commit();
-        } catch (Exception ex) {
-            String msg = ex.getLocalizedMessage();
-            if (msg == null || msg.length() == 0) {
-                Integer id = monthlyStat.getMonthlyStatId();
-                if (findMonthlyStat(id) == null) {
-                    throw new NonexistentEntityException("The city with id " + id + " no longer exists.");
-                }
-            }
-            throw ex;
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
-    }
-
     public void destroy(int id) throws NonexistentEntityException {
         EntityManager em = getEntityManager();
         try {

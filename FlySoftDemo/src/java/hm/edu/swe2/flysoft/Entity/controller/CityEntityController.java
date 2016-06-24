@@ -44,28 +44,6 @@ public class CityEntityController extends AbstractEntityController {
         }
     }
 
-    public void edit(City city) throws NonexistentEntityException, Exception {
-        EntityManager em = getEntityManager();
-        try {
-            em.getTransaction().begin();
-            city = em.merge(city);
-            em.getTransaction().commit();
-        } catch (Exception ex) {
-            String msg = ex.getLocalizedMessage();
-            if (msg == null || msg.length() == 0) {
-                Integer id = city.getCityId();
-                if (findCity(id) == null) {
-                    throw new NonexistentEntityException("The city with id " + id + " no longer exists.");
-                }
-            }
-            throw ex;
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
-    }
-
     public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = getEntityManager();
         try {

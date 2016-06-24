@@ -20,7 +20,9 @@ public class MonthlystatTest {
         MonthlyStatEntityController controller = new MonthlyStatEntityController();
         // Attension, ID is an auto increment field in db.
         MonthlyStat monthlystat = new MonthlyStat(0);
+        monthlystat.setAirlineId(20409);
         MonthlyStat monthlystat2 = new MonthlyStat(1);
+        monthlystat2.setAirlineId(20355);
         int previousSize = controller.findMonthlystatEntities().size();
         controller.create(monthlystat);
         controller.create(monthlystat2);
@@ -28,6 +30,7 @@ public class MonthlystatTest {
         
         
         MonthlyStat monthlystat3 = new MonthlyStat(2);
+        monthlystat3.setAirlineId(20355);
         controller.create(monthlystat3);
         assertTrue(previousSize + 3 == controller.findMonthlystatEntities().size());
         Optional<MonthlyStat> search = controller.findMonthlyStat(monthlystat3.getMonthlyStatId());

@@ -40,10 +40,6 @@ public class Airport implements Serializable, IAirport {
     public Airport() {
     }
 
-    public Airport(String shortName) {
-        this.shortName = shortName;
-    }
-
     public Airport(String shortName, int airportId) {
         this.shortName = shortName;
         this.airportId = airportId;
@@ -88,12 +84,13 @@ public class Airport implements Serializable, IAirport {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
+        // Note: The id is irrelevant for the compare (can diver from database and csv import)
         if (!(object instanceof Airport)) {
             return false;
         }
         Airport other = (Airport) object;
-        if ((this.shortName == null && other.shortName != null) || (this.shortName != null && !this.shortName.equals(other.shortName))) {
+        if ((this.shortName == null && other.shortName != null)
+            || (this.shortName != null && !this.shortName.equals(other.shortName))) {
             return false;
         }
         return true;

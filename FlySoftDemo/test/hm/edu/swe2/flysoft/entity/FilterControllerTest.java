@@ -49,16 +49,16 @@ public class FilterControllerTest {
                }
             });
         assertTrue((int)result.get(0)[0] == 0);
-        assertTrue((long)result.get(0)[1] == 38l);
+        assertTrue((long)result.get(0)[1] == 29);
         
         assertTrue((int)result.get(6)[0] == 6);
-        assertTrue((long)result.get(6)[1] == 106l);
+        assertTrue((long)result.get(6)[1] == 72);
         
         assertTrue((int)result.get(41)[0] == 41);
-        assertTrue((long)result.get(41)[1] == 127l);
+        assertTrue((long)result.get(41)[1] == 83);
         
         assertTrue((int)result.get(51)[0] == 51);
-        assertTrue((long)result.get(51)[1] == 90l);
+        assertTrue((long)result.get(51)[1] == 71);
         
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         String json = ow.writeValueAsString(result);
