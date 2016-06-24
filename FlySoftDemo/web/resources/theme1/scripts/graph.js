@@ -8,7 +8,7 @@ $(function () {
      * Get and set the username.
      */
     document.getElementsByName("username").value;
-    document.getElementById("username").innerHTML = document.baseURI.substring(52, document.baseURI.length).replace('+', ' ');
+    document.getElementById("username").innerHTML = document.baseURI.substring(54, document.baseURI.length).replace('+', ' ');
 
     /**
      * Options for the spinner
@@ -141,7 +141,8 @@ $(function () {
 
             if (drawingLastGraph) { //last request
                 if (plotDataSize < 1) {
-                    alert("Sorry, no Data in your (3Dim) selection.");
+                    alert("Sorry, no Data in your selection.");
+                    spinner.stop();
                 }
                 lastGraphThereYet = true;
             }
@@ -396,7 +397,8 @@ $(function () {
                 resultFromServer = json;
                 var length = json.length;
                 if (length < 1) {
-                    alert("Sorry, no Data in your (2Dim) selection.");
+                    alert("Sorry, no Data in your selection.");
+                    spinner.stop();
                 }
                 //update axis-/labelnames for graph
                 if (xaxis === "Time") {

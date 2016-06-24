@@ -10,14 +10,15 @@ import javax.persistence.Query;
 
 /**
  * Build all querys, that need delay duration at the y-axis.
+ *
  * @author Philipp Chavaroche
  * @version 18.05.2016
  */
-public class DelayDurationQueryBuilder extends AbstractQueryBuilder implements IQueryBuilder{
+public class DelayDurationQueryBuilder extends AbstractQueryBuilder implements IQueryBuilder {
 
     @Override
-    public Query build(final FilterSetting settings, 
-        final EntityManager entityManager) {
+    public Query build(final FilterSetting settings,
+            final EntityManager entityManager) {
         Query query;
         String selectToken;
         String whereToken;
@@ -25,42 +26,39 @@ public class DelayDurationQueryBuilder extends AbstractQueryBuilder implements I
         final DataCategorySelector selector = new DataCategorySelector();
         selector.setEndpointsNeeded(true);
         // Check which x-axis is given
-        if(TIME.equalsIgnoreCase(settings.getXaxis())){
+        if (TIME.equalsIgnoreCase(settings.getXaxis())) {
             final String timeDim = parseTimeDimension(settings);
             selectToken = timeDim + "(FE.departuretime) as Week\n";
-            whereToken = calcWhereThirdDimToken(settings, selector) + 
-                "AND FE.departuretime BETWEEN ?1 and ?2\n";
-            groupByToken = "GROUP BY "+timeDim+"(FE.departuretime)";
-            if(SQL_FUNC_DAY_NAME.equalsIgnoreCase(timeDim)){
-                groupByToken +=
-                "\nORDER BY "+SQL_FUNC_DAY_OF_WEEK+"(FE.departuretime)";
+            whereToken = calcWhereThirdDimToken(settings, selector)
+                    + "AND FE.departuretime BETWEEN ?1 and ?2\n";
+            groupByToken = "GROUP BY " + timeDim + "(FE.departuretime)";
+            if (SQL_FUNC_DAY_NAME.equalsIgnoreCase(timeDim)) {
+                groupByToken
+                        += "\nORDER BY " + SQL_FUNC_DAY_OF_WEEK + "(FE.departuretime)";
             }
-        }
-        else if (AIRLINE.equalsIgnoreCase(settings.getXaxis())){
+        } else if (AIRLINE.equalsIgnoreCase(settings.getXaxis())) {
             selectToken = "AIR.name\n";
-            whereToken = calcWhereThirdDimToken(settings, selector) + 
-                "AND AIR.name IN " + 
-                generatePlaceholderList(settings.getAirlines().length,
-                    nextFreeParaIndex) +"\n";
+            whereToken = calcWhereThirdDimToken(settings, selector)
+                    + "AND AIR.name IN "
+                    + generatePlaceholderList(settings.getAirlines().length,
+                            nextFreeParaIndex) + "\n";
             groupByToken = "GROUP BY AIR.name";
             selector.setAirlineNeeded(true);
-        }
-        else if (DESTINATION.equalsIgnoreCase(settings.getXaxis())){
+        } else if (DESTINATION.equalsIgnoreCase(settings.getXaxis())) {
             selectToken = "DESTC.name\n";
-            whereToken = calcWhereThirdDimToken(settings, selector) + 
-                "AND DESTC.name IN " + 
-                generatePlaceholderList(settings.getDestinations().length,
-                    nextFreeParaIndex) +"\n";
+            whereToken = calcWhereThirdDimToken(settings, selector)
+                    + "AND DESTC.name IN "
+                    + generatePlaceholderList(settings.getDestinations().length,
+                            nextFreeParaIndex) + "\n";
             groupByToken = "GROUP BY DESTC.name";
             selector.setDestNeeded(true);
-        }
-        else{
+        } else {
             throw new UnsupportedOperationException("Not supported yet.");
-        }   
-        selectToken += ",SUM(FE.arrivaldelay) as SumDelay";
+        }
+        selectToken += ",AVG(FE.arrivaldelay) as AvgDelay";
         whereToken = whereToken + groupByToken;
         query = createParamizedQuery(buildBaseQuery(true, selector),
-            selectToken, whereToken, settings, entityManager);
+                selectToken, whereToken, settings, entityManager);
         return query;
     }
 

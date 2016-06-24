@@ -21,6 +21,7 @@
         <title>FlyAmerica | Statistics</title>
 
     </head>
+    <div id="backcolor">
     <body>
         <div id="content">
             <div id="header">
@@ -139,4 +140,5 @@
             </div>
         </div>	
     </body>
+    </div>
 </html>
