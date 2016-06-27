@@ -55,17 +55,6 @@ public class FlightEndPointEntityController extends AbstractEntityController {
             }
         }
     }
-
-    public Optional<IFlightEndPoints> findFlightEndpoint(Integer id) {
-        EntityManager em = getEntityManager();
-        IFlightEndPoints flight;
-        try {
-            flight = em.find(FlightEndPoint.class, id);
-        } finally {
-            em.close();
-        }
-        return Optional.ofNullable(flight);
-    }
     
     public int getFlightEndPointCount() {
         EntityManager em = getEntityManager();

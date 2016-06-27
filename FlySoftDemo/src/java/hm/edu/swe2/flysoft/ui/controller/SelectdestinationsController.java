@@ -1,7 +1,7 @@
 package hm.edu.swe2.flysoft.ui.controller;
 
 import hm.edu.swe2.flysoft.entity.controller.CityEntityController;
-import hm.edu.swe2.flysoft.entity.City;
+import hm.edu.swe2.flysoft.interfaces.ICity;
 import hm.edu.swe2.flysoft.ui.CityFilter;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -42,7 +42,7 @@ public class SelectdestinationsController {
        
        // Fill lists
        final CityEntityController cityEntityController = new CityEntityController();
-       final List<City> cities = cityEntityController.findCityEntities();
+       final List<ICity> cities = cityEntityController.findCityEntities();
        final List<String> cityNames = cities.stream()
            .map(city -> city.getName())
            .collect(Collectors.toList());

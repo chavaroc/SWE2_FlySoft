@@ -62,7 +62,7 @@ public final class GlobalSettings {
      * The size of the buffer, that is used while the ParsedFlightController
      * write on time flights into database.
      */
-    public static final int FLIGHT_INSERTION_BUFFER_SIZE = 200;
+    public static final int FLIGHT_INSERTION_BUFFER_SIZE = 50;
     
     
 

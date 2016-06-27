@@ -64,15 +64,15 @@ public class CityEntityController extends AbstractEntityController {
         }
     }
 
-    public List<City> findCityEntities() {
+    public List<ICity> findCityEntities() {
         return findCityEntities(true, -1, -1);
     }
 
-    public List<City> findCityEntities(int maxResults, int firstResult) {
+    public List<ICity> findCityEntities(int maxResults, int firstResult) {
         return findCityEntities(false, maxResults, firstResult);
     }
 
-    private List<City> findCityEntities(boolean all, int maxResults, int firstResult) {
+    private List<ICity> findCityEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
