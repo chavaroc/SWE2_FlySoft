@@ -62,6 +62,7 @@ $(function () {
     $("#dialog").hide();
     $('#3d_selector option').filter(":eq( 1 )").attr("disabled", "");
 
+    // draws a new highcharts graph, based on global variables
     $.redraw = function () {
         $('#container').highcharts({
             chart: {
@@ -100,18 +101,15 @@ $(function () {
         spinner.stop();
     };
 
-
+    // drawing graphs for filtersetting with three dimensions
     var drawChart = function (data, name, color) {
-
         currentGraphNumber++;
         console.log("currentGraphNumber: ");
         console.log(currentGraphNumber);
-
         if (currentGraphNumber === number_of_graphs) {
             drawingLastGraph = true;
             console.log("DRAWINGLASTGRAPH = TRUE wegen number_of_graphs");
         }
-
         if (!lastGraphThereYet) {
 
             if (data.length === 0) { //wenn Rückgabe keine Daten enthält wird sie ignoriert
@@ -132,13 +130,11 @@ $(function () {
 
                 console.log(limit);
             }
-
             var currentlength = data.length;
             console.log("currentlength: ");
             console.log(currentlength);
             plotDataSize += currentlength;
             console.log(plotDataSize);
-
             if (drawingLastGraph) { //last request
                 if (plotDataSize < 1) {
                     alert("Sorry, no Data in your selection.");
@@ -146,13 +142,12 @@ $(function () {
                 }
                 lastGraphThereYet = true;
             }
-
         } else {
-
             console.log("Ignored call of Draw-Function!");
         }
     };
 
+    // drawing graphs for filtersetting with two dimensions
     var drawChartWithoutNames = function (data) {
         // Add the new data to the series array
         mySeries.push({data: data});
@@ -284,6 +279,10 @@ $(function () {
         }
     });
 
+    /**
+     * Detailed Documentation: see Technical Documentation
+     * 
+     */
     $("#submit_button").click(function () {
 
         mySeries = []; //clean
