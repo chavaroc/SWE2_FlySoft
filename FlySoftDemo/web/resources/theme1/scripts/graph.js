@@ -43,16 +43,16 @@ $(function () {
     var x_axis_name = "Time";   // label of x_axis -> Default (when page has loaded at the beginning): Time
     var y_axis_name = "Frequencies";    // label of y_axis -> Default (when page has loaded at the beginning): Frequencies
     var resultFromServer;       // Received Data from Server. Data to Plot in Graph.
-    var mySeries = [];
+    var mySeries = [];          // Data, that is plotted as a graph
     var data_serie;             // Data to plot. For more detail, see Highcharts-API-Documentation   
-    var selected_3d_val;
+    var selected_3d_val;        // Selected Filter for third dimesion
 
-    var currentGraphNumber;
-    var number_of_graphs;
-    var drawingLastGraph;
-    var lastGraphThereYet;
-    var limit;
-    var plotDataSize;
+    var currentGraphNumber;     // counter, if multiple graphs should be drawn
+    var number_of_graphs;       // number, of graphs, if multiple graphs should be drawn
+    var drawingLastGraph;       // boolean, if the last graph is drawn, if multiple graphs should be drawn
+    var lastGraphThereYet;      // for limitting the number of drawn graphs
+    var limit;                  // additional counter , if multiple graphs should be drawn, counts only graphs, that actually have data
+    var plotDataSize;           // indicator if request returned data or if the result is empty
 
 
     // Hiding of filter-settings, that are not changeable at the beginning, because of the default-constellation of the axis-settings.
@@ -62,6 +62,7 @@ $(function () {
     $("#dialog").hide();
     $('#3d_selector option').filter(":eq( 1 )").attr("disabled", "");
 
+    // draws a new highcharts graph, based on global variables
     $.redraw = function () {
         $('#container').highcharts({
             chart: {
@@ -100,18 +101,15 @@ $(function () {
         spinner.stop();
     };
 
-
+    // drawing graphs for filtersetting with three dimensions
     var drawChart = function (data, name, color) {
-
         currentGraphNumber++;
         console.log("currentGraphNumber: ");
         console.log(currentGraphNumber);
-
         if (currentGraphNumber === number_of_graphs) {
             drawingLastGraph = true;
             console.log("DRAWINGLASTGRAPH = TRUE wegen number_of_graphs");
         }
-
         if (!lastGraphThereYet) {
 
             if (data.length === 0) { //wenn Rückgabe keine Daten enthält wird sie ignoriert
@@ -132,13 +130,11 @@ $(function () {
 
                 console.log(limit);
             }
-
             var currentlength = data.length;
             console.log("currentlength: ");
             console.log(currentlength);
             plotDataSize += currentlength;
             console.log(plotDataSize);
-
             if (drawingLastGraph) { //last request
                 if (plotDataSize < 1) {
                     alert("Sorry, no Data in your selection.");
@@ -146,37 +142,17 @@ $(function () {
                 }
                 lastGraphThereYet = true;
             }
-
         } else {
-
             console.log("Ignored call of Draw-Function!");
         }
     };
 
+    // drawing graphs for filtersetting with two dimensions
     var drawChartWithoutNames = function (data) {
-        // 'series' is an array of objects with keys: 
-        //     - 'name' (string)
-        //     - 'data' (array)
-//        var newSeriesData = {
-//            name: name,
-//            data: data
-//        };
-
         // Add the new data to the series array
         mySeries.push({data: data});
         $.redraw();
-        // If you want to remove old series data, you can do that here too
-
-        // Render the chart
-        //var chart = new Highcharts.Chart(options1);
     };
-
-    $.updateDataToPlot = function () {
-        //TODO Anpassen!
-        data_serie = [{data: resultFromServer}]; //something like this
-        $.redraw(); //always at the beginning with default values
-    };
-
 
     $.redraw(); //always at the beginning with default values -> crates empty graph
 
@@ -304,36 +280,9 @@ $(function () {
     });
 
     /**
-     * Is the following part needed? - Markus: 30-05-16
-     * Delete otherwise.
+     * Detailed Documentation: see Technical Documentation
+     * 
      */
-//    var options = [];
-//
-//    $('.dropdown-menu a').on('click', function (event) {
-//
-//        var $target = $(event.currentTarget),
-//                val = $target.attr('data-value'),
-//                $inp = $target.find('input'),
-//                idx;
-//
-//        if ((idx = options.indexOf(val)) > -1) {
-//            options.splice(idx, 1);
-//            setTimeout(function () {
-//                $inp.prop('checked', false)
-//            }, 0);
-//        } else {
-//            options.push(val);
-//            setTimeout(function () {
-//                $inp.prop('checked', true)
-//            }, 0);
-//        }
-//
-//        $(event.target).blur();
-//
-//        console.log(options);
-//        return false;
-//    });
-
     $("#submit_button").click(function () {
 
         mySeries = []; //clean
@@ -356,9 +305,7 @@ $(function () {
         var airlines = $('input[name="airline"]:checked').map(function () { //selected airlines
             return this.value;
         }).get();
-//        if(airlines.length === 1){
-//            escape
-//        }
+
         var weekdays = $('input[name="weekday"]:checked').map(function () { //selected weekdays
             return this.value;
         }).get();
@@ -426,24 +373,10 @@ $(function () {
             }
             console.log(number_of_graphs);
 
-
-            //////////////////////////////////////
-            //////////////////////////////////////
-            //////////////////////////////////////
-
-
-
-
             if (number_of_graphs > 15) {
                 $("#dialog").dialog({width: 500, height: 200});
                 // weggenommen: number_of_graphs = 15;
             }
-
-
-            //////////////////////////////////////
-            //////////////////////////////////////
-            //////////////////////////////////////
-
 
             var colors = ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9',
                 '#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1', '#0d233a', '#8bbc21', '#910000', '#1aadce',
@@ -451,29 +384,10 @@ $(function () {
                 '#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1', '#0d233a', '#8bbc21', '#910000', '#434348', '#90ed7d', '#f7a35c', '#8085e9',
                 '#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1', '#0d233a', '#8bbc21', '#910000'];
 
-
-            //////////////////////////////////////
-            //////////////////////////////////////
-            //////////////////////////////////////
-
             var i = 0;
             // limit = 0;
 
             while (i < number_of_graphs) {
-
-
-
-
-                //if (limit >= 15) {
-                //    console.log("BREAK!");
-                //    break;
-                //} 
-
-                //////////////////////////////////////
-                //////////////////////////////////////
-                //////////////////////////////////////
-
-
 
                 (function (i) { // protects i in an immediately called function
                     if (dim_3 === "Airline") {
@@ -540,28 +454,10 @@ $(function () {
 
                         var color = colors.pop();
 
-
-                        //////////////////////////////////////
-                        //////////////////////////////////////
-                        //////////////////////////////////////
-
                         console.log(json);
-                        //if (json.length === 0) { //wenn Rückgabe keine Daten enthält wird sie ignoriert
-                        //    console.log("NULL!");
-                        //} else {
                         drawChart(json, line_names[i], color); //wenn Rückgabe Daten erhält wird sie nicht ignoriert und limit um eins erhöht
                         console.log("DRAW!");
-                        //    limit++;
-                        //    console.log(limit);
-                        //}
-
-
-                        //////////////////////////////////////
-                        //////////////////////////////////////
-                        //////////////////////////////////////
-
                     });
-
                 })(i);
                 i++;
             }
