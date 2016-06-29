@@ -43,28 +43,6 @@ public class AirlineEntityController extends AbstractEntityController {
         }
     }
 
-    public void edit(IAirline airline) throws NonexistentEntityException, Exception {
-        EntityManager em = getEntityManager();
-        try {
-            em.getTransaction().begin();
-            airline = em.merge(airline);
-            em.getTransaction().commit();
-        } catch (Exception ex) {
-            String msg = ex.getLocalizedMessage();
-            if (msg == null || msg.length() == 0) {
-                Integer id = airline.getAirlineId();
-                if (findAirline(id) == null) {
-                    throw new NonexistentEntityException("The city with id " + id + " no longer exists.");
-                }
-            }
-            throw ex;
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
-    }
-
     public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = getEntityManager();
         try {

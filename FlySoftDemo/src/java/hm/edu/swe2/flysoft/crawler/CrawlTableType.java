@@ -7,6 +7,5 @@ package hm.edu.swe2.flysoft.crawler;
  */
 public enum CrawlTableType {
     OnTime,
-    T100SegmentDomestic,
     T100MarketDomestic
 }

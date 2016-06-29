@@ -64,8 +64,7 @@ public class FileCrawler {
      */
     public static void main(String[] args) throws URISyntaxException {
         FileCrawler crawler = new FileCrawler(
-                EnumSet.of(CrawlTableType.OnTime, CrawlTableType.T100MarketDomestic, CrawlTableType.T100SegmentDomestic
-                ));
+                EnumSet.of(CrawlTableType.OnTime, CrawlTableType.T100MarketDomestic));
         crawler.crawl();
     }
 
@@ -97,10 +96,6 @@ public class FileCrawler {
         if (tableTypesTocrawl.contains(CrawlTableType.T100MarketDomestic)) {
             String marketDataRequest = readConfig(0, 43);
             doRequestAndDownload(marketDataRequest);
-        }
-        if (tableTypesTocrawl.contains(CrawlTableType.T100SegmentDomestic)) {
-            String segmentDataRequest = readConfig(147, 196);
-            doRequestAndDownload(segmentDataRequest);
         }
         System.out.println("Crawled files:");
         crawledFileNames.stream()
@@ -238,10 +233,18 @@ public class FileCrawler {
 
             downloadZipFile(fileName);
             unzipFile(fileName);
+            //deleteZipFile(fileName);
 
         } catch (IOException ex) {
             Logger.getLogger(FileCrawler.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    private void deleteZipFile(final String fileName){
+        String downloadPath = projectDirectory + SEPARATOR + CRAWLER_DOWNLOAD_DIR;
+        File fileToDelete = new File(downloadPath + fileName);
+        fileToDelete.setWritable(true);
+        fileToDelete.delete();
     }
 
     private String getProjectDirectory() throws URISyntaxException {
@@ -264,7 +267,6 @@ public class FileCrawler {
 
         ZipInputStream zis = new ZipInputStream(new FileInputStream(downloadPath + fileName));
         ZipEntry entry = zis.getNextEntry();
-
         byte[] buffer = new byte[1024];
 
         String unzippedfileName = entry.getName();
@@ -278,6 +280,6 @@ public class FileCrawler {
             while ((length = zis.read(buffer)) > 0) {
                 fos.write(buffer, 0, length);
             }
-        }
+        }   
     }
 }

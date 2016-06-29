@@ -1,9 +1,6 @@
 package hm.edu.swe2.flysoft.entity.controller;
 
-import hm.edu.swe2.flysoft.Entity.FlightIntoDB;
-import hm.edu.swe2.flysoft.entity.Flight;
 import hm.edu.swe2.flysoft.interfaces.IFlight;
-import hm.edu.swe2.flysoft.interfaces.IFlightEndPoints;
 import hm.edu.swe2.flysoft.parser.model.ParsedFlight;
 import static hm.edu.swe2.flysoft.util.GlobalSettings.DB_PROD_DELETE_FLIGHTS;
 import static hm.edu.swe2.flysoft.util.GlobalSettings.FLIGHT_INSERTION_BUFFER_SIZE;
@@ -11,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import java.util.List;
-import static java.util.Locale.filter;
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.StoredProcedureQuery;

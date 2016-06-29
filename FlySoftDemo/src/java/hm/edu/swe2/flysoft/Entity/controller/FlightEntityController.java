@@ -1,22 +1,15 @@
 package hm.edu.swe2.flysoft.entity.controller;
 
-import hm.edu.swe2.flysoft.Entity.FlightIntoDB;
-import hm.edu.swe2.flysoft.entity.City;
 import hm.edu.swe2.flysoft.entity.exceptions.NonexistentEntityException;
 import hm.edu.swe2.flysoft.entity.Flight;
 import hm.edu.swe2.flysoft.interfaces.IFlight;
-import hm.edu.swe2.flysoft.interfaces.IFlightEndPoints;
-import hm.edu.swe2.flysoft.parser.model.ParsedFlight;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import org.eclipse.persistence.jpa.jpql.tools.model.IListChangeEvent;
 
 /**
  * Represents the flight entity controller to handle flights in the database.

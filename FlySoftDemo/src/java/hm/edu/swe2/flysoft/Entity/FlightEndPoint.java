@@ -71,18 +71,6 @@ public class FlightEndPoint implements IFlightEndPoints, Serializable {
     public FlightEndPoint() {
     }
 
-    public FlightEndPoint(Integer flightEndPointId) {
-        this.flightEndPointId = flightEndPointId;
-    }
-
-    public FlightEndPoint(Integer flightEndPointId, Date departureTime, double departureDelay, Date arrivalTime, double arrivalDelay) {
-        this.flightEndPointId = flightEndPointId;
-        this.departureTime = departureTime;
-        this.departureDelay = departureDelay;
-        this.arrivalTime = arrivalTime;
-        this.arrivalDelay = arrivalDelay;
-    }
-
     @Override
     public Integer getFlightEndPointId() {
         return flightEndPointId;

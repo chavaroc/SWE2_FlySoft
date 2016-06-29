@@ -1,15 +1,8 @@
 package hm.edu.swe2.flysoft.parser;
 
-import hm.edu.swe2.flysoft.entity.Airline;
-import hm.edu.swe2.flysoft.parser.mappings.AbstractMapTable;
-import hm.edu.swe2.flysoft.parser.mappings.AirlineLookUpMapTable;
 import hm.edu.swe2.flysoft.parser.model.ParsedFlight;
-import hm.edu.swe2.flysoft.util.GlobalSettings;
-import java.io.File;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * This class preparing flight objects

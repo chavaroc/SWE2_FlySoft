@@ -41,10 +41,6 @@ public class Airline implements Serializable, IAirline {
     public Airline() {
     }
 
-    public Airline(Integer airlineId) {
-        this.airlineId = airlineId;
-    }
-
     public Airline(Integer airlineId, String name, String shortName) {
         this.airlineId = airlineId;
         this.name = name;

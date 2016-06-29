@@ -44,28 +44,6 @@ public class CityEntityController extends AbstractEntityController {
         }
     }
 
-    public void edit(City city) throws NonexistentEntityException, Exception {
-        EntityManager em = getEntityManager();
-        try {
-            em.getTransaction().begin();
-            city = em.merge(city);
-            em.getTransaction().commit();
-        } catch (Exception ex) {
-            String msg = ex.getLocalizedMessage();
-            if (msg == null || msg.length() == 0) {
-                Integer id = city.getCityId();
-                if (findCity(id) == null) {
-                    throw new NonexistentEntityException("The city with id " + id + " no longer exists.");
-                }
-            }
-            throw ex;
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
-    }
-
     public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = getEntityManager();
         try {
@@ -86,15 +64,15 @@ public class CityEntityController extends AbstractEntityController {
         }
     }
 
-    public List<City> findCityEntities() {
+    public List<ICity> findCityEntities() {
         return findCityEntities(true, -1, -1);
     }
 
-    public List<City> findCityEntities(int maxResults, int firstResult) {
+    public List<ICity> findCityEntities(int maxResults, int firstResult) {
         return findCityEntities(false, maxResults, firstResult);
     }
 
-    private List<City> findCityEntities(boolean all, int maxResults, int firstResult) {
+    private List<ICity> findCityEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();

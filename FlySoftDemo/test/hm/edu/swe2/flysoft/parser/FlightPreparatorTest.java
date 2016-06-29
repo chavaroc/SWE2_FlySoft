@@ -102,6 +102,33 @@ public class FlightPreparatorTest {
         
         // Check if calculation is correct
         assertEquals("Airline name was not found",
-            "United Air Lines Inc.: UA", testFlight.getAirlineName());
+            "United Air Lines Inc.", testFlight.getAirlineName());
+    }
+    
+    /**
+     * Test if the preparator find the given airline id.
+     * Expand test to solve airline name cutting (only use name till ":" and "d/b/a"
+     * @throws ParseException 
+     */
+    @Test
+    public void TestSolveAirlineName2() throws ParseException{
+        FlightOnTimePreparator prep = new FlightOnTimePreparator();
+        // Create a dummy flight
+        ParsedFlight testFlight = new ParsedFlight();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        DateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.US);
+        testFlight.setFlightDate(dateFormat.parse("2015-06-15"));
+        testFlight.setDepartureTime(2300);
+        testFlight.setArrivalTime(100);
+        testFlight.setAirlineId(19533);
+        
+        assertNull("Airline it set but shoudnt", testFlight.getAirlineName());
+        
+        // Calc DepartureDateTime and ArrivalDateTime
+        testFlight = prep.prepare(testFlight);
+        
+        // Check if calculation is correct
+        assertEquals("Airline name was not found or name is cut false",
+            "National Aviation Company of India Limited", testFlight.getAirlineName());
     }
 }

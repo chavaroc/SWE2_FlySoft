@@ -59,12 +59,22 @@ public class AbstractFlightPrepartor {
     }
     
     /**
-     * Cut the given airline name at ":" and return the first part.
+     * Cut the given airline name at ":" and also " d/b/a".
+     * Only first part is relevant.
      * @param airlineName The airline name in syntax <name>:<state short name>
-     * @return The first part of the airline name till ":".
+     * @return The first part of the airline name till ":" or " d/b/a".
      */
     private String cutAirlineName(String airlineName){
-        if(airlineName.contains(":")){
+        // if the name contains " d/b/a", it stands always before the ":".
+        // In that case, we have not to check ":".
+        if(airlineName.contains(" d/b/a"))
+        {
+            String[] airlineNameTokens = airlineName.split(" d/b/a");
+            if(airlineNameTokens.length > 0){
+                airlineName = airlineNameTokens[0];
+            }
+        }
+        else if(airlineName.contains(":")){
             String[] airlineNameTokens = airlineName.split(":");
             if(airlineNameTokens.length > 0){
                 airlineName = airlineNameTokens[0];

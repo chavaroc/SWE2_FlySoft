@@ -43,29 +43,6 @@ public class AirportEntityController extends AbstractEntityController {
         }
     }
     
-    public void edit(IAirport airport) throws NonexistentEntityException, Exception {
-        EntityManager em = getEntityManager();
-        try {
-            em.getTransaction().begin();
-            airport = em.merge(airport);
-            em.getTransaction().commit();
-        } catch (Exception ex) {
-            String msg = ex.getLocalizedMessage();
-            if (msg == null || msg.length() == 0) {
-                String shortname = airport.getShortName();
-                if (findAirport(shortname) == null) {
-                    throw new NonexistentEntityException("The Airport with the shortname " 
-                            + shortname + " no longer exists.");
-                }
-            }
-            throw ex;
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }   
-    }
-    
     public void destroy(final String shortname) throws NonexistentEntityException {
         EntityManager em = getEntityManager();
         try {
@@ -97,12 +74,12 @@ public class AirportEntityController extends AbstractEntityController {
         return Optional.ofNullable(searchedAirport);
     } 
     
-    public List<IAirport> findAirlineEntities() {
-        return findAirportEntities(true, -1, -1);
+    public List<IAirport> findAirportEntities() {
+        return AirportEntityController.this.findAirportEntities(true, -1, -1);
     }
 
-    public List<IAirport> findAirlineEntities(int maxResults, int firstResult) {
-        return findAirportEntities(false, maxResults, firstResult);
+    public List<IAirport> findAirportEntities(int maxResults, int firstResult) {
+        return AirportEntityController.this.findAirportEntities(false, maxResults, firstResult);
     }
 
     private List<IAirport> findAirportEntities(boolean all, int maxResults, int firstResult) {

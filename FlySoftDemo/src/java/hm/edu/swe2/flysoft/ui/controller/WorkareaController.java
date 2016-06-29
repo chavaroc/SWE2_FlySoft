@@ -1,18 +1,17 @@
 package hm.edu.swe2.flysoft.ui.controller;
 
-import hm.edu.swe2.flysoft.entity.City;
 import hm.edu.swe2.flysoft.entity.controller.AirlineEntityController;
 import hm.edu.swe2.flysoft.entity.controller.CityEntityController;
 import hm.edu.swe2.flysoft.ui.FilterSetting;
 import hm.edu.swe2.flysoft.entity.controller.QueryController;
 import hm.edu.swe2.flysoft.interfaces.IAirline;
+import hm.edu.swe2.flysoft.interfaces.ICity;
 import hm.edu.swe2.flysoft.ui.CityFilter;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -47,10 +46,10 @@ public class WorkareaController {
         model.addAttribute("settingForm", setting);
 
         // Fill lists
-        model.addAttribute("xaxisList", DummyData.getXAxisOptions());
-        model.addAttribute("yaxisList", DummyData.getYAxisOptions());
-        model.addAttribute("thirdDimensionList", DummyData.getThirdDimensionOptions());
-        model.addAttribute("timeDimensionList", DummyData.getTimeDimensionOptions());
+        model.addAttribute("xaxisList", UiDataSelection.getXAxisOptions());
+        model.addAttribute("yaxisList", UiDataSelection.getYAxisOptions());
+        model.addAttribute("thirdDimensionList", UiDataSelection.getThirdDimensionOptions());
+        model.addAttribute("timeDimensionList", UiDataSelection.getTimeDimensionOptions());
 
         model.addAttribute("airlineForm", setting);
         List<String> airlineNames = new ArrayList<>();
@@ -72,10 +71,10 @@ public class WorkareaController {
 
         // Fill lists
         final CityEntityController cityEntityController = new CityEntityController();
-        final List<City> cities = cityEntityController.findCityEntities();
+        final List<ICity> cities = cityEntityController.findCityEntities();
 
-        Collections.sort(cities, (Object arg0, Object arg1) -> ((City) arg0)
-                .getName().compareTo(((City) arg1).getName()));
+        Collections.sort(cities, (Object arg0, Object arg1) -> ((ICity) arg0)
+                .getName().compareTo(((ICity) arg1).getName()));
 
         final List<String> cityNames = cities.stream()
                 .map(city -> city.getName())
