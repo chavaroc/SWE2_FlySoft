@@ -60,6 +60,7 @@
                 </form:form>
             </div>
             <div class="right">
+                    <!-- removed buttons, because functionality has not been implemented so far -->
 <!--                <button name="save_setting_button" onclick="myFunction()" type="submit" style="margin-top: 145px">Save setting</button>
                 <button name="load_setting_button" type="submit">Load setting</button>
                 <button name="export_button" type="submit">Export to PDF</button>-->
@@ -117,6 +118,7 @@
 
                     <br>
                    
+                   <!-- removed this, because functionality has not been implemented so far -->
                    <!-- <form:form id="weekday_selector">
                         <fieldset>
                             <legend>Weekdays</legend>
