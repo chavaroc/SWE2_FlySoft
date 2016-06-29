@@ -61,9 +61,9 @@
                 </form:form>
             </div>
             <div class="right">
-                <button name="save_setting_button" onclick="myFunction()" type="submit" style="margin-top: 145px">Save setting</button>
+<!--                <button name="save_setting_button" onclick="myFunction()" type="submit" style="margin-top: 145px">Save setting</button>
                 <button name="load_setting_button" type="submit">Load setting</button>
-                <button name="export_button" type="submit">Export to PDF</button>
+                <button name="export_button" type="submit">Export to PDF</button>-->
             </div>
 
             <div class="center">
