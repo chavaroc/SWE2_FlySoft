@@ -10,13 +10,13 @@
     <head>
 
         <link href='<c:url value="/resources/styles/flyAmerica.css" />' rel="stylesheet">
+        <link href='<c:url value="/resources/styles/jquery-ui.css" />' rel="stylesheet">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <script src='<c:url value="/resources/scripts/jquery-1.12.3.js" />'></script>
         <script src='<c:url value="/resources/scripts/highcharts.js" />'></script>
         <script src='<c:url value="/resources/scripts/graph.js" />'></script>
         <script src='<c:url value="/resources/scripts/spin.min.js" />'></script>
-        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+        <script src='<c:url value="/resources/scripts/jquery-ui.js" />'></script>
         
         <title>FlyAmerica | Statistics</title>
 

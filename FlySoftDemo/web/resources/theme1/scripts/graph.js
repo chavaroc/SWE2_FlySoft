@@ -385,7 +385,6 @@ $(function () {
                 '#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1', '#0d233a', '#8bbc21', '#910000'];
 
             var i = 0;
-            // limit = 0;
 
             while (i < number_of_graphs) {
 
