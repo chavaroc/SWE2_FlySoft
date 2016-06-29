@@ -25,7 +25,7 @@ public class FileCrawlerTest {
         }
     }*/
     
-    @Test
+    /*@Test
     public void TestCrawlMarketTable() throws URISyntaxException{
         FileCrawler crawler = new FileCrawler(
         EnumSet.of(CrawlTableType.T100MarketDomestic));
@@ -35,18 +35,18 @@ public class FileCrawlerTest {
         for(String fileName : crawler.getCrawledFileNames()){
             new File(fileName).delete();
         }
-    }
+    }*/
     
-    /*@Test
+    @Test
     public void TestCrawlMarketAndOnTimeTable() throws URISyntaxException{
         FileCrawler crawler = new FileCrawler(
-        EnumSet.of(CrawlTableType.T100MarketDomestic, CrawlTableType.OnTime));
+        EnumSet.of(CrawlTableType.OnTime, CrawlTableType.T100MarketDomestic));
         assertTrue("There should be no file names before called 'crawl'", crawler.getCrawledFileNames().size() == 0);
         crawler.crawl();
         assertTrue("There should be one file name after called 'crawl'", crawler.getCrawledFileNames().size() == 2);
         for(String fileName : crawler.getCrawledFileNames()){
             new File(fileName).delete();
         }
-    }*/
+    }
     
 }

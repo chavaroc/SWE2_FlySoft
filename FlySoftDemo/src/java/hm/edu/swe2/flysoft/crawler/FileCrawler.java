@@ -233,7 +233,7 @@ public class FileCrawler {
 
             downloadZipFile(fileName);
             unzipFile(fileName);
-            deleteZipFile(fileName);
+            //deleteZipFile(fileName);
 
         } catch (IOException ex) {
             Logger.getLogger(FileCrawler.class.getName()).log(Level.SEVERE, null, ex);

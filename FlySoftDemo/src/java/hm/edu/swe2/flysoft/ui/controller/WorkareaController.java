@@ -46,10 +46,10 @@ public class WorkareaController {
         model.addAttribute("settingForm", setting);
 
         // Fill lists
-        model.addAttribute("xaxisList", DummyData.getXAxisOptions());
-        model.addAttribute("yaxisList", DummyData.getYAxisOptions());
-        model.addAttribute("thirdDimensionList", DummyData.getThirdDimensionOptions());
-        model.addAttribute("timeDimensionList", DummyData.getTimeDimensionOptions());
+        model.addAttribute("xaxisList", UiDataSelection.getXAxisOptions());
+        model.addAttribute("yaxisList", UiDataSelection.getYAxisOptions());
+        model.addAttribute("thirdDimensionList", UiDataSelection.getThirdDimensionOptions());
+        model.addAttribute("timeDimensionList", UiDataSelection.getTimeDimensionOptions());
 
         model.addAttribute("airlineForm", setting);
         List<String> airlineNames = new ArrayList<>();

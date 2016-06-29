@@ -37,10 +37,6 @@ public class City implements Serializable, ICity {
     public City() {
     }
 
-    public City(Integer cityId) {
-        this.cityId = cityId;
-    }
-
     public City(Integer cityId, String name) {
         this.cityId = cityId;
         this.name = name;

@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
- *
+ * 
  * @author Philipp Chavaroche
- * @version 
+ * @version 11.05.2016
  */
 @Controller
 public class SettingController {
@@ -24,8 +24,8 @@ public class SettingController {
        model.addAttribute("settingForm", setting);
        
        // Fill lists
-       model.addAttribute("xaxisList", DummyData.getXAxisOptions());
-       model.addAttribute("yaxisList", DummyData.getYAxisOptions());
+       model.addAttribute("xaxisList", UiDataSelection.getXAxisOptions());
+       model.addAttribute("yaxisList", UiDataSelection.getYAxisOptions());
        return "setting"; // we load the wep page "setting.jsp"
    }
    

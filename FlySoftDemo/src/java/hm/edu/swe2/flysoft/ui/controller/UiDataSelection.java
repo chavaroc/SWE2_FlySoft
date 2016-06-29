@@ -1,19 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package hm.edu.swe2.flysoft.ui.controller;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Provides data that can be selected in the ui.
  * @author Philipp Chavaroche
- * @version
+ * @version 11.05.2016
  */
-public class DummyData {
+public class UiDataSelection {
 
     private static List<String> xAxisOptions = new ArrayList<String>();
     private static List<String> yAxisOptions = new ArrayList<String>();
