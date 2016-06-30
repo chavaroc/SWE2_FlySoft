@@ -12,12 +12,8 @@ body{
     background-color: white;
 }
 
-.imagetest{
-    background: url('/resources/imgs/wendelstein3.jpg') no-repeat center center fixed; 
-}
-
 html { 
-  background: url('/resources/imgs/wendelstein3.jpg') no-repeat center center fixed; 
+  background: no-repeat center center fixed; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;

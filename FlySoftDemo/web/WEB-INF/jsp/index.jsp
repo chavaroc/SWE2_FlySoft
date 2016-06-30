@@ -4,7 +4,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
     "http://www.w3.org/TR/html4/loose.dtd">
 
-<html id="imagetest">
+<html style="background-image: url('<c:url value="/resources/imgs/wendelstein3.jpg" />');">
     <head>
         <link href='<c:url value="/resources/styles/flyAmerica.css" />' rel="stylesheet">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -17,11 +17,11 @@
                 <img src='<c:url value="/resources/imgs/flyAmerica_logo.PNG" />' alt="FlyAmerica-Logo">
             </div>
             <br>
-            <div>Welcome FlyAmerica analiyzer!</div>
+            <div><b>Welcome FlyAmerica analiyzer!</b></div>
             <br>
             <form action="workarea">
                 <fieldset>
-                    <legend>Please enter your username:</legend>
+                    <legend><b>Please enter your username:</b></legend>
                     <input name="username" type="text"  value="e.g.: John Smith">
                 </fieldset>
                 <br/>
