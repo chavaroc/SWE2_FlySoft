@@ -6,8 +6,7 @@ import java.util.Scanner;
 
 /**
  * Starts the the CSV Parser and writes the information to the Database
- *
- * @author Zwen
+ * @author Sven Schulz
  */
 public class StartIntoDb {
 
@@ -17,6 +16,7 @@ public class StartIntoDb {
     private List<String> intoOnTime;
 
     /**
+     * Opens the classes which are writing into the databases.
      * @param path - Is the path from the folder where all csv are.
      */
     public StartIntoDb(final String path) {

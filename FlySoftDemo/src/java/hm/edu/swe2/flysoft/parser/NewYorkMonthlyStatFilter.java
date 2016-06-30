@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- *
- * @author Zwen
+ * Looks after New York airports.
+ * @author Sven Schulz
  */
 public class NewYorkMonthlyStatFilter {
     private static final List<String> newYorkAirportSN = new ArrayList<>();

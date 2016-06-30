@@ -13,7 +13,7 @@ import javax.persistence.criteria.CriteriaQuery;
 
 /**
  * Represents the monthly stat entity controller to handle monthly statitics in the database.
- * @author Zwen
+ * @author Sven Schulz
  * @version 02.6.16
  */
 public class MonthlyStatEntityController extends AbstractEntityController{
@@ -23,6 +23,9 @@ public class MonthlyStatEntityController extends AbstractEntityController{
     private AirportEntityController airportController;
     private CityEntityController cityController;
     
+    /**
+     * Declaries the needed atributts
+     */
     public MonthlyStatEntityController(){
         super();
        monthlystatsList = new ArrayList<>();
@@ -40,6 +43,10 @@ public class MonthlyStatEntityController extends AbstractEntityController{
        }
     }
     
+    /**
+     * Creates a new entry in the database if it not exists
+     * @param newMonthlyStat - new entry
+     */
     public void createIfNotExist(MonthlyStat newMonthlyStat){
         Optional<MonthlyStat> optExistingAirline = findMonthlyStat
         (newMonthlyStat.getMonthlyStatId());
@@ -52,6 +59,10 @@ public class MonthlyStatEntityController extends AbstractEntityController{
         }
     }
 
+    /**
+     * Creates a new entry in the database
+     * @param monthlyStat - new entry
+     */
     public void create(MonthlyStat monthlyStat) {
         airlineController.createIfNotExist(new Airline(monthlyStat.getAirlineId()
                 ,monthlyStat.getCarrierName(),monthlyStat.getCarrierNameShort()));
@@ -68,6 +79,11 @@ public class MonthlyStatEntityController extends AbstractEntityController{
         }
     }
 
+    /**
+     * Delets the entry from the database.
+     * @param id - id of the entry
+     * @throws NonexistentEntityException - if not found
+     */
     public void destroy(int id) throws NonexistentEntityException {
         EntityManager em = getEntityManager();
         try {
@@ -88,14 +104,29 @@ public class MonthlyStatEntityController extends AbstractEntityController{
         }
     }
 
+    
+    /**
+     * Finds all entrys in the database.
+     * @return List of entrys
+     */
     public List<MonthlyStat> findMonthlystatEntities() {
         return MonthlyStatEntityController.this.findMonthlystatEntities(true, -1, -1);
     }
 
+    
+    /**
+     * Finds all entrys in the database.
+     * @return List of entrys
+     */
     public List<MonthlyStat> findMonthlystatEntities(int maxResults, int firstResult) {
         return MonthlyStatEntityController.this.findMonthlystatEntities(false, maxResults, firstResult);
     }
 
+    /**
+     * Finds all entrys in the database.
+     * @param all - if true looks after all entrys
+     * @return List of entrys
+     */
     private List<MonthlyStat> findMonthlystatEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
@@ -112,6 +143,11 @@ public class MonthlyStatEntityController extends AbstractEntityController{
         }
     }
 
+    /**
+     * Looks after the entry in the database.
+     * @param id - id of the entry
+     * @return the matching entry
+     */
     public Optional<MonthlyStat> findMonthlyStat(Integer id) {
         EntityManager em = getEntityManager();
         MonthlyStat searchedAirline;

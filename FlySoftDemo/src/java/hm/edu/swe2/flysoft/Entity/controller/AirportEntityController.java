@@ -12,7 +12,7 @@ import javax.persistence.criteria.CriteriaQuery;
 
 /**
  * Represents the airport entity controller to handle airports in the database.
- * @author Zwen
+ * @author Sven Schulz
  * @version 02.6.16
  */
 public class AirportEntityController extends AbstractEntityController {
@@ -21,6 +21,11 @@ public class AirportEntityController extends AbstractEntityController {
         super();
     }
     
+    /**
+     * Looks after this airport in the database. If it not exists, it would be
+     * written in the database.
+     * @param airport - new Airport.
+     */
     public void createIfNotExist(final IAirport airport){
         Optional<IAirport> optExistingAirline = findAirport(airport.getShortName());
         if(!optExistingAirline.isPresent()){
@@ -29,6 +34,10 @@ public class AirportEntityController extends AbstractEntityController {
         }
     }
     
+    /**
+     * Creates a new entry in the database.
+     * @param airport - new Airport
+     */
     public void create(final IAirport airport){
         EntityManager em = getEntityManager();
         try {
@@ -43,6 +52,11 @@ public class AirportEntityController extends AbstractEntityController {
         }
     }
     
+    /**
+     * Delets the entry from the database.
+     * @param shortname  - shortname of the airport
+     * @throws NonexistentEntityException - if no matching airport.
+     */
     public void destroy(final String shortname) throws NonexistentEntityException {
         EntityManager em = getEntityManager();
         try {
@@ -63,6 +77,11 @@ public class AirportEntityController extends AbstractEntityController {
         }
     }
     
+    /**
+     * Searches after the aiport in the database.
+     * @param shortname - shortname of the airport.
+     * @return the matching airport
+     */
     public Optional<IAirport> findAirport(final String shortname){
         EntityManager em = getEntityManager();
         IAirport searchedAirport;
@@ -74,14 +93,25 @@ public class AirportEntityController extends AbstractEntityController {
         return Optional.ofNullable(searchedAirport);
     } 
     
+    /**
+     * Looks after all airports.
+     * @return List of all Airports
+     */
     public List<IAirport> findAirportEntities() {
         return AirportEntityController.this.findAirportEntities(true, -1, -1);
     }
 
+    /**
+     * Looks after all airports.
+     * @return List of all Airports
+     */
     public List<IAirport> findAirportEntities(int maxResults, int firstResult) {
         return AirportEntityController.this.findAirportEntities(false, maxResults, firstResult);
     }
-
+     /**
+     * Looks after all airports.
+     * @return List of all Airports
+     */
     private List<IAirport> findAirportEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {

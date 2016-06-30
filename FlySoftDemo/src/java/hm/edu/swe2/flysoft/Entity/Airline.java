@@ -91,7 +91,9 @@ public class Airline implements Serializable, IAirline {
             return false;
         }
         Airline other = (Airline) object;
-        if ((this.airlineId == null && other.airlineId != null) || (this.airlineId != null && !this.airlineId.equals(other.airlineId))) {
+        if ((this.airlineId == null && other.airlineId != null) 
+                || (this.airlineId != null 
+                && !this.airlineId.equals(other.airlineId))) {
             return false;
         }
         return true;

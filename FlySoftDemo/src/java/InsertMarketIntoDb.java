@@ -6,24 +6,21 @@ import hm.edu.swe2.flysoft.parser.FlightMarketPrepartor;
 import hm.edu.swe2.flysoft.parser.NewYorkMonthlyStatFilter;
 import hm.edu.swe2.flysoft.parser.mappings.AbstractMapTable;
 import hm.edu.swe2.flysoft.parser.mappings.MarketDomesticMapTable;
-import hm.edu.swe2.flysoft.util.GlobalSettings;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 /**
- *
- * @author Zwen
+ * Writes all needed informations in the database.
+ * @author Sven Schulz
  */
 public class InsertMarketIntoDb {
 
     private List<String> fileList;
 
+    /**
+     * Declares the needed variabels and starts the method writeIntoDb
+     * @param fileList - List of all market csv.
+     */
     public InsertMarketIntoDb(List<String> fileList) {
         this.fileList = fileList;
         try {
@@ -32,6 +29,11 @@ public class InsertMarketIntoDb {
         }
     }
 
+    /**
+     * Starts the csv parser, looks after needed Informations and write
+     * them into the Database.
+     * @throws Exception - failure by writing in the Database
+     */
     private void writeIntoDB() throws Exception {
         File marketTableFile;
         for (String filePath : fileList) {
@@ -67,55 +69,4 @@ public class InsertMarketIntoDb {
             System.out.println("Insertion to database finished.");
         }
     }
-    /**
-     * public static void main(String[] args) throws Exception { File
-     * marketTableFile; List<String> fileList = new ArrayList<String>(); String
-     * parentDir = GlobalSettings.CRAWLER_DOWNLOAD_DIR; /*fileList.add(parentDir
-     * + "2015_02_T_ONTIME.csv"); fileList.add(parentDir +
-     * "2015_03_T_ONTIME.csv"); fileList.add(parentDir +
-     * "2015_04_T_ONTIME.csv"); fileList.add(parentDir +
-     * "2015_05_T_ONTIME.csv"); fileList.add(parentDir +
-     * "2015_06_T_ONTIME.csv"); fileList.add(parentDir +
-     * "2015_07_T_ONTIME.csv"); fileList.add(parentDir +
-     * "2015_08_T_ONTIME.csv"); fileList.add(parentDir +
-     * "2015_09_T_ONTIME.csv"); fileList.add(parentDir +
-     * "2015_10_T_ONTIME.csv"); fileList.add(parentDir +
-     * "2015_11_T_ONTIME.csv"); fileList.add(parentDir +
-     * "2015_12_T_ONTIME.csv"); fileList.add(parentDir+
-     * "859627970_T_T100D_MARKET_ALL_CARRIER.csv");
-     *
-     * /** FileCrawler crawler = new FileCrawler(
-     * EnumSet.of(CrawlTableType.T100MarketDomestic)); crawler.crawl();
-        fileList.addAll(crawler.getCrawledFileNames());
-     */
-    /**
-     * for(String filePath : fileList){ File f = new File(filePath);
-     * if(!f.exists()){ System.out.println("Skipped file '"+filePath+"' because
-     * it does not exist"); continue; } System.out.println("Parse file
-     * '"+filePath+"'");
-     *
-     * marketTableFile = new File(filePath); AbstractMapTable config =
-     * MarketDomesticMapTable.getInstance(); CsvParser<MonthlyStat> parser = new
-     * CsvParser<>(marketTableFile.getAbsolutePath(), config, ',',
-     * MonthlyStat.class);
-     *
-     * System.out.println("Start parsing..."); List<MonthlyStat> parsedStats =
-     * parser.parse(); System.out.println(parsedStats.size() + " flights
-     * parsed.");
-     *
-     * System.out.println("Start filtering..."); NewYorkMonthlyStatFilter
-     * newYorkFilter = new NewYorkMonthlyStatFilter(); parsedStats =
-     * newYorkFilter.filter(parsedStats); System.out.println("Filtering finished
-     * ("+parsedStats.size() +" flights left).");
-     *
-     * FlightMarketPrepartor marketPrepartor = new FlightMarketPrepartor();
-     * marketPrepartor.prepareAll(parsedStats);
-     *
-     * System.out.println("Start adding to database...");
-     * MonthlyStatEntityController controller = new
-     * MonthlyStatEntityController(); for(int i = 0; i < parsedStats.size();
-     * i++){ controller.create(parsedStats.get(i)); }
-     * System.out.println("Insertion to database finished.");
-        }
-     */
 }

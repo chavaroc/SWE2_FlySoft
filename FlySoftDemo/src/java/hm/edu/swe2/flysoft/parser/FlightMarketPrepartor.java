@@ -4,8 +4,7 @@ import hm.edu.swe2.flysoft.entity.MonthlyStat;
 import java.util.List;
 
 /**
- *
- * @author Zwen
+ * @author Sven Schulz
  */
 public class FlightMarketPrepartor extends AbstractFlightPrepartor{
     
