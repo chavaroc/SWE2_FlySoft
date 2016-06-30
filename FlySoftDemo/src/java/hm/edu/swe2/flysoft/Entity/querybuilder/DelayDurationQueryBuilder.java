@@ -1,9 +1,7 @@
 package hm.edu.swe2.flysoft.entity.querybuilder;
 
-import static hm.edu.swe2.flysoft.entity.querybuilder.AbstractQueryBuilder.SQL_FUNC_DAY_NAME;
 import hm.edu.swe2.flysoft.interfaces.IQueryBuilder;
 import hm.edu.swe2.flysoft.ui.FilterSetting;
-import hm.edu.swe2.flysoft.util.GlobalSettings;
 import static hm.edu.swe2.flysoft.util.GlobalSettings.*;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;

@@ -1,6 +1,7 @@
 
 package hm.edu.swe2.flysoft.ui.controller;
 
+import hm.edu.swe2.flysoft.util.GlobalSettings;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,11 +38,11 @@ public class UiDataSelection {
 
     public static List<String> getTimeDimensionOptions() {
         if (timeDimensionOptions.size() <= 0) {
-            timeDimensionOptions.add("Day");
-            timeDimensionOptions.add("Weekdays");
-            timeDimensionOptions.add("Week");
-            timeDimensionOptions.add("Month");
-            timeDimensionOptions.add("Year");
+            timeDimensionOptions.add(GlobalSettings.TIME_DIM_DAY);
+            timeDimensionOptions.add(GlobalSettings.TIME_DIM_WEEKDAYS);
+            timeDimensionOptions.add(GlobalSettings.TIME_DIM_WEEK);
+            timeDimensionOptions.add(GlobalSettings.TIME_DIM_MONTH);
+            timeDimensionOptions.add(GlobalSettings.TIME_DIM_YEAR);
         }
         return timeDimensionOptions;
     }

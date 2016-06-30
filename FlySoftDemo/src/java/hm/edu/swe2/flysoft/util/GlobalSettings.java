@@ -25,13 +25,18 @@ public final class GlobalSettings {
     public static final String CRAWLER_DOWNLOAD_DIR = "downloaded" + File.separatorChar;
     
     
-    // ================ Database procedures ================
-    // obsolete (fall back solution?)
-    public static final String DB_PROD_FLIGHT_COUNT_WEEK = "fly_analytics.FlightCountPerWeek";
-    
+    // ================ Database procedures ================    
     // Used for perfomance unnit tests.
     public static final String DB_PROD_DELETE_FLIGHTS = "fly_analytics.deleteFlights";
     
+    
+    // ================ UI selection ================
+    // ---- Time Dimension ----
+    public static final String TIME_DIM_DAY = "Day";
+    public static final String TIME_DIM_WEEKDAYS = "Weekdays";
+    public static final String TIME_DIM_WEEK = "Week";
+    public static final String TIME_DIM_MONTH = "Month";
+    public static final String TIME_DIM_YEAR = "Year";
     
     // ================ Query Builder constants ================
     /**
@@ -47,6 +52,13 @@ public final class GlobalSettings {
     public static final String DESTINATION = "destination";
     public static final String ORIGIN = "origin";
     public static final String AIRLINE = "airline";
+    
+    /**
+     * Sql time function names.
+     */
+    public static final String SQL_FUNC_DAY_NAME = "DAYNAME";
+    public static final String SQL_FUNC_DAY_OF_YEAR = "DAYOFYEAR";
+    public static final String SQL_FUNC_DAY_OF_WEEK = "DAYOFWEEK";
     
     /**
      * Defines the first dynamic parameter index for the query builder.

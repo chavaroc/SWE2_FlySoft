@@ -20,15 +20,6 @@ public abstract class AbstractQueryBuilder {
      * Contains all valid time dimensions (input value).
      */
     protected static List<String> validTimeDimensions;
-    private static final String TIME_DIM_DAY = "day";
-    private static final String TIME_DIM_WEEKDAYS = "weekdays";
-    
-    /**
-     * Sql time function names.
-     */
-    protected static final String SQL_FUNC_DAY_NAME = "DAYNAME";
-    protected static final String SQL_FUNC_DAY_OF_YEAR = "DAYOFYEAR";
-    protected static final String SQL_FUNC_DAY_OF_WEEK = "DAYOFWEEK";
 
     protected int nextFreeParaIndex = GlobalSettings.FIRST_DYN_PARA_INDEX;
 
@@ -38,11 +29,11 @@ public abstract class AbstractQueryBuilder {
     public AbstractQueryBuilder() {
         if(validTimeDimensions == null){
             validTimeDimensions = new ArrayList<>();
-            validTimeDimensions.add(TIME_DIM_DAY);
-            validTimeDimensions.add(TIME_DIM_WEEKDAYS);
-            validTimeDimensions.add("week");
-            validTimeDimensions.add("month");
-            validTimeDimensions.add("year");
+            validTimeDimensions.add(GlobalSettings.TIME_DIM_DAY.toLowerCase());
+            validTimeDimensions.add(GlobalSettings.TIME_DIM_WEEKDAYS.toLowerCase());
+            validTimeDimensions.add(GlobalSettings.TIME_DIM_WEEK.toLowerCase());
+            validTimeDimensions.add(GlobalSettings.TIME_DIM_MONTH.toLowerCase());
+            validTimeDimensions.add(GlobalSettings.TIME_DIM_YEAR.toLowerCase());
         }
     }
 
@@ -164,15 +155,15 @@ public abstract class AbstractQueryBuilder {
             throw new IllegalArgumentException(
                     "Unknown time dimension '"+timeDim +"'");
         }
-        if(TIME_DIM_DAY.equalsIgnoreCase(timeDim)){
+        if(GlobalSettings.TIME_DIM_DAY.equalsIgnoreCase(timeDim)){
             // If we got the time dimension 'day' we need no sql function.
             // The sql function 'day' add all month days together 
             // for example: group 22 = (22.01 + 22.02 + ...).
             // There will be ~ 30 groups.
-            timeDim = SQL_FUNC_DAY_OF_YEAR; 
+            timeDim = GlobalSettings.SQL_FUNC_DAY_OF_YEAR; 
         }
-        if(TIME_DIM_WEEKDAYS.equalsIgnoreCase(timeDim)) {
-            timeDim = SQL_FUNC_DAY_NAME; 
+        if(GlobalSettings.TIME_DIM_WEEKDAYS.equalsIgnoreCase(timeDim)) {
+            timeDim = GlobalSettings.SQL_FUNC_DAY_NAME; 
         }
         return timeDim;
     }

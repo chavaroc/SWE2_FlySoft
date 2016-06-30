@@ -2,7 +2,6 @@ package hm.edu.swe2.flysoft.entity.querybuilder;
 
 import hm.edu.swe2.flysoft.interfaces.IQueryBuilder;
 import hm.edu.swe2.flysoft.ui.FilterSetting;
-import hm.edu.swe2.flysoft.util.GlobalSettings;
 import static hm.edu.swe2.flysoft.util.GlobalSettings.*;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
