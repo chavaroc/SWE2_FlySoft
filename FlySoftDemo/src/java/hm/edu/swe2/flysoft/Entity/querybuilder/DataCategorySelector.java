@@ -12,10 +12,6 @@ public class DataCategorySelector {
     private boolean destNeeded = false;
     private boolean endpointsNeeded = false;
 
-    public DataCategorySelector() {
-    }
-
-
     public boolean isAirlineNeeded() {
         return airlineNeeded;
     }

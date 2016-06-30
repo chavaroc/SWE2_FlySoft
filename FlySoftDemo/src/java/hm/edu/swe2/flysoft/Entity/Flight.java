@@ -114,7 +114,8 @@ public class Flight implements Serializable, IFlight {
             return false;
         }
         Flight other = (Flight) object;
-        if ((this.flightId == null && other.flightId != null) || (this.flightId != null && !this.flightId.equals(other.flightId))) {
+        if ((this.flightId == null && other.flightId != null)
+            || (this.flightId != null && !this.flightId.equals(other.flightId))) {
             return false;
         }
         return true;

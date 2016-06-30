@@ -4,13 +4,12 @@ import hm.edu.swe2.flysoft.entity.MonthlyStat;
 import java.util.List;
 
 /**
+ * This class preparing monthly stat objects
+ * and evaulate advanced data of the flight like 
+ * - name of the airline.
  * @author Sven Schulz
  */
 public class FlightMarketPrepartor extends AbstractFlightPrepartor{
-    
-    public FlightMarketPrepartor(){
-        
-    }
     
     /**
      * Performs the preparation for the all given flights.

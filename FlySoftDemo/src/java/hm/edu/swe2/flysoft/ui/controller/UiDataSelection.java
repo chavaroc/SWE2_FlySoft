@@ -17,6 +17,10 @@ public class UiDataSelection {
     private static List<String> thirdDimensionOptions = new ArrayList<String>();
     private static List<String> timeDimensionOptions = new ArrayList<>();
 
+    /**
+     * Get all possible x-axis selections.
+     * @return A list of x-axis selections.
+     */
     public static List<String> getXAxisOptions() {
         if (xAxisOptions.size() <= 0) {
             xAxisOptions.add("Airline");
@@ -26,6 +30,10 @@ public class UiDataSelection {
         return xAxisOptions;
     }
 
+    /**
+     * Get all possible 3rd dimension selections.
+     * @return A list of 3rd dimension selections.
+     */
     public static List<String> getThirdDimensionOptions() {
         if (thirdDimensionOptions.size() <= 0) {
             thirdDimensionOptions.add("nothing selected");
@@ -36,6 +44,10 @@ public class UiDataSelection {
         return thirdDimensionOptions;
     }
 
+    /**
+     * Get all possible time dimension options.
+     * @return A list of time dimension options.
+     */
     public static List<String> getTimeDimensionOptions() {
         if (timeDimensionOptions.size() <= 0) {
             timeDimensionOptions.add(GlobalSettings.TIME_DIM_DAY);
@@ -47,6 +59,10 @@ public class UiDataSelection {
         return timeDimensionOptions;
     }
 
+     /**
+     * Get all possible y-axis options.
+     * @return A list of y-axis options.
+     */
     public static List<String> getYAxisOptions() {
         if (yAxisOptions.size() <= 0) {
             yAxisOptions.add("Frequencies");

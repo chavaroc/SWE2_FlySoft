@@ -76,7 +76,8 @@ public class City implements Serializable, ICity {
             return false;
         }
         City other = (City) object;
-        if ((this.cityId == null && other.cityId != null) || (this.cityId != null && !this.cityId.equals(other.cityId))) {
+        if ((this.cityId == null && other.cityId != null)
+            || (this.cityId != null && !this.cityId.equals(other.cityId))) {
             return false;
         }
         return true;

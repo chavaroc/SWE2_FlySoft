@@ -3,7 +3,6 @@ package hm.edu.swe2.flysoft.entity.controller;
 import hm.edu.swe2.flysoft.entity.exceptions.NonexistentEntityException;
 import hm.edu.swe2.flysoft.entity.FlightEndPoint;
 import hm.edu.swe2.flysoft.interfaces.IFlightEndPoints;
-import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.Query;

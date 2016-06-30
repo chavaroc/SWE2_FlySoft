@@ -4,7 +4,6 @@ import hm.edu.swe2.flysoft.entity.Airline;
 import hm.edu.swe2.flysoft.entity.Airport;
 import hm.edu.swe2.flysoft.entity.City;
 import hm.edu.swe2.flysoft.entity.Flight;
-import hm.edu.swe2.flysoft.entity.FlightEndPoint;
 import hm.edu.swe2.flysoft.interfaces.IAirline;
 import hm.edu.swe2.flysoft.interfaces.IAirport;
 import hm.edu.swe2.flysoft.interfaces.ICity;

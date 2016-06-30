@@ -28,7 +28,9 @@ public class ParsedFlightController extends AbstractEntityController{
     private final AirportEntityController airportController;
     private ArrayList<IFlight> flights; 
     
-
+    /**
+     * Construct a new parsed flight object.
+     */
     public ParsedFlightController() {
        endpointController = new FlightEndPointEntityController();
        flightController = new FlightEntityController(endpointController);
@@ -40,6 +42,10 @@ public class ParsedFlightController extends AbstractEntityController{
       flights = new ArrayList();
     }
     
+    /**
+     * Create all given parsed flights.
+     * @param flights A list of parsed flights, that should be created.
+     */
     public void createAll(List<ParsedFlight> flights) {
        // flights.stream()
        //     .forEach(flight -> create(flight));
@@ -52,6 +58,11 @@ public class ParsedFlightController extends AbstractEntityController{
        }
     }
     
+    /**
+     * Create the given parsed flight.
+     * @param flight The flight that should be created.
+     * @param finish True if the flights should be created instatlly. Otherwise it will created buffered.
+     */
     public void create(ParsedFlight flight, boolean finish) {
        // fill lookup tables
        airlineController.createIfNotExist(flight.getAirline());

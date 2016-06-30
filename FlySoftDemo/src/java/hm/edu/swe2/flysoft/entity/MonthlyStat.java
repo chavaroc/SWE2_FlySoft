@@ -31,11 +31,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "MonthlyStat.findAll", query = "SELECT m FROM MonthlyStat m"),
-    @NamedQuery(name = "MonthlyStat.findByMonthlyStatId", query = "SELECT m FROM MonthlyStat m WHERE m.monthlyStatId = :monthlyStatId"),
-    @NamedQuery(name = "MonthlyStat.findByYearMonth", query = "SELECT m FROM MonthlyStat m WHERE m.yearMonth = :yearMonth"),
-    @NamedQuery(name = "MonthlyStat.findByOrginAirportSn", query = "SELECT m FROM MonthlyStat m WHERE m.orginAirportSn = :orginAirportSn"),
-    @NamedQuery(name = "MonthlyStat.findByDestAirportSn", query = "SELECT m FROM MonthlyStat m WHERE m.destAirportSn = :destAirportSn"),
-    @NamedQuery(name = "MonthlyStat.findByAirlineId", query = "SELECT m FROM MonthlyStat m WHERE m.airlineId = :airlineId")})
+    @NamedQuery(name = "MonthlyStat.findByMonthlyStatId",
+        query = "SELECT m FROM MonthlyStat m WHERE m.monthlyStatId = :monthlyStatId"),
+    @NamedQuery(name = "MonthlyStat.findByYearMonth",
+        query = "SELECT m FROM MonthlyStat m WHERE m.yearMonth = :yearMonth"),
+    @NamedQuery(name = "MonthlyStat.findByOrginAirportSn",
+        query = "SELECT m FROM MonthlyStat m WHERE m.orginAirportSn = :orginAirportSn"),
+    @NamedQuery(name = "MonthlyStat.findByDestAirportSn",
+        query = "SELECT m FROM MonthlyStat m WHERE m.destAirportSn = :destAirportSn"),
+    @NamedQuery(name = "MonthlyStat.findByAirlineId",
+        query = "SELECT m FROM MonthlyStat m WHERE m.airlineId = :airlineId")})
 public class MonthlyStat implements Serializable, IMonthlyStat {
 
     private static final long serialVersionUID = 1L;
@@ -150,7 +155,8 @@ public class MonthlyStat implements Serializable, IMonthlyStat {
             return false;
         }
         MonthlyStat other = (MonthlyStat) object;
-        if ((this.monthlyStatId == null && other.monthlyStatId != null) || (this.monthlyStatId != null && !this.monthlyStatId.equals(other.monthlyStatId))) {
+        if ((this.monthlyStatId == null && other.monthlyStatId != null)
+            || (this.monthlyStatId != null && !this.monthlyStatId.equals(other.monthlyStatId))) {
             return false;
         }
         return true;

@@ -34,13 +34,20 @@ import org.eclipse.persistence.annotations.ExistenceType;
 @ExistenceChecking(ExistenceType.ASSUME_NON_EXISTENCE)
 @NamedQueries({
     @NamedQuery(name = "FlightEndPoint.findAll", query = "SELECT f FROM FlightEndPoint f"),
-    @NamedQuery(name = "FlightEndPoint.findByFlightEndPointId", query = "SELECT f FROM FlightEndPoint f WHERE f.flightEndPointId = :flightEndPointId"),
-    @NamedQuery(name = "FlightEndPoint.findByOriginAirportShortName", query = "SELECT f FROM FlightEndPoint f WHERE f.originAirportShortName = :originAirportShortName"),
-    @NamedQuery(name = "FlightEndPoint.findByDepartureTime", query = "SELECT f FROM FlightEndPoint f WHERE f.departureTime = :departureTime"),
-    @NamedQuery(name = "FlightEndPoint.findByDepartureDelay", query = "SELECT f FROM FlightEndPoint f WHERE f.departureDelay = :departureDelay"),
-    @NamedQuery(name = "FlightEndPoint.findByDestAirportShortName", query = "SELECT f FROM FlightEndPoint f WHERE f.destAirportShortName = :destAirportShortName"),
-    @NamedQuery(name = "FlightEndPoint.findByArrivalTime", query = "SELECT f FROM FlightEndPoint f WHERE f.arrivalTime = :arrivalTime"),
-    @NamedQuery(name = "FlightEndPoint.findByArrivalDelay", query = "SELECT f FROM FlightEndPoint f WHERE f.arrivalDelay = :arrivalDelay")})
+    @NamedQuery(name = "FlightEndPoint.findByFlightEndPointId",
+        query = "SELECT f FROM FlightEndPoint f WHERE f.flightEndPointId = :flightEndPointId"),
+    @NamedQuery(name = "FlightEndPoint.findByOriginAirportShortName",
+        query = "SELECT f FROM FlightEndPoint f WHERE f.originAirportShortName = :originAirportShortName"),
+    @NamedQuery(name = "FlightEndPoint.findByDepartureTime",
+        query = "SELECT f FROM FlightEndPoint f WHERE f.departureTime = :departureTime"),
+    @NamedQuery(name = "FlightEndPoint.findByDepartureDelay",
+        query = "SELECT f FROM FlightEndPoint f WHERE f.departureDelay = :departureDelay"),
+    @NamedQuery(name = "FlightEndPoint.findByDestAirportShortName",
+        query = "SELECT f FROM FlightEndPoint f WHERE f.destAirportShortName = :destAirportShortName"),
+    @NamedQuery(name = "FlightEndPoint.findByArrivalTime",
+        query = "SELECT f FROM FlightEndPoint f WHERE f.arrivalTime = :arrivalTime"),
+    @NamedQuery(name = "FlightEndPoint.findByArrivalDelay",
+        query = "SELECT f FROM FlightEndPoint f WHERE f.arrivalDelay = :arrivalDelay")})
 public class FlightEndPoint implements IFlightEndPoints, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -155,7 +162,8 @@ public class FlightEndPoint implements IFlightEndPoints, Serializable {
             return false;
         }
         FlightEndPoint other = (FlightEndPoint) object;
-        if ((this.flightEndPointId == null && other.flightEndPointId != null) || (this.flightEndPointId != null && !this.flightEndPointId.equals(other.flightEndPointId))) {
+        if ((this.flightEndPointId == null && other.flightEndPointId != null)
+            || (this.flightEndPointId != null && !this.flightEndPointId.equals(other.flightEndPointId))) {
             return false;
         }
         return true;

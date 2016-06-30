@@ -30,6 +30,10 @@ public class FlightEntityController extends AbstractEntityController {
         counter = 0;
     }
     
+    /**
+     * Create all given flights.
+     * @param flights The flights that should be created.
+     */
     public void createAll(final List<IFlight> flights) {
         EntityManager em = getEntityManager();
         em.getTransaction().begin();
@@ -41,6 +45,10 @@ public class FlightEntityController extends AbstractEntityController {
         em.getTransaction().commit();
     }    
     
+    /**
+     * Create the given flight.
+     * @param flight The flight that should be created.
+     */
     public void create(IFlight flight) {
         EntityManager em = getEntityManager();
         
@@ -49,10 +57,11 @@ public class FlightEntityController extends AbstractEntityController {
         em.getTransaction().commit();        
     }
 
-    public void edit(IFlight city) throws NonexistentEntityException, Exception {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
+    /**
+     * Destroy a flight with a given id.
+     * @param id The id of the flight, that should be deleted.
+     * @throws NonexistentEntityException If the flight that should be deleted does not exist.
+     */
     public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = getEntityManager();
         try {
@@ -73,6 +82,11 @@ public class FlightEntityController extends AbstractEntityController {
         }
     }
 
+    /**
+     * Find a flight with the given id.
+     * @param id The id of the flight, that should be found.
+     * @return The flight with id or Optional.empty.
+     */
     public Optional<IFlight> findFlight(Integer id) {
         EntityManager em = getEntityManager();
         IFlight flight;
@@ -84,6 +98,10 @@ public class FlightEntityController extends AbstractEntityController {
         return Optional.ofNullable(flight);
     }
 
+    /**
+     * Get the count of all flights.
+     * @return The count of all existing flights.
+     */
     public int getFlightCount() {
         EntityManager em = getEntityManager();
         try {
