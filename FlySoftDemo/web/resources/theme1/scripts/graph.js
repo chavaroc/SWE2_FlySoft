@@ -58,7 +58,7 @@ $(function () {
     // Hiding of filter-settings, that are not changeable at the beginning, because of the default-constellation of the axis-settings.
     $("#destinations_selector").hide();
     $("#timeDimension_selector").hide();
-    $("#weekday_selector").hide();
+    $("#timerange_selector").hide();
     $("#dialog").hide();
     $('#3d_selector option').filter(":eq( 1 )").attr("disabled", "");
 
@@ -171,13 +171,6 @@ $(function () {
     });
 
     /**
-     * Checks / Unchecks all weekdays.
-     */
-    $("#check_all_weekdays").change(function () {
-        $("input:checkbox[name='weekday']").prop('checked', $(this).prop("checked"));
-    });
-
-    /**
      * Hides or shows changeable filter-settings, depending on filter-criteria at the x-axis.
      */
     $("#xaxis_selector").change(function () {
@@ -195,6 +188,7 @@ $(function () {
                 $("#airlines_selector").hide();
             }
             $("#timeDimension_selector").show();
+            $("#timerange_selector").show();
         } else if (x_axis_name === "Destination") {
             $("#destinations_selector").show();
             if (selected_3d !== "Airline") {
@@ -202,7 +196,7 @@ $(function () {
             }
             if (selected_3d !== "Time") {
                 $("#timeDimension_selector").hide();
-                $("#weekday_selector").hide();
+                $("#timerange_selector").hide();
             }
         } else if (x_axis_name === "Airline") {
             if (selected_3d !== "Destination") {
@@ -211,7 +205,7 @@ $(function () {
             $("#airlines_selector").show();
             if (selected_3d !== "Time") {
                 $("#timeDimension_selector").hide();
-                $("#weekday_selector").hide();
+                $("#timerange_selector").hide();
             }
         }
         $('#3d_selector option').filter(function (i, e) {
@@ -231,7 +225,6 @@ $(function () {
             $("#airlines_selector").hide();
         } else if (selected_3d_val === "Time") {
             $("#timeDimension_selector").hide();
-            $("#weekday_selector").hide();
         } else if (selected_3d_val === "Destination") {
             $("#destinations_selector").hide();
         }
@@ -260,22 +253,10 @@ $(function () {
             $("#time_dimension1").attr("checked", false);
             $("#time_dimension2").attr("checked", false);
             $("#time_dimension3").attr("checked", false);
-            $("#weekday_selector").hide();
         } else {
             $("#time_dimension1").removeAttr("disabled");
             $("#time_dimension2").removeAttr("disabled");
             $("#time_dimension3").removeAttr("disabled");
-        }
-    });
-
-    /**
-     * Hides or shows changeable filter-settings, depending on filter-criteria at the timedimension-selector.
-     */
-    $("#timeDimension_selector input").on("click", function () {
-        if ($("#timeDimension_selector input:checked").val() === "Weekday(s)") {
-            $("#weekday_selector").show();
-        } else {
-            $("#weekday_selector").hide();
         }
     });
 
